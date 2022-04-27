@@ -1,0 +1,18 @@
+create table board(
+bno number(10,0) primary key,
+title varchar2(100),
+content varchar2(100)
+);
+
+create table board_reply(
+rno number(10,0) primary key,
+bno number(10,0),
+content varchar2(100)
+);
+
+create table member(
+id varchar2(20) primary key,
+pw varchar2(30),
+email varchar2(80),
+tel varchar2(60)
+);
