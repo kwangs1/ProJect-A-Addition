@@ -1,7 +1,7 @@
 # ProJect-A-Addition
 ProJect-A에 추가적인 부분들
 
-#개발환경
+# 개발환경
 
 ● jdk1.8.0_281
 
@@ -15,4 +15,7 @@ ProJect-A에 추가적인 부분들
 
 ● Spring FrameWork 4.1.1.RELEASE
 
-#
+# 개발과정
+
+● 회원가입
+
