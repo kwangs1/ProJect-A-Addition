@@ -108,7 +108,7 @@ h1, h2, h3, h4, h5, h6
 			</c:when>
 			<c:otherwise>
 			<a href="${contextPath }/member/loginForm.do">로그인 &#124;</a> 
-			<a href="${contextPath }/member/memberForm.do">회원가입</a> 
+			<a href="${contextPath }/member/joinForm.do">회원가입</a> 
 			</c:otherwise>
 		</c:choose><br>
 		</div>

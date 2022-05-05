@@ -12,4 +12,10 @@
 		<result property="tel" column="tel" />
 	</resultMap>
 
+<insert id="insertMember" parameterType="memberVO">
+	<![CDATA[
+		insert into member(id,pw,email,tel)
+		values(#{id},#{pw},#{email},#{tel})
+	]]>
+</insert>
 </mapper>
