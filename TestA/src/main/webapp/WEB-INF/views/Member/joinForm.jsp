@@ -37,9 +37,13 @@ table td{
 			</tr>
 			<tr>
 				<td>이메일
-					<input type="text" name="email" id="email" size="20" />
+					<input type="text" name="email" id="email" size="20" class="mail_input"/>
+					<input type="button" value="인증번호 전송" class="mail_check_button" />
 				</td>
 			</tr>
+				<td>
+					인증번호:<input class="mail_check_input">
+				</td>
 			<tr>
 				<td>휴대번호 
 					<input type="text" name="tel" id="tel" size="20" />
@@ -54,5 +58,21 @@ table td{
 		</tbady>
 	</table>
 </form>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$(".mail_check_button").click(function(){
+		var email = $(".mail_input").val();
+		
+		$.ajax({
+			type:"POST",
+			url:"mailCheck.do?email=" +email,
+			success:function(data){
+				//console.log("data :" + data);
+			}
+				
+		})
+		
+	});
+</script>
 </body>
 </html>

@@ -1,13 +1,22 @@
 package Spring.Studey.Test.Member.Controller;
 
+import java.util.Random;
+
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import Spring.Studey.Test.Member.Service.MemberService;
@@ -17,10 +26,13 @@ import Spring.Studey.Test.common.base.BaseController;
 @Controller("memberController")
 @RequestMapping(value="/member")
 public class MemberControllerImpl extends BaseController implements MemberController{
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	@Autowired
 	private MemberService memberService;
 	@Autowired
 	private MemberVO memberVO;
+	@Qualifier
+	private JavaMailSender mailSender;
 	
 	//회원가입GET
 	@RequestMapping(value="/joinForm.do",method= RequestMethod.GET)
@@ -40,5 +52,45 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		result = memberService.JoinMember(memberVO);
 		ModelAndView mav = new ModelAndView("redirect:/main/main.do");
 		return mav;
+	}
+	
+	//회원가입 이메일 인증
+	@RequestMapping(value="/mailCheck.do" ,method=RequestMethod.POST)
+	@ResponseBody
+	public String mailCheck(String email)throws Exception{
+		
+		logger.info("이메일 데이터 전송확인");
+		logger.info("인증번호 :" + email);
+		
+		//인증번호(난수)생성
+		Random random = new Random();
+		int checkNum = random.nextInt(888888)+ 11111; //11111 ~ 99999 난수 얻기위해 
+		logger.info("인증번호:" + checkNum);
+		
+		//이메일 보내기
+		String setFrom= "cckwang2345@naver.com";//xml에 삽입한 자신의 계정
+		String toMail = email; //수신받을 이메일
+		String title = "회원가입 인증 메일";//이메일 제목
+		String content = "홈페이지를 방문해주셔서 감사합니다."
+				+"<br><br>"
+				+"인증번호는" + checkNum + "입니다"
+				+"<br>"
+				+"해당 인증번호를 인증번호 확인란에 기입해주세요.";
+        try {
+            
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+            helper.setFrom(setFrom);
+            helper.setTo(toMail);
+            helper.setSubject(title);
+            helper.setText(content,true);
+            mailSender.send(message);
+            
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+		
+		String num = Integer.toString(checkNum);
+		return num;
 	}
 }
