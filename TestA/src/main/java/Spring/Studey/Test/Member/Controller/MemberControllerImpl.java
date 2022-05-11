@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -31,7 +30,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	private MemberService memberService;
 	@Autowired
 	private MemberVO memberVO;
-	@Qualifier
+	@Autowired
 	private JavaMailSender mailSender;
 	
 	//회원가입GET
@@ -60,7 +59,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	public String mailCheck(String email)throws Exception{
 		
 		logger.info("이메일 데이터 전송확인");
-		logger.info("인증번호 :" + email);
+		//logger.info("인증번호 :" + email);
 		
 		//인증번호(난수)생성
 		Random random = new Random();
@@ -76,9 +75,8 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 				+"인증번호는" + checkNum + "입니다"
 				+"<br>"
 				+"해당 인증번호를 인증번호 확인란에 기입해주세요.";
-        try {
-            
-            MimeMessage message = mailSender.createMimeMessage();
+        try {         
+        	MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
             helper.setFrom(setFrom);
             helper.setTo(toMail);
