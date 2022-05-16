@@ -20,4 +20,10 @@ public class MemberServiceImpl implements MemberService{
 	public int JoinMember(MemberVO memberVO)throws Exception{
 		return memberDAO.insertMember(memberVO);
 	}
+	
+	//id중복검사
+	@Override
+	public int idCheck(String id)throws Exception{
+		return memberDAO.idCheck(id);
+	}
 }

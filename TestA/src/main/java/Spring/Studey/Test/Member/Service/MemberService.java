@@ -6,4 +6,6 @@ public interface MemberService {
 
 	int JoinMember(MemberVO memberVO) throws Exception;
 
+	int idCheck(String id) throws Exception;
+
 }

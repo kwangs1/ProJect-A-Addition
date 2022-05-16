@@ -8,4 +8,6 @@ public interface MemberDAO {
 
 	int insertMember(MemberVO memberVO) throws DataAccessException;
 
+	int idCheck(String id) throws DataAccessException;
+
 }

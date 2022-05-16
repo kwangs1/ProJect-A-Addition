@@ -91,4 +91,18 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		String num = Integer.toString(checkNum);
 		return num;
 	}
+
+	//id 중복검사
+	@RequestMapping(value="IdCheck.do" , method = RequestMethod.POST)
+	@ResponseBody
+	public String memberIdChk(String id)throws Exception{
+		/* logger.info("진입"); */
+		
+		int result = memberService.idCheck(id); // memberService.idCheck의 결과를 int형 변수 result에 저장
+		if(result != 0) { //id가 존재하면 '1' , 존재하지 않으면 '0' 반환
+			return "fail";
+		}else {
+			return "success";
+		}
+	}
 }

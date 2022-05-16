@@ -10,45 +10,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<style> 
-/* 인증번호 입력란 */
-#mail_check_input_box_false{
-    background-color:#ebebe4;
-}
- 
-#mail_check_input_box_true{
-    background-color:white;
-}
-/* 이메일 인증 문구 */ 
-.correct{
-    color : green;
-}
-.incorrect{
-    color : red;
-}
-
-/* 유효성 검사 문구 */
- 
-.final_id_ck{
-    display: none;
-}
-.final_pw_ck{
-    display: none;
-}
-.final_pwck_ck{
-    display: none;
-}
-.final_mail_ck{
-    display: none;
-}
-.final_tel_ck{
-    display: none;
-}
-</style>
 <title>회원가입</title>
+<link rel="stylesheet" href="${contextPath}/resources/css/join.css">
 </head>
 <body>
 <form action="${contextPath }/member/joinForm.do" method="post">
+
 		<div class="id_wrap">
 			<div class="id_name">아이디</div>
 			<div class="id_input_box">
@@ -58,7 +25,6 @@
 			<span class="id_input_re_2">아이디가 이미 존재합니다.</span>
 			<span class="final_id_ck">아이디를 입력해주세요.</span>
 		</div> 
-		</br></br>
 		
 		<div class="pw_wrap">
 			<div class="pw_name">비밀번호</div>
@@ -67,7 +33,6 @@
 			</div> 
 			<span class="final_pw_ck">비밀번호를 입력해주세요.</span>
 		</div>
-		</br></br>
 		
 		<div class="pwck_wrap">
 			<div class="pwck_name">비밀번호 확인</div>
@@ -76,7 +41,6 @@
 			</div> 
 			<span class="final_pwck_ck">비밀번호 확인을 입력해주세요.</span>
 		</div>
-		</br></br>
 		
 		<div class="mail_wrap">
 			<div class="mail_name">이메일</div>
@@ -90,13 +54,12 @@
 					<input class="mail_check_input" disabled="disabled">	
 				</div>
 				<div class="mail_check_button">
-					<span style="cursor:pointer;">인증번호 전송</span>
+					<span>인증번호 전송</span>
 				</div>
 				<div class="clearfix"></div>
 				<span id="mail_check_input_box_warn"></span> <!-- 인증번호 일치여부 경고글 역활 -->
 			</div>
 		</div> 
-		</br></br>
 		
 			<div class="tel_wrap">
 				<div class="tel_name">휴대번호</div>
@@ -105,13 +68,13 @@
 				</div>
 				<span class="final_tel_ck">휴대번호를 입력해주세요.</span>
 			</div>
-				</br></br>
 				
 			<input type="button" value="회원가입" class="join_button"> 
 			<input type="button" value="취소" onclick="history.go(-1)">
-	</form>
+</form>
+
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script>
+<script type="text/javascript">
 var code = ""; //인증번호 저장하기 위한 코드
 
 //유효성 검사 통과유무 변수
@@ -137,10 +100,8 @@ var telCheck = false; //휴대번호
 				checkBox.attr("disabled",false);
 				boxWrap.attr("id" , "mail_check_input_box_true");
 				code = data;
-			}
-				
-		})
-		
+			}			
+		})		
 	});
 	
 //인증번호 비교
@@ -177,6 +138,32 @@ $(document).ready(function(){
 		}
 	});
 });
+
+//id 중복검사
+$('.id_input').on("propertychange change keyup paste input" , function(){
+	/* console.log("keyup test"); */
+	var id = $('.id_input').val(); //.id_input에 입력되는 값
+	var data = {id : id} //컨트롤러에 넘길 데이터 이름 : 데이터(.id_input에 입력되는 값)
+	
+	$.ajax({
+		type : "POST",
+		url : "${contextPath}/member/IdCheck.do",
+		data : data,
+		success : function(result){
+			//console.log("성공여부:" + result);
+			if(result != 'fail'){
+				$('.id_input_re_1').css("display","inline-block");
+				$('.id_input_re_2').css("display","none");	
+				idchCheck=true;
+			}else{
+				$('.id_input_re_2').css("display","inline-block");
+				$('.id_input_re_1').css("display","none");	
+				idckCheck = false;
+			}
+		}//success 끝
+	});//ajax 끝
+});// function 끝
+
 </script>
 </body>
 </html>

@@ -12,9 +12,18 @@ public class MemberDAOImpl implements MemberDAO{
 	@Autowired
 	private SqlSession sqlSession;
 	
+	//회원가입
 	@Override
 	public int insertMember(MemberVO memberVO)throws DataAccessException{
 		int result = sqlSession.insert("mapper.member.insertMember",memberVO);
 		return result;
 	}
+	
+	//id 중복검사
+	@Override
+	public int idCheck(String id)throws DataAccessException{
+		int result = sqlSession.selectOne("mapper.member.idCheck",id);
+		return result;
+	}
+	
 }
