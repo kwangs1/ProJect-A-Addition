@@ -44,7 +44,6 @@
 .final_tel_ck {
 	display: none;
 }
-
 /* 중복아이디 존재하지 않는경우 */
 .id_input_re_1 {
 	color: green;
@@ -54,4 +53,13 @@
 .id_input_re_2 {
 	color: red;
 	display: none;
+}
+/* 비밀번호 확인 일치 유효성검사 */
+.pwck_input_re_1{
+    color : green;
+    display : none;    
+}
+.pwck_input_re_2{
+    color : red;
+	display : none;    
 }

@@ -10,11 +10,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style>
+/* 비밀번호 확인 일치 유효성검사 */
+.pwck_input_re_1{
+    color : green;
+    display : none;    
+}
+.pwck_input_re_2{
+    color : red;
+	display : none;    
+}
+</style>
 <title>회원가입</title>
 <link rel="stylesheet" href="${contextPath}/resources/css/join.css">
 </head>
 <body>
-<form action="${contextPath }/member/joinForm.do" method="post">
+<form method="post" id="join_form">
 
 		<div class="id_wrap">
 			<div class="id_name">아이디</div>
@@ -37,9 +48,11 @@
 		<div class="pwck_wrap">
 			<div class="pwck_name">비밀번호 확인</div>
 			<div class="pwck_input_box">
-				<input class="pwck_input" name="pw">			
+				<input class="pwck_input">			
 			</div> 
 			<span class="final_pwck_ck">비밀번호 확인을 입력해주세요.</span>
+			<span class="pwck_input_re_1">비밀번호가 일치합니다.</span>
+            <span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
 		</div>
 		
 		<div class="mail_wrap">
@@ -61,16 +74,18 @@
 			</div>
 		</div> 
 		
-			<div class="tel_wrap">
+		<div class="tel_wrap">
 				<div class="tel_name">휴대번호</div>
 				<div class="tel_input_box">
 					<input class="tel_input" name="tel">		
 				</div>
 				<span class="final_tel_ck">휴대번호를 입력해주세요.</span>
 			</div>
-				
-			<input type="button" value="회원가입" class="join_button"> 
+				</br>
+		<div class="join_button_wrap">
+			<input type="button" class="join_button" value="가입하기">
 			<input type="button" value="취소" onclick="history.go(-1)">
+		</div>
 </form>
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -81,10 +96,79 @@ var code = ""; //인증번호 저장하기 위한 코드
 var idCheck = false; //아이디
 var idckCheck = false; //중복검사
 var pwCheck = false; //비번
-var pwckcorCheck = false; //비번확인
+var pwckCheck = false;//비번확인
+var pwckcorCheck = false; //비번확인 일치 확인
 var mailCheck = false; //이메일
 var mailnumCheck =false; //이메일 인증번호
 var telCheck = false; //휴대번호 
+
+
+$(document).ready(function(){
+	//회원가입 버튼(회원가입 기능 작동)
+	$(".join_button").click(function(){
+		//입력값 변수
+		var id = $('.id_input').val();
+		var pw = $('.pw_input').val();
+		var pwck = $('.pwck_input').val();
+		var mail = $('.mail_input').val();
+		var tel = $('.tel_input').val();
+		
+ 		//id 유효성 검사
+		if(id = ""){
+			$('.final_id_ck').css("display",'block');
+			idCheck = false;
+		}else{
+			$('.final_id_ck').css('display','none');
+			idCheck = true;
+		}
+		
+		//비밀번호 유효성 검사
+		if(pw == ""){
+			$('.final_pw_ck').css('display','block');
+			pwCheck = false;
+		}else{
+			$('.final_pw_ck').css('display', 'none');
+			pwCheck = true;
+		}
+		
+		//비밀번호 확인 유효성 검사
+		if(pwck == ""){
+			$('.final_pwck_ck').css('display','block');
+			pwckCheck = false;
+		}else{
+			$('.final_pwck_ck').css('display', 'none');
+			pwckCheck = true;
+		}
+		
+		//휴대폰 유효성 검사
+		if(tel == ""){
+			$('.final_tel_ck').css('display','block');
+			telCheck = false;
+		}else{
+			$('.final_tel_ck').css('display','none');
+			telCheck = true;
+		}
+		
+		//e-mail 유효성 검사
+		if(mail == ""){
+			$('.final_mail_ck').css('display','block');
+			mailCheck = false;
+		}else{
+			$('.final_mail_ck').css('display', 'none');
+			mailCheck = true;
+		}
+		
+        //최종 유효성 검사
+		if(idCheck && pwCheck && pwckCheck && mailCheck){
+			$("#join_form").attr("action", "${contextPath}/member/joinForm.do");
+			$("#join_form").submit();	
+		}
+        
+        return false;
+
+	});
+});
+
 
 //이메일 보내기
 	$(".mail_check_button").click(function(){
@@ -112,32 +196,13 @@ var telCheck = false; //휴대번호
 		if(inputCode == code){ //일치할경우
 			checkResult.html("인증번호가 일치합니다.");
 			checkResult.attr("class", "correct");
+			mailnumCheck = true;
 		}else{
 			checkResult.html("인증번호를 다시 확인해주세요.");
 			checkResult.attr("class","incorrect");
+			mailnumCheck = false;
 		}
 	});
-	
-//회원가입 버튼
-$(document).ready(function(){
-	$(".join_button").click(function(){
-		//입력값 변수
-		var id = $('.id_input').val();
-		var pw = $('pw_input').val();
-		var pwck = $('pwck_input').val();
-		var mail = $('mail_input').val();
-		var tel = $('tel_input').val();
-		
-		//아이디 유효성 검사
-		if(id = ""){
-			$('.final_id_ck').css("display",'block');
-			idCheck = false;
-		}else{
-			$('.final_id_ck').css('display','none');
-			idCheck = true;
-		}
-	});
-});
 
 //id 중복검사
 $('.id_input').on("propertychange change keyup paste input" , function(){
@@ -164,6 +229,24 @@ $('.id_input').on("propertychange change keyup paste input" , function(){
 	});//ajax 끝
 });// function 끝
 
+//pw 확인 일치 유효성 검사
+$('.pwck_input').on("propertychange change keyup paste input", function(){
+ 
+    var pw = $('.pw_input').val();
+    var pwck = $('.pwck_input').val();
+    $('.final_pwck_ck').css('display', 'none');
+ 
+    if(pw == pwck){
+        $('.pwck_input_re_1').css('display','block');
+        $('.pwck_input_re_2').css('display','none');
+        pwckcorCheck = true;
+    }else{
+        $('.pwck_input_re_1').css('display','none');
+        $('.pwck_input_re_2').css('display','block');
+        pwckcorCheck = false;
+    }        
+    
+});  
 </script>
 </body>
 </html>
