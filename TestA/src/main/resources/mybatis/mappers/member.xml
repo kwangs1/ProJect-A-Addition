@@ -23,4 +23,11 @@
 	select count(*) from member
 	where id = #{id}
 </select>
+
+<select id="login" resultType="memberVO">
+	<![CDATA[
+		select * from member
+		where id = #{id}
+	]]>		
+</select>
 </mapper>

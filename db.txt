@@ -12,7 +12,7 @@ content varchar2(100)
 
 create table member(
 id varchar2(20) primary key,
-pw varchar2(30),
+pw varchar2(1000),
 email varchar2(80),
 tel varchar2(60)
 );

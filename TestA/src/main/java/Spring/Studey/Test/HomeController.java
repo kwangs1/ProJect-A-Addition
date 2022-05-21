@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -34,6 +39,27 @@ public class HomeController {
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
+	}
+	
+	@RequestMapping(value="/secuTest" , method = RequestMethod.GET)
+	public void secuTest() {
+		String rawPassword = "choi123"; //인코딩 전 메서드
+		String encdoePassword1; //인코딩 된 메서드
+		String encdoePassword2; //똑같은 비밀번호 데이터를 encode()메서드를 사용할 때 동일한 인코딩 값이 나오는지 확인하기위해
+		
+		encdoePassword1 = passwordEncoder.encode(rawPassword);
+		encdoePassword2 = passwordEncoder.encode(rawPassword);
+		
+		//인코딩된 패스워드 출력
+        System.out.println("encdoePassword1 : " +encdoePassword1);
+        System.out.println(" encdoePassword2 : " + encdoePassword2);
+        
+        String truePassowrd = "choi123";
+        String falsePassword = "asdfjlasf";
+        
+        System.out.println("truePassword verify : " + passwordEncoder.matches(truePassowrd, encdoePassword1));
+        System.out.println("falsePassword verify : " + passwordEncoder.matches(falsePassword, encdoePassword1));    
+		
 	}
 	
 }

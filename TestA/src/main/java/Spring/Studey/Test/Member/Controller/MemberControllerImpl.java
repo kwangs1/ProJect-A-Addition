@@ -5,18 +5,21 @@ import java.util.Random;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import Spring.Studey.Test.Member.Service.MemberService;
 import Spring.Studey.Test.Member.VO.MemberVO;
@@ -32,6 +35,8 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	private MemberVO memberVO;
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private BCryptPasswordEncoder pwEncoder;
 	
 	//회원가입GET
 	@RequestMapping(value="/joinForm.do",method= RequestMethod.GET)
@@ -47,6 +52,14 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	@RequestMapping(value="/joinForm.do",method=RequestMethod.POST)
 	public ModelAndView JoinMember(@ModelAttribute("memberVO")MemberVO memberVO,
 				HttpServletRequest request,HttpServletResponse response)throws Exception{
+		
+		String rawPw = ""; //인코딩 전 pw
+		String encodePw = ""; //인코딩 후 pw
+		
+		rawPw = memberVO.getPw(); // pw데이터 얻음
+		encodePw = pwEncoder.encode(rawPw); // pw 인코딩
+		memberVO.setPw(encodePw); //인코딩 된 pw memberVO객체에 다시 저장
+		
 		int result = 0;
 		result = memberService.JoinMember(memberVO);
 		ModelAndView mav = new ModelAndView("redirect:/main/main.do");
@@ -104,5 +117,46 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		}else {
 			return "success";
 		}
+	}
+	
+	//login
+	@Override
+	@RequestMapping(value = "/login.do" , method = RequestMethod.POST)
+	public String login(@ModelAttribute MemberVO memberVO, RedirectAttributes rttr,
+				HttpServletRequest request, HttpServletResponse response)throws Exception{
+		
+		HttpSession session = request.getSession();
+		String rawPw = "";
+		String encodePw = "";
+		
+		MemberVO vo = memberService.login(memberVO);
+		
+		if(vo != null) { //일치하는 아이디 존재시
+			rawPw = memberVO.getPw(); //사용자가 제출한 pw
+			encodePw = vo.getPw(); //db에 저장한 인코딩된 pw
+			
+			if(true == pwEncoder.matches(rawPw, encodePw)) { //pw 일치여부 판단
+				vo.setPw(""); //인코딩 된 pw 지움
+				session.setAttribute("memberVO", vo); // session에 사용자의 정보 저장
+				return "redirect:/main/main.do";
+			}else {
+				rttr.addFlashAttribute("result",0); 
+				return "redirect:/member/login.do";
+			}
+		}else { //일치하는 아이디가 존재하지 않을시
+			rttr.addFlashAttribute("result",0); 
+			return "redirect:/member/login.do";
+		}
+  }
+	
+	//logout
+	@RequestMapping(value="/logout.do", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request)throws Exception{
+		
+        logger.info("logout메서드 진입");
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		return "redirect:/main/main.do";
 	}
 }

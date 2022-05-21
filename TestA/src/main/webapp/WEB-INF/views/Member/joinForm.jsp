@@ -26,7 +26,6 @@
 </head>
 <body>
 <form method="post" id="join_form">
-
 		<div class="id_wrap">
 			<div class="id_name">아이디</div>
 			<div class="id_input_box">
@@ -61,8 +60,9 @@
 				<input type="text" name="email" class="mail_input" /> 	
 			</div>
 			<span class="final_mail_ck">이메일을 입력해주세요.</span>
+			<span class="mail_input_box_warn"></span><!-- email 형식이 올바르지 않을때 경고글을 나오게하기위해 -->
 			
-			<div class="mail_input_box_warn">
+			<div class="mail_check_wrap">
 				<div class="mail_check_input_box" id="mail_check_input_box_false"><!-- 입력란 색상 변경하기위해 id 추가 -->
 					<input class="mail_check_input" disabled="disabled">	
 				</div>
@@ -175,6 +175,16 @@ $(document).ready(function(){
 		var email = $(".mail_input").val();//입력한 이메일
 		var checkBox = $(".mail_check_input");//인증번호 입력란
 		var boxWrap = $(".mail_check_input_box"); //인증번호 입력란 박스
+		var warnMsg = $(".mail_input_box_warn"); //이메일 경고글
+		
+		if(mailFormCheck(email)){
+			warnMsg.html("이메일이 전송되었습니다. 이메일을 확인해주세요.");
+			warnMsg.css("display", "inline-block");
+		}else{
+			warnMsg.html("올바르지 못한 이메일 형식입니다.");
+			warnMsg.css("display", "inline-block");
+			return false;
+		}
 		
 		$.ajax({
 			type:"POST",
@@ -247,6 +257,13 @@ $('.pwck_input').on("propertychange change keyup paste input", function(){
     }        
     
 });  
+
+//email 형식 유효성검사
+function mailFormCheck(email){
+	 var form = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+	 return form.test(email);
+	 //정규표현식에 부합 할경우 true 아닐경우 false 반환
+}
 </script>
 </body>
 </html>

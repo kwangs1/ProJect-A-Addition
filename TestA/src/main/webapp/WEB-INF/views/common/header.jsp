@@ -101,22 +101,21 @@ h1, h2, h3, h4, h5, h6
 
 		<!-- 로그인 영역 -->
 		<div id="logindisplay">
-		<c:choose>
-			<c:when test="${isLogOn == true and not empty memberInfo }">
-				<a href="${contextPath}/member/logout.do" onClick="cookieRemove()">로그아웃 |</a>
+			<c:if test="${memberVO != null }">
+				<a href="${contextPath}/member/logout.do">로그아웃 |</a>
 				<a href="${contextPath}/member/memberInfo.do">마이페이지 &#124;</a>
-			</c:when>
-			<c:otherwise>
-			<a href="${contextPath }/member/loginForm.do">로그인 &#124;</a> 
+			</c:if>
+			<c:if test = "${memberVO == null }">
+			<a href="${contextPath }/member/login.do">로그인 &#124;</a> 
 			<a href="${contextPath }/member/joinForm.do">회원가입</a> 
-			</c:otherwise>
-		</c:choose><br>
+			</c:if>
+		<br>
 		</div>
 
 		<!-- 메뉴 영역-->
 	<div id="menucontainer">
 			<ul id="menu">
-				<li><a href="${contextPath}/admin/notice/noticeList.do">공지사항</a></li>
+				<li><a href="${contextPath}/main/main.do">main</a></li>
 			</ul>
 		</div>
 

@@ -1,5 +1,7 @@
 package Spring.Studey.Test.Member.Service;
 
+import java.util.Map;
+
 import Spring.Studey.Test.Member.VO.MemberVO;
 
 public interface MemberService {
@@ -7,5 +9,7 @@ public interface MemberService {
 	int JoinMember(MemberVO memberVO) throws Exception;
 
 	int idCheck(String id) throws Exception;
+
+	MemberVO login(MemberVO memberVO) throws Exception;
 
 }
