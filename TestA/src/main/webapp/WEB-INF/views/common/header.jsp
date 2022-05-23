@@ -116,6 +116,7 @@ h1, h2, h3, h4, h5, h6
 	<div id="menucontainer">
 			<ul id="menu">
 				<li><a href="${contextPath}/main/main.do">main</a></li>
+				<li><a href="${contextPath}/board/list.do">게시판</a></li>
 			</ul>
 		</div>
 

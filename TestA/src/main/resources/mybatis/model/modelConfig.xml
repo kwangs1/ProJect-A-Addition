@@ -8,5 +8,6 @@
     </settings>
 <typeAliases>
 	<typeAlias type="Spring.Studey.Test.Member.VO.MemberVO" alias="MemberVO" />
+	<typeAlias type="Spring.Studey.Test.board.VO.BoardVO" alias="BoardVO" />
 </typeAliases>       
 </configuration>
