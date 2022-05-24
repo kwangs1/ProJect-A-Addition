@@ -10,11 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import Spring.Studey.Test.board.Service.BoardService;
+import Spring.Studey.Test.board.VO.BoardVO;
 import Spring.Studey.Test.common.base.BaseController;
 
 @Controller("boardController")
@@ -25,6 +28,7 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 	@Autowired
 	private BoardService boardService;
 	
+	//글 목록
 	@RequestMapping(value="list.do" , method = RequestMethod.GET)
 	public ModelAndView list(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		
@@ -34,6 +38,22 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		
 		mav.addObject("list",list);
 		
+		return mav;
+	}
+	
+	//상세보기
+	@RequestMapping(value = "detail.do" , method = RequestMethod.GET)
+	public ModelAndView detail(@RequestParam("bno")int bno, @ModelAttribute("board") BoardVO board,
+			HttpServletRequest request, HttpServletResponse response)throws Exception{
+	
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		
+		board = boardService.detail(bno);
+		mav.setViewName(viewName);
+		mav.addObject("detail", board);
+		
+		log.info("detail진입");
 		return mav;
 	}
 }

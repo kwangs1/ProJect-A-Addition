@@ -1,11 +1,11 @@
-package Spring.Studey.Test.board.VO;
+package Spring.Studey.Test.Reply.VO;
 
 import org.springframework.stereotype.Component;
 
-@Component("boardVO")
-public class BoardVO {
+@Component("replyVO")
+public class ReplyVO {
 	private int bno;
-	private String title;
+	private int rno;
 	private String content;
 	
 	public int getBno() {
@@ -14,11 +14,11 @@ public class BoardVO {
 	public void setBno(int bno) {
 		this.bno = bno;
 	}
-	public String getTitle() {
-		return title;
+	public int getRno() {
+		return rno;
 	}
-	public void setTitle(String title) {
-		this.title = title;
+	public void setRno(int rno) {
+		this.rno = rno;
 	}
 	public String getContent() {
 		return content;

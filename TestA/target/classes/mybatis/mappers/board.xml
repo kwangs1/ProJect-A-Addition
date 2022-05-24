@@ -17,4 +17,11 @@
 	]]>
 </select>
 
+<select id="detail" resultMap="boardResult" parameterType="int">
+	<![CDATA[
+		select title,content from board
+		where bno = #{bno}
+	]]>
+</select>
+
 </mapper>

@@ -32,7 +32,9 @@
 				<c:forEach var="list" items="${list}">
 				<tr>
 					<td>${list.bno}</td>
-					<td>${list.title}</td>
+					<td>
+						<a href='<c:url value='/board/detail.do?bno=${list.bno }'/>'>${list.title}</a>
+					</td>	
 					<td>${list.content}</td>
 				</tr>
 				</c:forEach>

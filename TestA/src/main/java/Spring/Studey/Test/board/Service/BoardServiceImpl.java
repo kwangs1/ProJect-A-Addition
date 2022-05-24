@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Spring.Studey.Test.board.DAO.BoardDAO;
+import Spring.Studey.Test.board.VO.BoardVO;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService{
@@ -16,5 +17,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<Map<String,Object>> list()throws Exception{
 		return boardDAO.list();
+	}
+	
+	@Override
+	public BoardVO detail(int bno)throws Exception{
+		BoardVO vo = boardDAO.detail(bno);
+		return vo;
 	}
 }
