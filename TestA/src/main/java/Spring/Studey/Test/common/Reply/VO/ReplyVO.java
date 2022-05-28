@@ -1,4 +1,6 @@
-package Spring.Studey.Test.Reply.VO;
+package Spring.Studey.Test.common.Reply.VO;
+
+import java.sql.Date;
 
 import org.springframework.stereotype.Component;
 
@@ -7,6 +9,8 @@ public class ReplyVO {
 	private int bno;
 	private int rno;
 	private String content;
+	private String writer;
+	private Date reg_date;
 	
 	public int getBno() {
 		return bno;
@@ -25,6 +29,18 @@ public class ReplyVO {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+	public Date getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(Date reg_date) {
+		this.reg_date = reg_date;
 	}
 	
 	

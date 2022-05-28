@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Spring.Studey.Test.board.Service.BoardService;
 import Spring.Studey.Test.board.VO.BoardVO;
+import Spring.Studey.Test.common.Reply.Service.ReplyService;
+import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 import Spring.Studey.Test.common.base.BaseController;
 
 @Controller("boardController")
@@ -27,6 +29,10 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private BoardVO boardVO;
+	@Autowired
+	private ReplyService replyService;
 	
 	//글 목록
 	@RequestMapping(value="list.do" , method = RequestMethod.GET)
@@ -50,10 +56,10 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		ModelAndView mav = new ModelAndView();
 		
 		board = boardService.detail(bno);
+		
 		mav.setViewName(viewName);
 		mav.addObject("detail", board);
-		
-		log.info("detail진입");
+
 		return mav;
 	}
 }
