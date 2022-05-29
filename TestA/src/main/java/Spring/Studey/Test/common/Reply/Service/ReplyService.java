@@ -8,4 +8,8 @@ public interface ReplyService {
 
 	List<ReplyVO> getReplyList(int bno) throws Exception;
 
+	int addReply(ReplyVO replyVO) throws Exception;
+
+	int updateReply(ReplyVO replyVO) throws Exception;
+
 }

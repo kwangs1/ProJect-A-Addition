@@ -19,4 +19,21 @@
 	]]>
 </select>
 
+<insert id="addReply" parameterType="ReplyVO">
+	<selectKey resultType="int" keyProperty="rno" order="BEFORE">
+		select seq_rno_id.nextval from dual
+	</selectKey>
+<![CDATA[
+	insert into board_reply(rno, bno, content, writer, reg_date)
+	values(#{rno},#{bno},#{content},#{writer},#{reg_date})
+]]>
+</insert>
+
+<update id="updateReply" parameterType="ReplyVO">
+	<![CDATA[
+		update board_reply 
+		set content = #{content}
+		where rno = #{rno}
+	]]>
+</update>
 </mapper>

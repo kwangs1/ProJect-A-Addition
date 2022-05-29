@@ -10,4 +10,8 @@ public interface ReplyDAO {
 
 	List<ReplyVO> getReplyList(int bno) throws DataAccessException;
 
+	int addReply(ReplyVO replyVO) throws DataAccessException;
+
+	int updateReply(ReplyVO replyVO) throws DataAccessException;
+
 }

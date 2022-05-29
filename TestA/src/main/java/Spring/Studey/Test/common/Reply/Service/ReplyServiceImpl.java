@@ -19,4 +19,16 @@ public class ReplyServiceImpl implements ReplyService{
 	public List<ReplyVO> getReplyList(int bno)throws Exception{
 		return replyDAO.getReplyList(bno);
 	}
+	
+	//¥Ò±€¿€º∫
+	@Override
+	public int addReply(ReplyVO replyVO)throws Exception{
+		return replyDAO.addReply(replyVO);
+	}
+	
+	//¥Ò±€ºˆ¡§
+	@Override
+	public int updateReply(ReplyVO replyVO)throws Exception{
+		return replyDAO.updateReply(replyVO);
+	}
 }

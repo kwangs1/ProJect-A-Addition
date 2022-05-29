@@ -50,6 +50,7 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 	//상세보기
 	@RequestMapping(value = "detail.do" , method = RequestMethod.GET)
 	public ModelAndView detail(@RequestParam("bno")int bno, @ModelAttribute("board") BoardVO board,
+			@ModelAttribute("replyVO")ReplyVO replyVO,//댓글 작성을 위해 
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
 	
 		String viewName = (String)request.getAttribute("viewName");

@@ -20,4 +20,16 @@ public class ReplyDAOImpl implements ReplyDAO{
 	public List<ReplyVO> getReplyList(int bno)throws DataAccessException{
 		return session.selectList("mapper.reply.getReplyList",bno);
 	}
+	
+	//´ñ±Û ÀÛ¼º
+	@Override
+	public int addReply(ReplyVO replyVO)throws DataAccessException{
+		return session.insert("mapper.reply.addReply",replyVO);
+	}
+	
+	//´ñ±Û ¼öÁ¤
+	@Override
+	public int updateReply(ReplyVO replyVO)throws DataAccessException{
+		return session.update("mapper.reply.updateReply",replyVO);
+	}
 }
