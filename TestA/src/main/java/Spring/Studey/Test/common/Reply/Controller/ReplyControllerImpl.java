@@ -1,3 +1,4 @@
+
 package Spring.Studey.Test.common.Reply.Controller;
 
 import java.util.HashMap;
@@ -18,49 +19,69 @@ import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 import Spring.Studey.Test.common.base.BaseController;
 
 @RestController
-@RequestMapping(value="/reply")
-public class ReplyControllerImpl extends BaseController implements ReplyController{
-	
-	private static final Logger log =  LoggerFactory.getLogger(ReplyController.class);
-	
+
+@RequestMapping(value = "/reply")
+public class ReplyControllerImpl extends BaseController implements ReplyController {
+
+	private static final Logger log = LoggerFactory.getLogger(ReplyController.class);
+
 	@Autowired
 	private ReplyService replyService;
-	
-	//´ñ±Û¸ñ·Ï
-	@RequestMapping(value="/getReplyList.do" , method=RequestMethod.POST)
-	public List<ReplyVO> getReplyList(@RequestParam("bno")int bno)throws Exception{
+
+	// ´ñ±Û¸ñ·Ï
+	@Override
+	@RequestMapping(value = "/getReplyList.do", method = RequestMethod.POST)
+	public List<ReplyVO> getReplyList(@RequestParam("bno") int bno) throws Exception {
 		return replyService.getReplyList(bno);
 	}
-	
-	//´ñ±Û ÀÛ¼º
-	@RequestMapping(value="/addReply.do", method = RequestMethod.POST)
-	public Map<String,Object> addReply(@RequestBody ReplyVO replyVO)throws Exception{
-		Map<String,Object> result = new HashMap<>();
-		
+
+	// ´ñ±Û ÀÛ¼º
+	@Override
+	@RequestMapping(value = "/addReply.do", method = RequestMethod.POST)
+	public Map<String, Object> addReply(@RequestBody ReplyVO replyVO) throws Exception {
+		Map<String, Object> result = new HashMap<>();
+
 		try {
 			replyService.addReply(replyVO);
 			result.put("status", "OK");
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			result.put("status", "false");
 		}
-		
+
+		return result;
+	}
+
+	// ´ñ±Û ¼öÁ¤
+	@Override
+	@RequestMapping(value = "/updateReply.do", method = RequestMethod.POST)
+	public Map<String, Object> updateReply(@RequestBody ReplyVO replyVO) throws Exception {
+		Map<String, Object> result = new HashMap<>();
+
+		try {
+			replyService.updateReply(replyVO);
+			result.put("status", "ok");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("status", "false");
+		}
+
 		return result;
 	}
 	
-	//´ñ±Û ¼öÁ¤
-	@RequestMapping(value="/updateReply.do" , method=RequestMethod.POST)
-	public Map<String,Object> updateReply(@RequestBody ReplyVO replyVO)throws Exception{
+	//´ñ±Û »èÁ¦
+	@Override
+	@RequestMapping(value="deleteReply.do" , method=RequestMethod.POST)
+	public Map<String,Object>deleteReply(@RequestParam("rno")int rno)throws Exception{
 		Map<String,Object>result = new HashMap<>();
 		
 		try {
-			replyService.updateReply(replyVO);
+			replyService.deleteReply(rno);
 			result.put("status", "ok");
 		}catch(Exception e) {
 			e.printStackTrace();
 			result.put("status", "false");
 		}
-		
 		return result;
 	}
 }

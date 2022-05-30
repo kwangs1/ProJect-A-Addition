@@ -159,4 +159,5 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		
 		return "redirect:/main/main.do";
 	}
+	
 }

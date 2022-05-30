@@ -32,4 +32,10 @@ public class ReplyDAOImpl implements ReplyDAO{
 	public int updateReply(ReplyVO replyVO)throws DataAccessException{
 		return session.update("mapper.reply.updateReply",replyVO);
 	}
+	
+	//¥Ò±€ ªË¡¶
+	@Override
+	public int deleteReply(int rno)throws DataAccessException{
+		return session.delete("mapper.reply.deleteReply",rno);
+	}
 }

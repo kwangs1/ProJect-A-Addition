@@ -24,8 +24,8 @@
 		select seq_rno_id.nextval from dual
 	</selectKey>
 <![CDATA[
-	insert into board_reply(rno, bno, content, writer, reg_date)
-	values(#{rno},#{bno},#{content},#{writer},#{reg_date})
+	insert into board_reply(rno, bno, content, writer)
+	values(#{rno},#{bno},#{content},#{writer})
 ]]>
 </insert>
 
@@ -36,4 +36,11 @@
 		where rno = #{rno}
 	]]>
 </update>
+
+<delete id="deleteReply" parameterType="int">
+	<![CDATA[
+		delete from board_reply
+		where rno = #{rno}
+	]]>
+</delete>
 </mapper>

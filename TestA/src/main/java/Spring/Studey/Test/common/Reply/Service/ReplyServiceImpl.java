@@ -31,4 +31,10 @@ public class ReplyServiceImpl implements ReplyService{
 	public int updateReply(ReplyVO replyVO)throws Exception{
 		return replyDAO.updateReply(replyVO);
 	}
+	
+	//¥Ò±€ªË¡¶
+	@Override
+	public int deleteReply(int rno)throws Exception{
+		return replyDAO.deleteReply(rno);
+	}
 }

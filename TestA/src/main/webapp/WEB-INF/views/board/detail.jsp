@@ -11,6 +11,7 @@
 
 <title>상세보기</title>
 </head>
+
 <body>
 <h1>게시글 상세보기</h1>
 	<table>		
@@ -75,11 +76,12 @@
 						htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
 						htmls += '<span class="d-block">';	               
 						htmls += '<strong class="text-gray-dark">' + this.writer + '</strong>';
+						htmls += this.reg_date;
 						htmls += '<br>'                     
 						htmls += this.content;	                     
 						htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
 						htmls += '<a href="javascript:void(0)" onclick="fn_editReply(' + this.rno + ', \'' + this.writer + '\', \'' + this.content + '\' )" style="padding-right:5px">수정</a>';	                     
-						htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + this.rno + ')" >삭제</a>';	                     
+						htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + this.rno + ',\'' + this.writer + '\')" >삭제</a>';	                     
 						htmls += '</span>';	                    
 						htmls += '</span>';	                     
 						htmls += '</p>';	                    
@@ -130,11 +132,14 @@ $(document).on('click','#btnReplyAdd', function(){
 //댓글 수정
 function fn_editReply(rno, writer, content){	
 	var id = '${memberVO.id}';
-	if(id != writer){
+	
+	if(id == ''){
+		alert("로그인 후 이용가능합니다.");
+		return;
+	}else if(id != writer){
 		alert("본인이 작성한 댓글만 수정 가능합니다");
 		return;
 	}
-	
 	var htmls = "";
 			htmls += '<div class="media text-muted pt-3" id="rno' + rno + '">';
 			htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';
@@ -184,6 +189,33 @@ function fn_editReply(rno, writer, content){
 			}
 		});//end ajax
 	}
+
+//댓글 삭제
+function fn_deleteReply(rno, writer){
+	var paramData = {"rno" : rno};
+
+	var id= '${memberVO.id}';
+	
+	if(id == ''){
+		alert("로그인 후 이용가능합니다.");
+		return;
+	}else if(id != writer){
+		alert("본인이 등록한 댓글만 삭제 가능합니다.");
+		return;
+	}
+	$.ajax({
+		url:"${Path}/reply/deleteReply.do"
+		,data : paramData
+		,type : 'POST'
+		,dataType : 'text'
+		,success:function(result){
+			getReplyList();
+		}
+		,error: function(error){
+			console.log("에러:" + error);
+		}
+	});
+}
 </script>
 </body>
 </html>
