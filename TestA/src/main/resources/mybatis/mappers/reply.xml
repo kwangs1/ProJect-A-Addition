@@ -7,31 +7,32 @@
 	<resultMap type="ReplyVO" id="ReplyResult">
 		<result property="rno" column="rno"/>
 		<result property="bno" column="bno"/>
-		<result property="content" column="content"/>
 		<result property="writer" column="writer"/>
+		<result property="content" column="content"/>
 		<result property="reg_date" column="reg_date"/>
 	</resultMap>
 	
+
 <select id="getReplyList" resultMap="ReplyResult">
 	<![CDATA[
-		select * from board_reply
+		select * from b_reply
 		where bno = #{bno}
 	]]>
 </select>
 
 <insert id="addReply" parameterType="ReplyVO">
 	<selectKey resultType="int" keyProperty="rno" order="BEFORE">
-		select seq_rno_id.nextval from dual
+		select seq_reply.nextval from dual
 	</selectKey>
 <![CDATA[
-	insert into board_reply(rno, bno, content, writer)
+	insert into b_reply(rno, bno, content, writer)
 	values(#{rno},#{bno},#{content},#{writer})
 ]]>
 </insert>
 
 <update id="updateReply" parameterType="ReplyVO">
 	<![CDATA[
-		update board_reply 
+		update b_reply 
 		set content = #{content}
 		where rno = #{rno}
 	]]>
@@ -39,8 +40,9 @@
 
 <delete id="deleteReply" parameterType="int">
 	<![CDATA[
-		delete from board_reply
+		delete from b_reply
 		where rno = #{rno}
 	]]>
 </delete>
+
 </mapper>

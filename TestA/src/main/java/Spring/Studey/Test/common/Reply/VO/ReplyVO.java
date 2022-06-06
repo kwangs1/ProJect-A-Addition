@@ -12,6 +12,7 @@ public class ReplyVO {
 	private String writer;
 	private Date reg_date;
 	
+
 	public int getBno() {
 		return bno;
 	}

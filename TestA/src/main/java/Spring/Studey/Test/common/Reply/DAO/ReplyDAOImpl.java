@@ -15,6 +15,7 @@ public class ReplyDAOImpl implements ReplyDAO{
 	@Autowired
 	private SqlSession session;
 
+
 	//´ñ±Û ¸®½ºÆ®
 	@Override
 	public List<ReplyVO> getReplyList(int bno)throws DataAccessException{
@@ -38,4 +39,6 @@ public class ReplyDAOImpl implements ReplyDAO{
 	public int deleteReply(int rno)throws DataAccessException{
 		return session.delete("mapper.reply.deleteReply",rno);
 	}
+
+
 }

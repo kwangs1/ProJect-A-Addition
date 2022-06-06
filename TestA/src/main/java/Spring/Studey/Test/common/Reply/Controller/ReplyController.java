@@ -14,5 +14,4 @@ public interface ReplyController {
 	Map<String, Object> updateReply(ReplyVO replyVO) throws Exception;
 
 	Map<String, Object> deleteReply(int rno) throws Exception;
-
 }

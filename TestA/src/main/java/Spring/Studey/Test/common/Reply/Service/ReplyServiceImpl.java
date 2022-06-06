@@ -37,4 +37,6 @@ public class ReplyServiceImpl implements ReplyService{
 	public int deleteReply(int rno)throws Exception{
 		return replyDAO.deleteReply(rno);
 	}
+
+
 }

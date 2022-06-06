@@ -15,5 +15,4 @@ public interface ReplyDAO {
 	int updateReply(ReplyVO replyVO) throws DataAccessException;
 
 	int deleteReply(int rno) throws DataAccessException;
-
 }

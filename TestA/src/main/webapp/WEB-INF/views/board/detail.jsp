@@ -24,8 +24,14 @@
 		</tr>
 		</tbody>
 	</table>
+		<div class="Reply" style="padding-top: 10px">			
+		
+				<h6 class= "ReplyList">Reply list</h6>	
+	
+				<div id="replyList"></div>		
+		
+		</div> 	
 	<br>
-	<strong>addReply</strong>
 		<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">				
 				<form:form name="form" id="form" role="form" modelAttribute="replyVO" method="post">				
 				<form:hidden path="bno" id="bno"/>				
@@ -36,22 +42,21 @@
 
 			<div class="row">					
 				<div class="col-sm-10">						
-					<form:textarea path="content" id="content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요" />					
-			</div>					
-				<button type="button"id="btnReplyAdd" onClick="window.location.reload()"> 저 장 </button>					
-					
+					<form:textarea path="content" id="content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요" />		
+				<c:if test="${not empty memberVO}">	
+					<button type="button"id="btnReplyAdd" onClick="window.location.reload()">등록</button>		
+				</c:if>				
+			</div>									
 			</div>				
 				</form:form>			
 			</div>	
+												
 
-						
-			<div class="Reply" style="padding-top: 10px">				
-				<h6 class= "ReplyList">Reply list</h6>				
-				<div id="replyList"></div>			
-			</div> 			
+	<br>
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+
 //댓글 리스트
 	$(document).ready(function(){
 		getReplyList();
@@ -60,48 +65,56 @@
 	function getReplyList(){
 		var url = "${Path}/reply/getReplyList.do";
 		var paramData = {"bno": "${board.bno}"};
-		
+
+		var writer = $('#writer').val();
+		var id = '${memberVO.id}';
+
 		$.ajax({
 			type:'POST',
 			url:url,
 			data:paramData,
 			dataType:'json',
 			success: function(result){
-			  var htmls = "";			
+			  var htmls = "";		
+			
 			  if(result.length < 1){				
 				  htmls ="등록된 댓글이 없습니다.";
-				}else{
+			  }else{
 					$(result).each(function(){
-						htmls += '<div class="media text-muted pt-3" id="rno' + this.rno + '">';					              
-						htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
-						htmls += '<span class="d-block">';	               
+						htmls += '<div class="media text-muted pt-3" id="rno' + this.rno + '">';					              
+						htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
+						htmls += '<span class="d-block">';	               
 						htmls += '<strong class="text-gray-dark">' + this.writer + '</strong>';
 						htmls += this.reg_date;
-						htmls += '<br>'                     
-						htmls += this.content;	                     
-						htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
-						htmls += '<a href="javascript:void(0)" onclick="fn_editReply(' + this.rno + ', \'' + this.writer + '\', \'' + this.content + '\' )" style="padding-right:5px">수정</a>';	                     
-						htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + this.rno + ',\'' + this.writer + '\')" >삭제</a>';	                     
-						htmls += '</span>';	                    
-						htmls += '</span>';	                     
-						htmls += '</p>';	                    
-						htmls += '</div>';
-
+						htmls += '<br>'                     
+						htmls += this.content;	 
+						htmls += '</span>';	                     
+				if(id != ''){
+					if(id == writer){
+						htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
+						htmls += '<a href="javascript:void(0)" onclick="fn_editReply(' + this.rno + ', \'' + this.writer + '\', \'' + this.content + '\' )" style="padding-right:5px">수정</a>';	                     
+						htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + this.rno + ',\'' + this.writer + '\')" >삭제</a>';	                     
+						htmls += '</span>';	
+						}
+					}
+						htmls += '</p>';	  
+						htmls += '</div>';		
+						
 					});//end each
 				}
 				$("#replyList").html(htmls);
 			}//ajax success end
 		});//end ajax
 	}
-	
+		
 //댓글 저장
-$(document).on('click','#btnReplyAdd', function(){
+$(document).on('click','#btnReplyAdd', function(){	
 	var Content = $('#content').val();
 	var Writer = $('#writer').val();
-	
-	if(Writer ==""){
-		alert("로그인 후 작성이 가능하십니다.");
-		return;
+
+	if(Content == ""){
+		alert("내용을 입력해주세요.");
+		return ;
 	}
 	
 	var paramData = JSON.stringify(
@@ -131,16 +144,8 @@ $(document).on('click','#btnReplyAdd', function(){
 
 //댓글 수정
 function fn_editReply(rno, writer, content){	
-	var id = '${memberVO.id}';
-	
-	if(id == ''){
-		alert("로그인 후 이용가능합니다.");
-		return;
-	}else if(id != writer){
-		alert("본인이 작성한 댓글만 수정 가능합니다");
-		return;
-	}
-	var htmls = "";
+
+	var htmls = "";		
 			htmls += '<div class="media text-muted pt-3" id="rno' + rno + '">';
 			htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';
 			htmls += '<span class="d-block">';
@@ -148,7 +153,7 @@ function fn_editReply(rno, writer, content){
 			htmls += '<span style="padding-left: 7px; font-size: 9pt">';
 			htmls += '<a href="javascript:void(0)" onclick="fn_updateReply('
 					+ rno + ', \'' + writer
-					+ '\')" style="padding-right:5px">저장</a>';
+					+ '\')" style="padding-right:5px">등록</a>';
 			htmls += '<a href="javascript:void(0)" onClick="getReplyList()">취소<a>';
 			htmls += '</span>';
 			htmls += '</span>';
@@ -159,50 +164,52 @@ function fn_editReply(rno, writer, content){
 			htmls += '</div>';
 			$('#rno' + rno).replaceWith(htmls);
 			$('#rno' + rno + ' #editContent').focus();
-	}
+			
+}
 
-	function fn_updateReply(rno, writer) {
-		var replyEditContent = $('#editContent').val();
+//댓글 수정
+function fn_updateReply(rno, writer) {
+	var replyEditContent = $('#editContent').val();
 
-		var paramData = JSON.stringify({
-			"content" : replyEditContent,
-			"rno" : rno
-		});
+	var paramData = JSON.stringify({
+		"content" : replyEditContent,
+		"rno" : rno
+	});
 
-		var headers = {
-			"Content-Type" : "application/json",
-			"X-HTTP-Method-Override" : "POST"
-		};
+	var headers = {
+		"Content-Type" : "application/json",
+		"X-HTTP-Method-Override" : "POST"
+	};
 
-		$.ajax({
-			url : "${Path}/reply/updateReply.do",
-			headers : headers,
-			data : paramData,
-			type : 'POST',
-			dataType : 'text',
-			success : function(result) {
-				console.log(result);
-				getReplyList();
-			},
-			error : function(error) {
-				console.log("에러:" + error);
-			}
-		});//end ajax
-	}
+	$.ajax({
+		url : "${Path}/reply/updateReply.do",
+		headers : headers,
+		data : paramData,
+		type : 'POST',
+		dataType : 'text',
+		success : function(result) {
+			console.log(result);
+			getReplyList();
+		},
+		error : function(error) {
+			console.log("에러:" + error);
+		}
+	});//end ajax
+}
 
 //댓글 삭제
-function fn_deleteReply(rno, writer){
+function fn_deleteReply(rno){
+	var DelConfirm = confirm('댓글을 삭제 하시겠습니까?');
+	
 	var paramData = {"rno" : rno};
 
-	var id= '${memberVO.id}';
-	
-	if(id == ''){
-		alert("로그인 후 이용가능합니다.");
-		return;
-	}else if(id != writer){
-		alert("본인이 등록한 댓글만 삭제 가능합니다.");
+	if(DelConfirm){	
+		alert("댓글이 삭제 되었습니다.");
+	}else{
+		alert("댓글 삭제가 취소 되었습니다.");
 		return;
 	}
+	
 	$.ajax({
 		url:"${Path}/reply/deleteReply.do"
 		,data : paramData
