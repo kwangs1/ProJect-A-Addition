@@ -58,54 +58,55 @@
 <script type="text/javascript">
 
 //댓글 리스트
-	$(document).ready(function(){
-		getReplyList();
-	});
-	
-	function getReplyList(){
-		var url = "${Path}/reply/getReplyList.do";
-		var paramData = {"bno": "${board.bno}"};
+$(document).ready(function(){
+	getReplyList();
+});
 
-		var writer = $('#writer').val();
-		var id = '${memberVO.id}';
-
-		$.ajax({
-			type:'POST',
-			url:url,
-			data:paramData,
-			dataType:'json',
-			success: function(result){
-			  var htmls = "";		
+function getReplyList(){
+	var url = "${Path}/reply/getReplyList.do";
+	var paramData = {"bno": "${board.bno}"};
+	var writer = $('#writer').val();
+	var id = '${memberVO.id}';
+	$.ajax({
+		type:'POST',
+		url:url,
+		data:paramData,
+		dataType:'json',
+		success: function(data){
+			console.log("댓글 리스트 받아졌나?");
 			
-			  if(result.length < 1){				
-				  htmls ="등록된 댓글이 없습니다.";
-			  }else{
-					$(result).each(function(){
-						htmls += '<div class="media text-muted pt-3" id="rno' + this.rno + '">';					              
-						htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
-						htmls += '<span class="d-block">';	               
-						htmls += '<strong class="text-gray-dark">' + this.writer + '</strong>';
-						htmls += this.reg_date;
-						htmls += '<br>'                     
-						htmls += this.content;	 
-						htmls += '</span>';	                     
-				if(id != ''){
-					if(id == writer){
-						htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
-						htmls += '<a href="javascript:void(0)" onclick="fn_editReply(' + this.rno + ', \'' + this.writer + '\', \'' + this.content + '\' )" style="padding-right:5px">수정</a>';	                     
-						htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + this.rno + ',\'' + this.writer + '\')" >삭제</a>';	                     
-						htmls += '</span>';	
-						}
-					}
-						htmls += '</p>';	  
-						htmls += '</div>';		
-						
-					});//end each
-				}
-				$("#replyList").html(htmls);
-			}//ajax success end
-		});//end ajax
-	}
+			var htmls = "";		
+		 
+			for(const i in data){
+			 let rno = data[i].rno;
+			 let bno = data[i].bno;
+			 let content = data[i].content;
+			 let writer = data[i].writer;
+			 let reg_date = data[i].reg_date;
+			 
+				htmls +=  '<div class="media text-muted pt-3" id="rno' + rno + '">';
+				htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
+				htmls += '<span class="d-block">';	               
+				htmls += '<strong class="text-gray-dark">' + writer + '</strong>';
+				htmls += '<br>'                    
+				htmls += content;	 
+				htmls += '</span>';	                     
+		if(id != ''){
+			if(id == writer){
+				htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
+				htmls += '<a href="javascript:void(0)" onclick="fn_editReply(' + rno + ', \'' + writer + '\', \'' + content + '\' )" style="padding-right:5px">수정</a>';
+				htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + rno + ',\'' + writer + '\')" >삭제</a>';	                     
+				htmls += '</span>';	
+				}	
+			}
+				htmls += '</p>';	  
+				htmls += '</div>';		
+
+		 }//end for
+			$("#replyList").html(htmls);
+		}//ajax success end
+	});//end ajax
+}
 		
 //댓글 저장
 $(document).on('click','#btnReplyAdd', function(){	
