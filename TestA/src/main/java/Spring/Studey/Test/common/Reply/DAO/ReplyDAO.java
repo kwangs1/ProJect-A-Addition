@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
+import Spring.Studey.Test.board.VO.BoardVO;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 
 public interface ReplyDAO {
@@ -15,4 +16,6 @@ public interface ReplyDAO {
 	int updateReply(ReplyVO replyVO) throws DataAccessException;
 
 	int deleteReply(int rno) throws DataAccessException;
+
+	int WriteReReply(ReplyVO vo);
 }

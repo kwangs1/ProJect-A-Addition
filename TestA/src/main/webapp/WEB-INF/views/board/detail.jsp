@@ -10,11 +10,18 @@
 <meta charset="UTF-8">
 
 <title>상세보기</title>
-</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
 <body>
 <h1>게시글 상세보기</h1>
-	<table>		
+	<table>
 		<tbody>
 		<tr>
 			<td>제목 : ${detail.title} </td>
@@ -24,9 +31,10 @@
 		</tr>
 		</tbody>
 	</table>
+
 		<div class="Reply" style="padding-top: 10px">			
 		
-				<h6 class= "ReplyList">Reply list</h6>	
+				<h3 class= "ReplyList">댓글</h3>	
 	
 				<div id="replyList"></div>		
 		
@@ -73,25 +81,46 @@ function getReplyList(){
 		data:paramData,
 		dataType:'json',
 		success: function(data){
-			console.log("댓글 리스트 받아졌나?");
+			//console.log("댓글 리스트 받아졌나?");
 			
 			var htmls = "";		
 		 
-			for(const i in data){
+			for(const i in data){//list를 받기위해 for문 사용
 			 let rno = data[i].rno;
 			 let bno = data[i].bno;
 			 let content = data[i].content;
 			 let writer = data[i].writer;
 			 let reg_date = data[i].reg_date;
+			 let r_depth = data[i].r_depth;
+			 let r_group = data[i].r_group;
 			 
+			console.log(r_depth);
+			if(r_depth == 0){ //댓글
 				htmls +=  '<div class="media text-muted pt-3" id="rno' + rno + '">';
 				htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
 				htmls += '<span class="d-block">';	               
 				htmls += '<strong class="text-gray-dark">' + writer + '</strong>';
 				htmls += '<br>'                    
 				htmls += content;	 
-				htmls += '</span>';	                     
-		if(id != ''){
+				htmls += '</span>';	  
+				
+				if(id != ""){ //로그인시 답글 버튼 나오게하기
+					htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
+					htmls += " <a href='#' class='write_reply_start' data-bs-toggle='collapse' data-bs-target='#re_reply"+ rno +"' aria-expanded='false' aria-controls='collapseExample'>답글</a>";                   
+					htmls += '</span>';	
+				}
+			}else{ //답글
+				htmls += "<div class='rereply-content" + rno + " col-7'>";
+				htmls += "<div>";	                     
+				htmls += '<span>';	               
+				htmls += '<b>' + writer + '</b>';
+				htmls += '</span>';
+				htmls += '<span>';             
+				htmls += content;	 
+				htmls += '</span>';	 
+			}
+		//---------------
+		if(id != ''){//로그인 및 작성자와 id가 동일시 수정 및 삭제버튼 나오게
 			if(id == writer){
 				htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
 				htmls += '<a href="javascript:void(0)" onclick="fn_editReply(' + rno + ', \'' + writer + '\', \'' + content + '\' )" style="padding-right:5px">수정</a>';
@@ -101,9 +130,32 @@ function getReplyList(){
 			}
 				htmls += '</p>';	  
 				htmls += '</div>';		
-
+		//---------------
+	
+			//답글 입력란
+			htmls += "<div class='collapse rereply_write' id='re_reply"+ rno +"'>";
+			htmls += "<div class='col-1'>"
+			htmls += "</div>";
+			htmls += "<div class='col-1'>"
+			htmls +="<input class ='w-100 input_writer_div form-control' id='input_writer"+ rno +"' type='hidden' value='${memberVO.id}'>";
+			htmls += "</div>";
+			htmls += "<div class='col-7'>"
+			htmls +="<input class ='w-100 input_rereply_div form-control' id='input_rereply"+ rno +"' type='text' placeholder = '댓글을 입력하세요.'>";
+			htmls += "</div>";
+			htmls += "<div class='col-3'>"
+			//동적으로 넣은 html 태그에서 발생하는 이벤트는 동적으로 처리해줘야 함
+			//동적으로 넣은 html 태그에서 발생하는 click 이벤트는 html 태그 안에서 onclick 처리하면 안되고 , jquery에서 클래스명 이나 id값을 받아서 처리하도록 해야함
+			htmls += "<button type='button' class='btn btn-success mb-1 write_rereply' rno='" + rno +"' bno= '" + bno +"'>답글 달기</button>";
+			htmls += "</div>";
+			htmls += "</div>";
 		 }//end for
+
 			$("#replyList").html(htmls);
+		 
+			//답글 작성 후 답글 달기버튼 를 click event를 아래처럼 jquery로 처리
+			$('button.btn.btn-success.mb-1.write_rereply').on('click',function(){				
+				WriteReReply($(this).attr('bno'), $(this).attr('rno'));
+			});
 		}//ajax success end
 	});//end ajax
 }
@@ -224,6 +276,48 @@ function fn_deleteReply(rno){
 		}
 	});
 }
+//답글 달기 버튼 클릭시 실행 - 답글 저장, 갯수 가져오기
+const WriteReReply = function(bno, rno){
+	
+	var writer = $('#input_writer' + rno).val();
+	var content = $('#input_rereply' + rno).val();
+	content = content.trim();
+	
+	var paramData = JSON.stringify
+		({
+			"rno" : rno,
+			"bno" : '${board.bno}',
+			"writer" : writer,
+			"content" : content
+	});
+	
+	var headers = {"Content-Type":"application/json" , "X-HTTP-Method-Override":"POST"};
+	
+	if(content == ""){
+		alert("답글을 입력해주세요.");
+	}else{
+		$('#input_rereply' + rno).val("");//입력란 비우기
+		
+		$.ajax({
+			url : "${Path}/reply/write_rereply.do"
+			,headers : headers
+			,data : paramData
+			,type : 'POST'
+			,dataType : 'text'
+			,success:function(result){
+				getReplyList();
+				
+				$('#writer').val();
+				$('#content').val();
+			},
+			error:function(error){
+				console.log("에러:"+ error);
+			}
+		});//end ajax
+		
+	};
+};
+
 </script>
 </body>
 </html>

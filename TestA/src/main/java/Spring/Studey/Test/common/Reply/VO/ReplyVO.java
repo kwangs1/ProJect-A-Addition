@@ -11,7 +11,8 @@ public class ReplyVO {
 	private String content;
 	private String writer;
 	private Date reg_date;
-	
+	private int r_group;
+	private int r_depth;
 
 	public int getBno() {
 		return bno;
@@ -42,6 +43,18 @@ public class ReplyVO {
 	}
 	public void setReg_date(Date reg_date) {
 		this.reg_date = reg_date;
+	}
+	public int getR_group() {
+		return r_group;
+	}
+	public void setR_group(int r_group) {
+		this.r_group = r_group;
+	}
+	public int getR_depth() {
+		return r_depth;
+	}
+	public void setR_depth(int r_depth) {
+		this.r_depth = r_depth;
 	}
 	
 	

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import Spring.Studey.Test.board.VO.BoardVO;
+import Spring.Studey.Test.common.Reply.DAO.ReplyDAO;
 import Spring.Studey.Test.common.Reply.Service.ReplyService;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 import Spring.Studey.Test.common.base.BaseController;
@@ -27,6 +31,8 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 
 	@Autowired
 	private ReplyService replyService;
+	@Autowired
+	private ReplyDAO replyDAO;
 
 	// 댓글목록
 	@Override
@@ -82,6 +88,29 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 			e.printStackTrace();
 			result.put("status", "false");
 		}
+		return result;
+	}
+	
+//-------------------------------------------------------------------	
+
+	// 답글 작성
+
+	@Override
+
+	@RequestMapping(value = "write_rereply.do", method = RequestMethod.POST)
+	public Map<String, Object> write_rereply(@RequestBody ReplyVO replyVO) {
+		Map<String, Object> result = new HashMap<>();
+
+		try {
+			replyService.addReply(replyVO);
+			replyVO.setR_depth(1);
+			result.put("status", "OK");
+		} catch (Exception e) {
+			e.printStackTrace();
+			replyVO.setR_depth(0);
+			result.put("status", "false");
+		}
+
 		return result;
 	}
 

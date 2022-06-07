@@ -10,9 +10,11 @@
 		<result property="writer" column="writer"/>
 		<result property="content" column="content"/>
 		<result property="reg_date" column="reg_date"/>
+		<result property="r_depth" column="r_depth"/>
+		<result property="r_group" column="r_group"/>
 	</resultMap>
 	
-
+<!-- 댓글 쿼리 -->
 <select id="getReplyList" resultMap="ReplyResult">
 	<![CDATA[
 		select * from b_reply
@@ -44,5 +46,16 @@
 		where rno = #{rno}
 	]]>
 </delete>
+<!-- 댓글 쿼리 end -->
 
+<!-- 답글 쿼리 -->
+<insert id="ReRePly_write" parameterType="ReplyVO">
+	<selectKey resultType="int" keyProperty="rno" order="BEFORE">
+		select seq_reply.nextval from dual
+	</selectKey>
+<![CDATA[
+	insert into b_reply(rno, bno, content, writer, r_depth,r_group)
+	values(#{rno},#{bno},#{content},#{writer},#{r_depth},#{r_group})
+]]>
+</insert>
 </mapper>
