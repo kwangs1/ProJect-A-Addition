@@ -113,7 +113,7 @@ function getReplyList(){
 				htmls += "<div class='rereply-content" + rno + " col-7'>";
 				htmls += "<div>";	                     
 				htmls += '<span>';	               
-				htmls += '<b>' + writer + '</b>';
+				htmls += '<b> ㄴ' + writer + '</b>';
 				htmls += '</span>';
 				htmls += '<span>';             
 				htmls += content;	 

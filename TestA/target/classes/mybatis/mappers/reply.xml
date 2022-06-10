@@ -19,6 +19,7 @@
 	<![CDATA[
 		select * from b_reply
 		where bno = #{bno}
+		order by r_group desc, rno asc
 	]]>
 </select>
 
@@ -27,8 +28,8 @@
 		select seq_reply.nextval from dual
 	</selectKey>
 <![CDATA[
-	insert into b_reply(rno, bno, content, writer)
-	values(#{rno},#{bno},#{content},#{writer})
+	insert into b_reply(rno, bno, content, writer,r_group)
+	values(#{rno},#{bno},#{content},#{writer},#{r_group})
 ]]>
 </insert>
 
@@ -46,16 +47,19 @@
 		where rno = #{rno}
 	]]>
 </delete>
+
 <!-- 댓글 쿼리 end -->
 
 <!-- 답글 쿼리 -->
+<!--  -->
+<!-- 답글 작성 -->
 <insert id="ReRePly_write" parameterType="ReplyVO">
 	<selectKey resultType="int" keyProperty="rno" order="BEFORE">
 		select seq_reply.nextval from dual
 	</selectKey>
 <![CDATA[
 	insert into b_reply(rno, bno, content, writer, r_depth,r_group)
-	values(#{rno},#{bno},#{content},#{writer},#{r_depth},#{r_group})
+	values(#{rno},#{bno},#{content},#{writer},1,#{r_group})
 ]]>
 </insert>
 </mapper>

@@ -13,4 +13,6 @@ public interface ReplyService {
 	int updateReply(ReplyVO replyVO) throws Exception;
 
 	int deleteReply(int rno) throws Exception;
+
+	int WriteReReply(ReplyVO replyVO) throws Exception;
 }

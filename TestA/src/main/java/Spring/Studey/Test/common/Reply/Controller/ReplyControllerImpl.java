@@ -96,14 +96,12 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 	// 답글 작성
 
 	@Override
-
 	@RequestMapping(value = "write_rereply.do", method = RequestMethod.POST)
 	public Map<String, Object> write_rereply(@RequestBody ReplyVO replyVO) {
 		Map<String, Object> result = new HashMap<>();
 
 		try {
-			replyService.addReply(replyVO);
-			replyVO.setR_depth(1);
+			replyService.WriteReReply(replyVO);
 			result.put("status", "OK");
 		} catch (Exception e) {
 			e.printStackTrace();
