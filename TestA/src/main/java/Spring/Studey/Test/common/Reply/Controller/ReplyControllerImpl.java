@@ -1,11 +1,9 @@
-
 package Spring.Studey.Test.common.Reply.Controller;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import Spring.Studey.Test.board.VO.BoardVO;
-import Spring.Studey.Test.common.Reply.DAO.ReplyDAO;
 import Spring.Studey.Test.common.Reply.Service.ReplyService;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 import Spring.Studey.Test.common.base.BaseController;
@@ -31,8 +27,6 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 
 	@Autowired
 	private ReplyService replyService;
-	@Autowired
-	private ReplyDAO replyDAO;
 
 	// ´ñ±Û¸ñ·Ï
 	@Override
@@ -49,6 +43,7 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 
 		try {
 			replyService.addReply(replyVO);
+			replyService.Re_group(replyVO);
 			result.put("status", "OK");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -105,7 +100,6 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 			result.put("status", "OK");
 		} catch (Exception e) {
 			e.printStackTrace();
-			replyVO.setR_depth(0);
 			result.put("status", "false");
 		}
 

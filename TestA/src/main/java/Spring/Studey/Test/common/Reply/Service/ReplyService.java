@@ -15,4 +15,7 @@ public interface ReplyService {
 	int deleteReply(int rno) throws Exception;
 
 	int WriteReReply(ReplyVO replyVO) throws Exception;
+
+	int Re_group(ReplyVO replyVO) throws Exception;
+
 }

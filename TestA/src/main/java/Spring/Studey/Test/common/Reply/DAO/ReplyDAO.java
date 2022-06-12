@@ -18,4 +18,6 @@ public interface ReplyDAO {
 	int deleteReply(int rno) throws DataAccessException;
 
 	int WriteReReply(ReplyVO vo);
+
+	int Re_group(ReplyVO replyVO) throws DataAccessException;
 }

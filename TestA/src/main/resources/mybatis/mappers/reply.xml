@@ -19,7 +19,7 @@
 	<![CDATA[
 		select * from b_reply
 		where bno = #{bno}
-		order by r_group desc, rno asc
+		order by rno asc , r_group desc
 	]]>
 </select>
 
@@ -48,6 +48,13 @@
 	]]>
 </delete>
 
+<update id="Re_group" parameterType="ReplyVO">
+	<![CDATA[
+		update b_reply
+		set r_group = r_group +1
+		where bno = #{bno}
+	]]>
+</update>
 <!-- 댓글 쿼리 end -->
 
 <!-- 답글 쿼리 -->

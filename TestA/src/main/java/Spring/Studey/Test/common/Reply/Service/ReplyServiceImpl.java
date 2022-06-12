@@ -37,6 +37,11 @@ public class ReplyServiceImpl implements ReplyService{
 	public int deleteReply(int rno)throws Exception{
 		return replyDAO.deleteReply(rno);
 	}
+	
+	@Override
+	public int Re_group(ReplyVO replyVO)throws Exception{
+		return replyDAO.Re_group(replyVO);
+	}
 //----------------------------------
 	
 	//답글 등록
@@ -44,4 +49,5 @@ public class ReplyServiceImpl implements ReplyService{
 	public int WriteReReply(ReplyVO replyVO)throws Exception{
 		return replyDAO.WriteReReply(replyVO);
 	}
+
 }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import Spring.Studey.Test.board.VO.BoardVO;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 
 @Repository("reqlyDAO")
@@ -26,7 +25,6 @@ public class ReplyDAOImpl implements ReplyDAO {
 	@Override
 	public int addReply(ReplyVO replyVO) throws DataAccessException {
 		int result = session.insert("mapper.reply.addReply", replyVO);
-		replyVO.setR_group(result+1);
 		return result;
 	}
 
@@ -41,14 +39,18 @@ public class ReplyDAOImpl implements ReplyDAO {
 	public int deleteReply(int rno) throws DataAccessException {
 		return session.delete("mapper.reply.deleteReply", rno);
 	}
+	
+	@Override
+	public int Re_group(ReplyVO replyVO)throws DataAccessException{
+		return session.update("mapper.reply.Re_group",replyVO);
+	}
 
 //----------------------------------------------------
 
 	// 답글 작성
 
 	@Override 
-	public int WriteReReply(ReplyVO vo) { 	  
-		return session.insert("mapper.reply.ReRePly_write", vo);	  
+	public int WriteReReply(ReplyVO replyVO) { 	  
+		return session.insert("mapper.reply.ReRePly_write", replyVO);	  
 	}
-
 }

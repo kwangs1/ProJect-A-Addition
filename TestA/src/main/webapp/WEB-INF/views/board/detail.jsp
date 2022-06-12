@@ -94,12 +94,12 @@ function getReplyList(){
 			 let r_depth = data[i].r_depth;
 			 let r_group = data[i].r_group;
 			 
-			console.log(r_depth);
 			if(r_depth == 0){ //댓글
 				htmls +=  '<div class="media text-muted pt-3" id="rno' + rno + '">';
 				htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
 				htmls += '<span class="d-block">';	               
 				htmls += '<strong class="text-gray-dark">' + writer + '</strong>';
+				htmls += '&nbsp;&nbsp;'+ reg_date;
 				htmls += '<br>'                    
 				htmls += content;	 
 				htmls += '</span>';	  
@@ -113,8 +113,10 @@ function getReplyList(){
 				htmls += "<div class='rereply-content" + rno + " col-7'>";
 				htmls += "<div>";	                     
 				htmls += '<span>';	               
-				htmls += '<b> ㄴ' + writer + '</b>';
+				htmls += '<b> ⤷ ' + writer + '</b>';
+				htmls += '&nbsp;&nbsp;'+ reg_date;
 				htmls += '</span>';
+				htmls += '<br>';
 				htmls += '<span>';             
 				htmls += content;	 
 				htmls += '</span>';	 
