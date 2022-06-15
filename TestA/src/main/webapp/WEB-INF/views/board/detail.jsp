@@ -118,7 +118,7 @@ function getReplyList(){
 				htmls += '</span>';
 				htmls += '<br>';
 				htmls += '<span>';             
-				htmls += content;	 
+				htmls += '&nbsp;&nbsp;&nbsp;&nbsp;'+content;	 
 				htmls += '</span>';	 
 			}
 		//---------------
@@ -139,7 +139,7 @@ function getReplyList(){
 			htmls += "<div class='col-1'>"
 			htmls += "</div>";
 			htmls += "<div class='col-1'>"
-			htmls +="<input class ='w-100 input_writer_div form-control' id='input_writer"+ rno +"' type='hidden' value='${memberVO.id}'>";
+			htmls +="<input class ='w-100 input_writer_div form-control' id='input_writer"+ rno +"'  value='${memberVO.id}'>";
 			htmls += "</div>";
 			htmls += "<div class='col-7'>"
 			htmls +="<input class ='w-100 input_rereply_div form-control' id='input_rereply"+ rno +"' type='text' placeholder = '댓글을 입력하세요.'>";
@@ -291,7 +291,7 @@ const WriteReReply = function(bno, rno){
 			"bno" : '${board.bno}',
 			"writer" : writer,
 			"content" : content
-	});
+	}); 
 	
 	var headers = {"Content-Type":"application/json" , "X-HTTP-Method-Override":"POST"};
 	
@@ -302,15 +302,15 @@ const WriteReReply = function(bno, rno){
 		
 		$.ajax({
 			url : "${Path}/reply/write_rereply.do"
-			,headers : headers
+			//,headers : headers
 			,data : paramData
 			,type : 'POST'
-			,dataType : 'text'
+			//,dataType : 'text'
 			,success:function(result){
 				getReplyList();
-				
-				$('#writer').val();
-				$('#content').val();
+	
+				//$('#writer').val();
+				//$('#content').val();
 			},
 			error:function(error){
 				console.log("에러:"+ error);

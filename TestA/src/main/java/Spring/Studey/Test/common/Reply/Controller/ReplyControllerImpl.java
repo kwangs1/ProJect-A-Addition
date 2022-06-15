@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,10 +93,11 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 
 	@Override
 	@RequestMapping(value = "write_rereply.do", method = RequestMethod.POST)
-	public Map<String, Object> write_rereply(@RequestBody ReplyVO replyVO) {
+	public Map<String, Object> write_rereply(@RequestParam int rno ,@RequestParam int bno) {
 		Map<String, Object> result = new HashMap<>();
-
+		ReplyVO replyVO = new ReplyVO();
 		try {
+			replyVO.setR_group(rno);
 			replyService.WriteReReply(replyVO);
 			result.put("status", "OK");
 		} catch (Exception e) {

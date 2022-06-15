@@ -42,7 +42,11 @@ public class ReplyDAOImpl implements ReplyDAO {
 	
 	@Override
 	public int Re_group(ReplyVO replyVO)throws DataAccessException{
-		return session.update("mapper.reply.Re_group",replyVO);
+		
+		int check_update =  session.update("mapper.reply.Re_group",replyVO);
+		replyVO.setR_group(check_update);
+		
+		return check_update;
 	}
 
 //----------------------------------------------------
@@ -51,6 +55,8 @@ public class ReplyDAOImpl implements ReplyDAO {
 
 	@Override 
 	public int WriteReReply(ReplyVO replyVO) { 	  
-		return session.insert("mapper.reply.ReRePly_write", replyVO);	  
+		int result = session.insert("mapper.reply.ReRePly_write", replyVO);	
+		
+		return result;
 	}
 }

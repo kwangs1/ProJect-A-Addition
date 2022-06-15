@@ -48,13 +48,15 @@
 	]]>
 </delete>
 
+<!-- 부모글 r_group 를 rno와 같게 셋팅 -->
 <update id="Re_group" parameterType="ReplyVO">
 	<![CDATA[
 		update b_reply
-		set r_group = r_group +1
-		where bno = #{bno}
+		set r_group = #{rno}
+		where r_group != rno
 	]]>
 </update>
+
 <!-- 댓글 쿼리 end -->
 
 <!-- 답글 쿼리 -->
@@ -69,4 +71,5 @@
 	values(#{rno},#{bno},#{content},#{writer},1,#{r_group})
 ]]>
 </insert>
+
 </mapper>
