@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import Spring.Studey.Test.board.VO.BoardVO;
 import Spring.Studey.Test.common.Reply.DAO.ReplyDAO;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 
@@ -38,15 +39,12 @@ public class ReplyServiceImpl implements ReplyService{
 		return replyDAO.deleteReply(rno);
 	}
 	
-	@Override
-	public int Re_group(ReplyVO replyVO)throws Exception{
-		return replyDAO.Re_group(replyVO);
-	}
 //----------------------------------
 	
 	//답글 등록
+	
 	@Override
-	public int WriteReReply(ReplyVO replyVO)throws Exception{
+	public BoardVO WriteReReply(ReplyVO replyVO)throws Exception{
 		return replyDAO.WriteReReply(replyVO);
 	}
 

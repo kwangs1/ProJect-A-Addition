@@ -18,5 +18,4 @@ public interface ReplyController {
 
 	Map<String, Object> deleteReply(int rno) throws Exception;
 
-	Map<String, Object> write_rereply(int rno, int bno);
 }

@@ -2,6 +2,7 @@ package Spring.Studey.Test.common.Reply.Service;
 
 import java.util.List;
 
+import Spring.Studey.Test.board.VO.BoardVO;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 
 public interface ReplyService {
@@ -14,8 +15,6 @@ public interface ReplyService {
 
 	int deleteReply(int rno) throws Exception;
 
-	int WriteReReply(ReplyVO replyVO) throws Exception;
-
-	int Re_group(ReplyVO replyVO) throws Exception;
+	BoardVO WriteReReply(ReplyVO replyVO) throws Exception;
 
 }

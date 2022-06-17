@@ -17,9 +17,10 @@
 <!-- 댓글 쿼리 -->
 <select id="getReplyList" resultMap="ReplyResult">
 	<![CDATA[
-		select * from b_reply
+		select * 
+		from b_reply
 		where bno = #{bno}
-		order by rno asc , r_group desc
+		order by r_group asc , r_depth asc
 	]]>
 </select>
 
@@ -52,8 +53,9 @@
 <update id="Re_group" parameterType="ReplyVO">
 	<![CDATA[
 		update b_reply
-		set r_group = #{rno}
+		set r_group = rno
 		where r_group != rno
+		and r_depth = 0
 	]]>
 </update>
 

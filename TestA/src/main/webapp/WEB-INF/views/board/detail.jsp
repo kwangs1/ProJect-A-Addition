@@ -93,8 +93,8 @@ function getReplyList(){
 			 let reg_date = data[i].reg_date;
 			 let r_depth = data[i].r_depth;
 			 let r_group = data[i].r_group;
-			 
-			if(r_depth == 0){ //댓글
+		
+			 if(r_depth == 0){ //댓글
 				htmls +=  '<div class="media text-muted pt-3" id="rno' + rno + '">';
 				htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
 				htmls += '<span class="d-block">';	               
@@ -124,14 +124,23 @@ function getReplyList(){
 		//---------------
 		if(id != ''){//로그인 및 작성자와 id가 동일시 수정 및 삭제버튼 나오게
 			if(id == writer){
+				if(r_depth == 0){
 				htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
-				htmls += '<a href="javascript:void(0)" onclick="fn_editReply(' + rno + ', \'' + writer + '\', \'' + content + '\' )" style="padding-right:5px">수정</a>';
+				htmls += '<a href="javascript:void(0)"  onclick="fn_editReply(' + rno + ', \'' + writer + '\', \'' + content + '\' )" style="padding-right:5px">수정</a>';
 				htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + rno + ',\'' + writer + '\')" >삭제</a>';	                     
 				htmls += '</span>';	
-				}	
-			}
+				}
+			}	
+		}
+			if(r_depth == 1){
+					htmls += '<span style="padding-left: 7px; font-size: 9pt">';	 
+					htmls += '<a href="javascript:void(0)"  onclick="fn_editReply(' + rno + ', \'' + writer + '\', \'' + content + '\' )" style="padding-right:5px">수정</a>';
+					htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + rno + ',\'' + writer + '\')" >삭제</a>';	                     
+					htmls += '</span>';	
+				}
 				htmls += '</p>';	  
 				htmls += '</div>';		
+				
 		//---------------
 	
 			//답글 입력란
@@ -158,6 +167,8 @@ function getReplyList(){
 			$('button.btn.btn-success.mb-1.write_rereply').on('click',function(){				
 				WriteReReply($(this).attr('bno'), $(this).attr('rno'));
 			});
+			//--------------답글 저장 end
+		
 		}//ajax success end
 	});//end ajax
 }
@@ -278,22 +289,12 @@ function fn_deleteReply(rno){
 		}
 	});
 }
-//답글 달기 버튼 클릭시 실행 - 답글 저장, 갯수 가져오기
+//답글 달기 버튼 클릭시 실행 
 const WriteReReply = function(bno, rno){
 	
 	var writer = $('#input_writer' + rno).val();
 	var content = $('#input_rereply' + rno).val();
 	content = content.trim();
-	
-	var paramData = JSON.stringify
-		({
-			"rno" : rno,
-			"bno" : '${board.bno}',
-			"writer" : writer,
-			"content" : content
-	}); 
-	
-	var headers = {"Content-Type":"application/json" , "X-HTTP-Method-Override":"POST"};
 	
 	if(content == ""){
 		alert("답글을 입력해주세요.");
@@ -302,17 +303,20 @@ const WriteReReply = function(bno, rno){
 		
 		$.ajax({
 			url : "${Path}/reply/write_rereply.do"
-			//,headers : headers
-			,data : paramData
+			,data : {bno : bno ,
+					rno : rno , 
+					content : content ,
+					writer : writer}
 			,type : 'POST'
-			//,dataType : 'text'
 			,success:function(result){
 				getReplyList();
-	
-				//$('#writer').val();
-				//$('#content').val();
+				
+				console.log(writer);
+				console.log(content);
+				console.log("답글 작성 성공!");
 			},
 			error:function(error){
+
 				console.log("에러:"+ error);
 			}
 		});//end ajax
