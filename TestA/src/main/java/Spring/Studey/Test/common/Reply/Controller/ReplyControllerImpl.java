@@ -94,6 +94,8 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 	public Map<String,Object> write_rereply(@RequestBody ReplyVO replyVO)throws Exception {
 		Map<String,Object>result = new HashMap<>();
 		
+		//댓글에 답글을 작성할 때 r_group를 댓글 r_group를 가져오기위해 변수를 선언하여 get,set을 하였음.
+		//그리고 r_depth 즉 답글이라는 것을 알기 위해 r_depth를 1로 설정하여 답글이 작성되면 자동적으로 1이 데이터값에 들어가기위해 선언
 		int rno = replyVO.getRno();		
 		
 		replyVO.setR_group(rno);		
@@ -108,10 +110,12 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 		return result;
 	}
 	
+	//답글 수정
 	@RequestMapping(value = "update_rereply.do", method = RequestMethod.POST)
 	public Map<String,Object> update_rereply(@RequestBody ReplyVO replyVO)throws Exception {
 		Map<String,Object>result = new HashMap<>();
 		
+		//답글 수정을 하기위해 r_group, r_depth를 get, set 하여 일반 댓글과 구분지어 수정이 되게 하였음
 		int r_group = replyVO.getR_group();
 		int r_depth = replyVO.getR_depth();
 	

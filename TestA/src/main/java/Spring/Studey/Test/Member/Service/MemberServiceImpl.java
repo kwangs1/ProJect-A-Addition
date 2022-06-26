@@ -34,4 +34,21 @@ public class MemberServiceImpl implements MemberService{
 	public MemberVO login(MemberVO memberVO)throws Exception{
 		return memberDAO.login(memberVO);
 	}
+	
+	//info
+	@Override
+	public MemberVO MemberInfo()throws Exception{
+		return memberDAO.MemberInfo();
+	}
+	
+	//modify
+	@Override
+	public void MemberModify(MemberVO memberVO)throws Exception{
+		 memberDAO.MemberModify(memberVO);
+	}
+	//modify(ºñ¹ø)
+	@Override
+	public void MemberModify_info_pw(MemberVO memberVO)throws Exception{
+		 memberDAO.MemberModify_info_pw(memberVO);
+	}
 }

@@ -35,4 +35,21 @@ public class MemberDAOImpl implements MemberDAO{
 		return member;
 	}
 	
+	//info
+	@Override
+	public MemberVO MemberInfo()throws DataAccessException{
+		return sqlSession.selectOne("mapper.member.MemberInfo");
+	}
+	
+	//modify
+	@Override
+	public void MemberModify(MemberVO memberVO)throws DataAccessException{
+		 sqlSession.update("mapper.member.MemberModify",memberVO);
+	}
+	
+	//modify(ºñ¹ø)
+	@Override
+	public void MemberModify_info_pw(MemberVO memberVO)throws DataAccessException{
+		 sqlSession.update("mapper.member.MemberModify_info_pw",memberVO);
+	}
 }

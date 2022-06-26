@@ -14,4 +14,10 @@ public interface MemberDAO {
 
 	MemberVO login(MemberVO memberVO) throws DataAccessException;
 
+	void MemberModify(MemberVO memberVO) throws DataAccessException;
+
+	MemberVO MemberInfo() throws DataAccessException;
+
+	void MemberModify_info_pw(MemberVO memberVO) throws DataAccessException;
+
 }

@@ -30,6 +30,7 @@ public class ReplyDAOImpl implements ReplyDAO {
 		
 		int result = session.insert("mapper.reply.addReply", replyVO);
 		
+		//댓글이 작성되면 댓글의 그룹번호 r_group를 rno와 같게 값을 넣기위해 선언
 		if(result == 1) {
 			int check_update =  session.update("mapper.reply.Re_group",replyVO);
 			replyVO.setR_group(check_update);
@@ -59,6 +60,7 @@ public class ReplyDAOImpl implements ReplyDAO {
 		
 	}
 	
+	//답글 수정
 	@Override
 	public int UpdateReReply(ReplyVO replyVO) throws DataAccessException {
 		return session.update("mapper.reply.ReReply_update", replyVO);

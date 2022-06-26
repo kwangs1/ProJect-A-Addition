@@ -124,9 +124,9 @@ function getReplyList(){
 		//---------------
 		if(id != ''){//로그인 및 작성자와 id가 동일시 수정 및 삭제버튼 나오게
 			if(id == writer){
-				htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
-				//htmls += '<a href="javascript:void(0)"  onclick="fn_editReply(' + rno + ', \'' + writer + '\', \'' + content + '\')" style="padding-right:5px">수정</a>';        				
+				htmls += '<span style="padding-left: 7px; font-size: 9pt">';       				
 				htmls += " <a href='#' class='update_reply_start' data-bs-toggle='collapse' data-bs-target='#rno"+ rno +"' aria-expanded='false' aria-controls='collapseExample'>수정</a>";	
+				htmls += '&nbsp;&nbsp;';
 				htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + rno + ',\'' + writer + '\')" >삭제</a>';	                     
 				htmls += '</span>';
 			}	
@@ -162,9 +162,8 @@ function getReplyList(){
 			htmls +="<input class ='w-100 input_content_div form-control' id='input_content"+ rno +"' type='text'>";
 			htmls += "</div>";
 			htmls += "<div class='col-3'>"
-			//동적으로 넣은 html 태그에서 발생하는 이벤트는 동적으로 처리해줘야 함
-			//동적으로 넣은 html 태그에서 발생하는 click 이벤트는 html 태그 안에서 onclick 처리하면 안되고 , jquery에서 클래스명 이나 id값을 받아서 처리하도록 해야함
 			htmls += "<button type='button' class='btn btn-success mb-1 update_reply' rno='" + rno +"' bno= '" + bno +"'>수정 하기</button>";
+			htmls += "<button type='button' class='btn' name='list' >취소</button>"
 			htmls += "</div>";
 			htmls += "</div>";
 	
@@ -222,33 +221,6 @@ $(document).on('click','#btnReplyAdd', function(){
 		}
 	});//end ajax
 });//end on
-
-//댓글 수정
-/* function fn_editReply(rno, writer, content){
-	console.log("ok");
-	var htmls = "";
-	
-		htmls += '<div class="media text-muted pt-3" id="rno' + rno + '">';
-		htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';
-		htmls += '<span class="d-block">';
-		htmls += '<strong class="text-gray-dark">' + writer + '</strong>';
-		htmls += '<span style="padding-left: 7px; font-size: 9pt">';
-		htmls += '<a href="javascript:void(0)" onclick="fn_updateReply('
-			+ rno + ', \'' + writer
-			+ '\')" style="padding-right:5px">등록</a>';
-		htmls += '<a href="javascript:void(0)" onClick="getReplyList()">취소<a>';
-		htmls += '</span>';
-		htmls += '</span>';
-		htmls += '<textarea name="editContent" id="editContent" class="form-control" rows="3">';
-		htmls += content;
-		htmls += '</textarea>';
-		htmls += '</p>';
-		htmls += '</div>';	
-		
-		$('#rno' + rno).replaceWith(htmls);
-		$('#rno' + rno + ' #editContent').focus(); 
-			
-} */
 
 //댓글 수정
 UpdateReply = function(rno, bno) {
@@ -352,7 +324,7 @@ WriteReReply = function(bno, rno){
 	};
 };
 
-//댓글 수정
+//답글 수정
 UpdateReReply = function fn_updateReply(rno, bno, r_depth) {
 	var writer = $('#input_writer' + rno).val();
 	var content = $('#input_content' + rno).val();
@@ -385,6 +357,13 @@ UpdateReReply = function fn_updateReply(rno, bno, r_depth) {
 		}
 	});//end ajax
 }
+
+//동적 html에서는 onclick을 사용을 못하기에 jquery로 click버튼을 만듬
+$(document).ready(function(){
+	$(document).on("click", "button[name='list']", function(){
+		getReplyList();
+	});
+});
 </script>
 </body>
 </html>

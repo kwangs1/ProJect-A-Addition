@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -60,9 +61,8 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		encodePw = pwEncoder.encode(rawPw); // pw 인코딩
 		memberVO.setPw(encodePw); //인코딩 된 pw memberVO객체에 다시 저장
 		
-		int result = 0;
-		result = memberService.JoinMember(memberVO);
-		ModelAndView mav = new ModelAndView("redirect:/main/main.do");
+		int result =  memberService.JoinMember(memberVO);
+		ModelAndView mav = new ModelAndView("redirect:/member/login.do");
 		return mav;
 	}
 	
@@ -160,4 +160,61 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		return "redirect:/main/main.do";
 	}
 	
+	//info
+	@RequestMapping(value="/MemberInfo.do" , method = RequestMethod.GET)
+	public ModelAndView memberinfo(HttpServletRequest request)throws Exception{
+		String viewName = (String)request.getAttribute("viewName");
+		
+		memberVO = memberService.MemberInfo();
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+
+		return mav;
+	}
+	
+	//modify(비번 제외)
+	@RequestMapping(value="/MemberModify.do" , method = RequestMethod.POST)
+	public ModelAndView MemberModify(HttpServletRequest request,@ModelAttribute MemberVO vo)throws Exception{
+		
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/member/MemberInfo.do");
+		
+		memberService.MemberModify(vo);
+		
+		return mav;
+	}
+	
+	
+	
+	//modify(비번)
+	@RequestMapping(value="/MemberModify_pw.do" , method = RequestMethod.GET)
+	public ModelAndView MemberModify_pw(HttpServletRequest request,@ModelAttribute MemberVO vo)throws Exception{
+		
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName(viewName);
+		
+		return mav;
+	}
+	
+	//modify(비번)
+	@RequestMapping(value="/MemberModify_info_pw.do" , method = RequestMethod.POST)
+	public ModelAndView MemberModify_info_pw(HttpServletRequest request,@ModelAttribute MemberVO vo)throws Exception{
+		String rawPw = ""; //인코딩 전 pw
+		String encodePw = ""; //인코딩 후 pw
+		
+		rawPw = vo.getPw(); // pw데이터 얻음
+		encodePw = pwEncoder.encode(rawPw); // pw 인코딩
+		vo.setPw(encodePw); //인코딩 된 pw memberVO객체에 다시 저장
+		
+		
+		String viewName = (String)request.getAttribute("viewName");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("redirect:/member/login.do");
+		
+		memberService.MemberModify_info_pw(vo);
+		
+		return mav;
+	}
 }

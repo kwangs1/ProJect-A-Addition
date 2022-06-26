@@ -46,7 +46,8 @@ public class ReplyServiceImpl implements ReplyService{
 	public int WriteReReply(ReplyVO replyVO)throws Exception{
 		return replyDAO.WriteReReply(replyVO);
 	}
-
+	
+	//답글 수정
 	@Override
 	public int UpdateReReply(ReplyVO replyVO)throws Exception{
 		return replyDAO.updateReply(replyVO);
