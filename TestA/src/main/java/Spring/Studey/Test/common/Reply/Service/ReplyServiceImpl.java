@@ -42,10 +42,13 @@ public class ReplyServiceImpl implements ReplyService{
 //----------------------------------
 	
 	//답글 등록
-	
 	@Override
-	public BoardVO WriteReReply(ReplyVO replyVO)throws Exception{
+	public int WriteReReply(ReplyVO replyVO)throws Exception{
 		return replyDAO.WriteReReply(replyVO);
 	}
 
+	@Override
+	public int UpdateReReply(ReplyVO replyVO)throws Exception{
+		return replyDAO.updateReply(replyVO);
+	}
 }

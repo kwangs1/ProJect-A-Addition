@@ -52,7 +52,7 @@
 				<div class="col-sm-10">						
 					<form:textarea path="content" id="content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요" />		
 				<c:if test="${not empty memberVO}">	
-					<button type="button"id="btnReplyAdd" onClick="window.location.reload()">등록</button>		
+					<button type="button"id="btnReplyAdd">등록</button>		
 				</c:if>				
 			</div>									
 			</div>				
@@ -124,23 +124,13 @@ function getReplyList(){
 		//---------------
 		if(id != ''){//로그인 및 작성자와 id가 동일시 수정 및 삭제버튼 나오게
 			if(id == writer){
-				if(r_depth == 0){
 				htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
-				htmls += '<a href="javascript:void(0)"  onclick="fn_editReply(' + rno + ', \'' + writer + '\', \'' + content + '\' )" style="padding-right:5px">수정</a>';
+				//htmls += '<a href="javascript:void(0)"  onclick="fn_editReply(' + rno + ', \'' + writer + '\', \'' + content + '\')" style="padding-right:5px">수정</a>';        				
+				htmls += " <a href='#' class='update_reply_start' data-bs-toggle='collapse' data-bs-target='#rno"+ rno +"' aria-expanded='false' aria-controls='collapseExample'>수정</a>";	
 				htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + rno + ',\'' + writer + '\')" >삭제</a>';	                     
-				htmls += '</span>';	
-				}
+				htmls += '</span>';
 			}	
-		}
-			if(r_depth == 1){
-					htmls += '<span style="padding-left: 7px; font-size: 9pt">';	 
-					htmls += '<a href="javascript:void(0)"  onclick="fn_editReply(' + rno + ', \'' + writer + '\', \'' + content + '\' )" style="padding-right:5px">수정</a>';
-					htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + rno + ',\'' + writer + '\')" >삭제</a>';	                     
-					htmls += '</span>';	
-				}
-				htmls += '</p>';	  
-				htmls += '</div>';		
-				
+		}			
 		//---------------
 	
 			//답글 입력란
@@ -148,7 +138,7 @@ function getReplyList(){
 			htmls += "<div class='col-1'>"
 			htmls += "</div>";
 			htmls += "<div class='col-1'>"
-			htmls +="<input class ='w-100 input_writer_div form-control' id='input_writer"+ rno +"'  value='${memberVO.id}'>";
+			htmls +="<input class ='w-100 input_writer_div form-control' id='input_writer"+ rno +"'  value='${memberVO.id}' type='hidden'>";
 			htmls += "</div>";
 			htmls += "<div class='col-7'>"
 			htmls +="<input class ='w-100 input_rereply_div form-control' id='input_rereply"+ rno +"' type='text' placeholder = '댓글을 입력하세요.'>";
@@ -159,8 +149,27 @@ function getReplyList(){
 			htmls += "<button type='button' class='btn btn-success mb-1 write_rereply' rno='" + rno +"' bno= '" + bno +"'>답글 달기</button>";
 			htmls += "</div>";
 			htmls += "</div>";
+			
+			//-------------------------------------------------
+			//수정 html
+			htmls += "<div class='collapse reply_update' id='rno"+ rno +"'>";
+			htmls += "<div class='col-1'>"
+			htmls += "</div>";
+			htmls += "<div class='col-1'>"
+			htmls +="<input class ='w-100 input_writer_div form-control' id='input_writer"+ rno +"'  value='${memberVO.id}' type='hidden'>";
+			htmls += "</div>";
+			htmls += "<div class='col-7'>"
+			htmls +="<input class ='w-100 input_content_div form-control' id='input_content"+ rno +"' type='text'>";
+			htmls += "</div>";
+			htmls += "<div class='col-3'>"
+			//동적으로 넣은 html 태그에서 발생하는 이벤트는 동적으로 처리해줘야 함
+			//동적으로 넣은 html 태그에서 발생하는 click 이벤트는 html 태그 안에서 onclick 처리하면 안되고 , jquery에서 클래스명 이나 id값을 받아서 처리하도록 해야함
+			htmls += "<button type='button' class='btn btn-success mb-1 update_reply' rno='" + rno +"' bno= '" + bno +"'>수정 하기</button>";
+			htmls += "</div>";
+			htmls += "</div>";
+	
 		 }//end for
-
+	
 			$("#replyList").html(htmls);
 		 
 			//답글 작성 후 답글 달기버튼 를 click event를 아래처럼 jquery로 처리
@@ -168,7 +177,15 @@ function getReplyList(){
 				WriteReReply($(this).attr('bno'), $(this).attr('rno'));
 			});
 			//--------------답글 저장 end
-		
+			
+			$('button.btn.btn-success.mb-1.update_reply').on('click',function(){				
+				if($(this).attr('r_depth') == 0){
+					UpdateReply($(this).attr('rno'), $(this).attr('bno'));				
+				}else{
+					UpdateReReply($(this).attr('rno'), $(this).attr('bno'), $(this).attr('r_depth'));	
+				}
+			});
+			
 		}//ajax success end
 	});//end ajax
 }
@@ -197,10 +214,8 @@ $(document).on('click','#btnReplyAdd', function(){
 		,type : 'POST'
 		,dataType : 'text'
 		,success:function(result){
+			window.location.reload();
 			getReplyList();
-			
-			$('#content').val();
-			$('#writer').val();
 		}
 		,error:function(error){
 			console.log("에러:" + error);
@@ -209,44 +224,49 @@ $(document).on('click','#btnReplyAdd', function(){
 });//end on
 
 //댓글 수정
-function fn_editReply(rno, writer, content){	
-
-	var htmls = "";		
-			htmls += '<div class="media text-muted pt-3" id="rno' + rno + '">';
-			htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';
-			htmls += '<span class="d-block">';
-			htmls += '<strong class="text-gray-dark">' + writer + '</strong>';
-			htmls += '<span style="padding-left: 7px; font-size: 9pt">';
-			htmls += '<a href="javascript:void(0)" onclick="fn_updateReply('
-					+ rno + ', \'' + writer
-					+ '\')" style="padding-right:5px">등록</a>';
-			htmls += '<a href="javascript:void(0)" onClick="getReplyList()">취소<a>';
-			htmls += '</span>';
-			htmls += '</span>';
-			htmls += '<textarea name="editContent" id="editContent" class="form-control" rows="3">';
-			htmls += content;
-			htmls += '</textarea>';
-			htmls += '</p>';
-			htmls += '</div>';
-			$('#rno' + rno).replaceWith(htmls);
-			$('#rno' + rno + ' #editContent').focus();
+/* function fn_editReply(rno, writer, content){
+	console.log("ok");
+	var htmls = "";
+	
+		htmls += '<div class="media text-muted pt-3" id="rno' + rno + '">';
+		htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';
+		htmls += '<span class="d-block">';
+		htmls += '<strong class="text-gray-dark">' + writer + '</strong>';
+		htmls += '<span style="padding-left: 7px; font-size: 9pt">';
+		htmls += '<a href="javascript:void(0)" onclick="fn_updateReply('
+			+ rno + ', \'' + writer
+			+ '\')" style="padding-right:5px">등록</a>';
+		htmls += '<a href="javascript:void(0)" onClick="getReplyList()">취소<a>';
+		htmls += '</span>';
+		htmls += '</span>';
+		htmls += '<textarea name="editContent" id="editContent" class="form-control" rows="3">';
+		htmls += content;
+		htmls += '</textarea>';
+		htmls += '</p>';
+		htmls += '</div>';	
+		
+		$('#rno' + rno).replaceWith(htmls);
+		$('#rno' + rno + ' #editContent').focus(); 
 			
-}
+} */
 
 //댓글 수정
-function fn_updateReply(rno, writer) {
-	var replyEditContent = $('#editContent').val();
-
+UpdateReply = function(rno, bno) {
+	var writer = $('#input_writer' + rno).val();
+	var content = $('#input_content' + rno).val();
+	
 	var paramData = JSON.stringify({
-		"content" : replyEditContent,
-		"rno" : rno
+		"bno" : bno,
+		"rno" : rno,
+		"content" : content,
+		"writer" : writer
 	});
 
 	var headers = {
 		"Content-Type" : "application/json",
 		"X-HTTP-Method-Override" : "POST"
 	};
-
+	
 	$.ajax({
 		url : "${Path}/reply/updateReply.do",
 		headers : headers,
@@ -289,12 +309,26 @@ function fn_deleteReply(rno){
 		}
 	});
 }
+
+//-----------------------------------------------
 //답글 달기 버튼 클릭시 실행 
-const WriteReReply = function(bno, rno){
+WriteReReply = function(bno, rno){
 	
 	var writer = $('#input_writer' + rno).val();
 	var content = $('#input_rereply' + rno).val();
 	content = content.trim();
+	
+	var paramData = JSON.stringify({
+		"bno" : bno,
+		"rno" : rno,
+		"content" : content,
+		"writer" : writer
+	});
+
+	var headers = {
+		"Content-Type" : "application/json",
+		"X-HTTP-Method-Override" : "POST"
+	};
 	
 	if(content == ""){
 		alert("답글을 입력해주세요.");
@@ -303,20 +337,14 @@ const WriteReReply = function(bno, rno){
 		
 		$.ajax({
 			url : "${Path}/reply/write_rereply.do"
-			,data : {bno : bno ,
-					rno : rno , 
-					content : content ,
-					writer : writer}
+			,headers : headers
+			,data : paramData
 			,type : 'POST'
+			,dataType : 'text'
 			,success:function(result){
 				getReplyList();
-				
-				console.log(writer);
-				console.log(content);
-				console.log("답글 작성 성공!");
 			},
 			error:function(error){
-
 				console.log("에러:"+ error);
 			}
 		});//end ajax
@@ -324,6 +352,39 @@ const WriteReReply = function(bno, rno){
 	};
 };
 
+//댓글 수정
+UpdateReReply = function fn_updateReply(rno, bno, r_depth) {
+	var writer = $('#input_writer' + rno).val();
+	var content = $('#input_content' + rno).val();
+	
+	var paramData = JSON.stringify({
+		"bno" : bno,
+		"rno" : rno,
+		"r_depth" : r_depth,
+		"content" : content,
+		"writer" : writer
+	});
+
+	var headers = {
+		"Content-Type" : "application/json",
+		"X-HTTP-Method-Override" : "POST"
+	};
+	
+	$.ajax({
+		url : "${Path}/reply/update_rereply.do",
+		headers : headers,
+		data : paramData,
+		type : 'POST',
+		dataType : 'text',
+		success : function(result) {
+			console.log(result);
+			getReplyList();
+		},
+		error : function(error) {
+			console.log("에러:" + error);
+		}
+	});//end ajax
+}
 </script>
 </body>
 </html>

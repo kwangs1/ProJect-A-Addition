@@ -52,16 +52,15 @@ public class ReplyDAOImpl implements ReplyDAO {
 
 //----------------------------------------------------
 
-	// 답글 작성
+	// 답글 작성	
+	@Override
+	public int WriteReReply(ReplyVO replyVO) throws DataAccessException{
+		return session.insert("mapper.reply.ReRePly_write", replyVO);	
+		
+	}
 	
 	@Override
-	public BoardVO WriteReReply(ReplyVO replyVO) throws DataAccessException{
-		BoardVO bvo = new BoardVO();
-		bvo.setBno(replyVO.getBno());
-		
-		int result = session.insert("mapper.reply.ReRePly_write", replyVO);	
-		
-		return bvo;
-		
+	public int UpdateReReply(ReplyVO replyVO) throws DataAccessException {
+		return session.update("mapper.reply.ReReply_update", replyVO);
 	}
 }

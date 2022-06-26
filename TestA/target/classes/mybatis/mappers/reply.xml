@@ -20,7 +20,7 @@
 		select * 
 		from b_reply
 		where bno = #{bno}
-		order by r_group asc , r_depth asc
+		order by r_group asc , r_depth asc, rno desc
 	]]>
 </select>
 
@@ -70,8 +70,15 @@
 	</selectKey>
 <![CDATA[
 	insert into b_reply(rno, bno, content, writer, r_depth,r_group)
-	values(#{rno},#{bno},#{content},#{writer},1,#{r_group})
+	values(#{rno},#{bno},#{content},#{writer},#{r_depth},#{r_group})
 ]]>
 </insert>
 
+<update id="ReReply_update" parameterType="ReplyVO">
+	<![CDATA[
+		update b_reply 
+		set content = #{content}
+		where rno = #{rno} and r_depth = #{r_depth}
+	]]>
+</update>
 </mapper>

@@ -15,6 +15,8 @@ public interface ReplyService {
 
 	int deleteReply(int rno) throws Exception;
 
-	BoardVO WriteReReply(ReplyVO replyVO) throws Exception;
+	int WriteReReply(ReplyVO replyVO) throws Exception;
+
+	int UpdateReReply(ReplyVO replyVO) throws Exception;
 
 }

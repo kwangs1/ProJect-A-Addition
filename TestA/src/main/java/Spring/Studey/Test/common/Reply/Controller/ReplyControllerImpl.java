@@ -45,7 +45,6 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 
 		try {
 			replyService.addReply(replyVO);
-			//replyService.Re_group(replyVO);
 			result.put("status", "OK");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,24 +91,40 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 
 	// 답글 작성
 	@RequestMapping(value = "write_rereply.do", method = RequestMethod.POST)
-	public BoardVO write_rereply(@RequestParam int rno, @RequestParam int bno, @RequestParam String content, @RequestParam String writer) {
-		ReplyVO vo = new ReplyVO();
+	public Map<String,Object> write_rereply(@RequestBody ReplyVO replyVO)throws Exception {
+		Map<String,Object>result = new HashMap<>();
 		
-		vo.setBno(bno);
-		vo.setR_group(rno);
-		vo.setContent(content);
-		vo.setWriter(writer);
-
-		BoardVO bvo = null;
+		int rno = replyVO.getRno();		
+		
+		replyVO.setR_group(rno);		
+		replyVO.setR_depth(1);
 		try {
-			 replyService.WriteReReply(vo);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			replyService.WriteReReply(replyVO);	
+			result.put("status", "ok");
+		}catch(Exception e) {
 			e.printStackTrace();
-		}
-		
-		return bvo;
+			result.put("status", "false");
+		}	
+		return result;
 	}
 	
-
+	@RequestMapping(value = "update_rereply.do", method = RequestMethod.POST)
+	public Map<String,Object> update_rereply(@RequestBody ReplyVO replyVO)throws Exception {
+		Map<String,Object>result = new HashMap<>();
+		
+		int r_group = replyVO.getR_group();
+		int r_depth = replyVO.getR_depth();
+	
+		replyVO.setR_depth(r_depth);
+		replyVO.setR_group(r_group);
+		
+		try {
+			replyService.UpdateReReply(replyVO);	
+			result.put("status", "ok");
+		}catch(Exception e) {
+			e.printStackTrace();
+			result.put("status", "false");
+		}	
+		return result;
+	}
 }
