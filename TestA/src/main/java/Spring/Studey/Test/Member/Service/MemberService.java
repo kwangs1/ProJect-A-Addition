@@ -12,10 +12,10 @@ public interface MemberService {
 
 	MemberVO login(MemberVO memberVO) throws Exception;
 
-	void MemberModify(MemberVO memberVO) throws Exception;
-
 	MemberVO MemberInfo() throws Exception;
 
 	void MemberModify_info_pw(MemberVO memberVO) throws Exception;
+
+	void MemberModify_info(MemberVO memberVO) throws Exception;
 
 }

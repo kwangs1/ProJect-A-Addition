@@ -11,7 +11,6 @@
 .final_pw_ck {
 	display: none;
 }
-
 .final_pwck_ck {
 	display: none;
 }
@@ -29,16 +28,15 @@
 <body>
 	<h2>회원 정보 상세 페이지</h2>
 	<form name="form" method="post">
-	 	<input name ="pw"  type="password" value="${memberVO.pw}" placeholder="현재 비밀번호" />
-		
+	 	<input  type="password" value="${memberVO.pw}" placeholder="현재 비밀번호" />
 		<div class="pw_wrap">
 			<div class="pw_name"></div>
 			<div class="pw_input_box">
-				<input class="pw_input" name="pw" value="${memberVO.pw}" type="password" placeholder="새 비밀번호">			
+				<input class="pw_input" name="pw" type="password" placeholder="새 비밀번호">			
 			</div> 
 			<span class="final_pw_ck">비밀번호를 입력해주세요.</span>
 		</div>
-		
+
 		<div class="pwck_wrap">
 			<div class="pwck_name"></div>
 			<div class="pwck_input_box">
@@ -48,7 +46,7 @@
 			<span class="pwck_input_re_1">비밀번호가 일치합니다.</span>
             <span class="pwck_input_re_2">비밀번호가 일치하지 않습니다.</span>
 		</div>
-				
+
 			<input type="button" value="수정" id="btnUpdate">
 
 	</form>
@@ -57,7 +55,7 @@
 <script type="text/javascript">
 var pwCheck = false; //비번
 var pwckCheck = false;//비번확인
-
+var pwckcorCheck = false; //비번확인 일치 확인
 
 	$(document).ready(function(){
 		$('#btnUpdate').click(function(){
@@ -90,7 +88,6 @@ var pwckCheck = false;//비번확인
 			return false;
 		});
 	});
-
 	//pw 확인 일치 유효성 검사
 	$('.pwck_input').on("propertychange change keyup paste input", function(){
 	 
@@ -109,7 +106,6 @@ var pwckCheck = false;//비번확인
 	    }        
 	    
 	});  
-
 </script>
 </body>
-</html>
+</html> 

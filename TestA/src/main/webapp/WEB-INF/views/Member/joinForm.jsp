@@ -20,6 +20,7 @@
     color : red;
 	display : none;    
 }
+
 </style>
 <title>회원가입</title>
 <link rel="stylesheet" href="${contextPath}/resources/css/join.css">
@@ -112,9 +113,9 @@ $(document).ready(function(){
 		var pwck = $('.pwck_input').val();
 		var mail = $('.mail_input').val();
 		var tel = $('.tel_input').val();
+		var inputCode = $(".mail_check_input").val(); //입력코드
 		
- 		//id 유효성 검사
-		if(id = ""){
+		if(id == ""){
 			$('.final_id_ck').css("display",'block');
 			idCheck = false;
 		}else{
@@ -158,6 +159,9 @@ $(document).ready(function(){
 			mailCheck = true;
 		}
 		
+		if(inputCode == ""){
+			alert("인증번호를 입력해주세요.");
+		}
         //최종 유효성 검사
 		if(idCheck && pwCheck && pwckCheck && mailCheck){
 			$("#join_form").attr("action", "${contextPath}/member/joinForm.do");
@@ -265,6 +269,7 @@ function mailFormCheck(email){
 	 return form.test(email);
 	 //정규표현식에 부합 할경우 true 아닐경우 false 반환
 }
+
 </script>
 </body>
 </html>

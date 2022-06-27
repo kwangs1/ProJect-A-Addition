@@ -1,18 +1,21 @@
 package Spring.Studey.Test.Member.Service;
 
-import java.util.Map;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import Spring.Studey.Test.Member.Controller.MemberController;
 import Spring.Studey.Test.Member.DAO.MemberDAO;
 import Spring.Studey.Test.Member.VO.MemberVO;
 
 @Service("memberService")
 @Transactional(propagation = Propagation.REQUIRED)
 public class MemberServiceImpl implements MemberService{
+	//private static final Logger log = LoggerFactory.getLogger(MemberController.class);
 
 	@Autowired
 	private MemberDAO memberDAO;
@@ -43,12 +46,12 @@ public class MemberServiceImpl implements MemberService{
 	
 	//modify
 	@Override
-	public void MemberModify(MemberVO memberVO)throws Exception{
-		 memberDAO.MemberModify(memberVO);
+	public void MemberModify_info(MemberVO memberVO)throws Exception{
+		memberDAO.MemberModify_info(memberVO);
 	}
 	//modify(ºñ¹ø)
 	@Override
-	public void MemberModify_info_pw(MemberVO memberVO)throws Exception{
-		 memberDAO.MemberModify_info_pw(memberVO);
+	public void MemberModify_info_pw(MemberVO memberVO)throws Exception{	
+		memberDAO.MemberModify_info_pw(memberVO);
 	}
 }

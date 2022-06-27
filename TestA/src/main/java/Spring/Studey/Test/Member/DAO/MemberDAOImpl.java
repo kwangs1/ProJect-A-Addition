@@ -3,14 +3,19 @@ package Spring.Studey.Test.Member.DAO;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import Spring.Studey.Test.Member.Controller.MemberController;
 import Spring.Studey.Test.Member.VO.MemberVO;
 
 @Repository("memberDAO")
 public class MemberDAOImpl implements MemberDAO{
+	private static final Logger log = LoggerFactory.getLogger(MemberController.class);
 	@Autowired
 	private SqlSession sqlSession;
 	
@@ -43,13 +48,13 @@ public class MemberDAOImpl implements MemberDAO{
 	
 	//modify
 	@Override
-	public void MemberModify(MemberVO memberVO)throws DataAccessException{
-		 sqlSession.update("mapper.member.MemberModify",memberVO);
+	public void MemberModify_info(MemberVO memberVO)throws DataAccessException{
+		sqlSession.update("mapper.member.MemberModify_info",memberVO);
 	}
 	
 	//modify(ºñ¹ø)
 	@Override
 	public void MemberModify_info_pw(MemberVO memberVO)throws DataAccessException{
-		 sqlSession.update("mapper.member.MemberModify_info_pw",memberVO);
+		sqlSession.update("mapper.member.MemberModify_info_pw",memberVO);
 	}
 }
