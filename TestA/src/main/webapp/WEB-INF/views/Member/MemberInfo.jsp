@@ -11,6 +11,7 @@
 </head>
 <body>
 	<h2>회원 정보 상세 페이지</h2>
+<form id="MemberInfo" method="get">
 		<table border="1" width="400px">
 			<tr>
 				<td>아이디</td>
@@ -27,6 +28,6 @@
 		</table>
 			<a href="${Path}/member/MemberModify_pw.do">☞비밀번호 변경</a>
 			<a href="${Path}/member/MemberModify_info.do">☞회원 정보 변경</a>
-
+</form>
 </body>
 </html>

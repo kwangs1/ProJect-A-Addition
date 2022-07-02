@@ -1,5 +1,6 @@
 package Spring.Studey.Test.Member.Controller;
 
+
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -15,6 +16,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,13 +34,11 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	@Autowired
 	private MemberService memberService;
 	@Autowired
-	private MemberVO memberVO;
-	@Autowired
 	private JavaMailSender mailSender;
 	@Autowired
 	private BCryptPasswordEncoder pwEncoder;
 	
-	//È¸¿ø°¡ÀÔGET
+	//íšŒì›ê°€ì…GET
 	@RequestMapping(value="/joinForm.do",method= RequestMethod.GET)
 	public ModelAndView joinMember(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		String viewName = (String)request.getAttribute("viewName");
@@ -47,49 +47,49 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		return mav;
 	}
 	
-	//È¸¿ø°¡ÀÔPOST
+	//íšŒì›ê°€ì…POST
 	@Override
 	@RequestMapping(value="/joinForm.do",method=RequestMethod.POST)
 	public ModelAndView JoinMember(@ModelAttribute("memberVO")MemberVO memberVO,
 				HttpServletRequest request,HttpServletResponse response)throws Exception{
 		
-		String rawPw = ""; //ÀÎÄÚµù Àü pw
-		String encodePw = ""; //ÀÎÄÚµù ÈÄ pw
+		String rawPw = ""; //ì¸ì½”ë”© ì „ pw
+		String encodePw = ""; //ì¸ì½”ë”© í›„ pw
 		
-		rawPw = memberVO.getPw(); // pwµ¥ÀÌÅÍ ¾òÀ½
-		logger.info("ºñ¹ø ÀÎÄÚµù Àü:"+rawPw);
+		rawPw = memberVO.getPw(); // pwë°ì´í„° ì–»ìŒ
+		logger.info("ë¹„ë²ˆ ì¸ì½”ë”© ì „:"+rawPw);
 		
-		encodePw = pwEncoder.encode(rawPw); // pw ÀÎÄÚµù
-		memberVO.setPw(encodePw); //ÀÎÄÚµù µÈ pw memberVO°´Ã¼¿¡ ´Ù½Ã ÀúÀå
-		logger.info("ºñ¹ø ÀÎÄÚµù ÈÄ:"+encodePw);
+		encodePw = pwEncoder.encode(rawPw); // pw ì¸ì½”ë”©
+		memberVO.setPw(encodePw); //ì¸ì½”ë”© ëœ pw memberVOê°ì²´ì— ë‹¤ì‹œ ì €ì¥
+		logger.info("ë¹„ë²ˆ ì¸ì½”ë”© í›„:"+encodePw);
 		
 		int result =  memberService.JoinMember(memberVO);
 		ModelAndView mav = new ModelAndView("redirect:/member/login.do");
 		return mav;
 	}
 	
-	//È¸¿ø°¡ÀÔ ÀÌ¸ŞÀÏ ÀÎÁõ
+	//íšŒì›ê°€ì… ì´ë©”ì¼ ì¸ì¦
 	@RequestMapping(value="/mailCheck.do" ,method=RequestMethod.POST)
 	@ResponseBody
 	public String mailCheck(String email)throws Exception{
 		
-		logger.info("ÀÌ¸ŞÀÏ µ¥ÀÌÅÍ Àü¼ÛÈ®ÀÎ");
-		//logger.info("ÀÎÁõ¹øÈ£ :" + email);
+		logger.info("ì´ë©”ì¼ ë°ì´í„° ì „ì†¡í™•ì¸");
+		//logger.info("ì¸ì¦ë²ˆí˜¸ :" + email);
 		
-		//ÀÎÁõ¹øÈ£(³­¼ö)»ı¼º
+		//ì¸ì¦ë²ˆí˜¸(ë‚œìˆ˜)ìƒì„±
 		Random random = new Random();
-		int checkNum = random.nextInt(888888)+ 11111; //11111 ~ 99999 ³­¼ö ¾ò±âÀ§ÇØ 
-		logger.info("ÀÎÁõ¹øÈ£:" + checkNum);
+		int checkNum = random.nextInt(888888)+ 11111; //11111 ~ 99999 ë‚œìˆ˜ ì–»ê¸°ìœ„í•´ 
+		logger.info("ì¸ì¦ë²ˆí˜¸:" + checkNum);
 		
-		//ÀÌ¸ŞÀÏ º¸³»±â
-		String setFrom= "cckwang2345@naver.com";//xml¿¡ »ğÀÔÇÑ ÀÚ½ÅÀÇ °èÁ¤
-		String toMail = email; //¼ö½Å¹ŞÀ» ÀÌ¸ŞÀÏ
-		String title = "È¸¿ø°¡ÀÔ ÀÎÁõ ¸ŞÀÏ";//ÀÌ¸ŞÀÏ Á¦¸ñ
-		String content = "È¨ÆäÀÌÁö¸¦ ¹æ¹®ÇØÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù."
+		//ì´ë©”ì¼ ë³´ë‚´ê¸°
+		String setFrom= "cckwang2345@naver.com";//xmlì— ì‚½ì…í•œ ìì‹ ì˜ ê³„ì •
+		String toMail = email; //ìˆ˜ì‹ ë°›ì„ ì´ë©”ì¼
+		String title = "íšŒì›ê°€ì… ì¸ì¦ ë©”ì¼";//ì´ë©”ì¼ ì œëª©
+		String content = "í™ˆí˜ì´ì§€ë¥¼ ë°©ë¬¸í•´ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤."
 				+"<br><br>"
-				+"ÀÎÁõ¹øÈ£´Â" + checkNum + "ÀÔ´Ï´Ù"
+				+"ì¸ì¦ë²ˆí˜¸ëŠ”" + checkNum + "ì…ë‹ˆë‹¤"
 				+"<br>"
-				+"ÇØ´ç ÀÎÁõ¹øÈ£¸¦ ÀÎÁõ¹øÈ£ È®ÀÎ¶õ¿¡ ±âÀÔÇØÁÖ¼¼¿ä.";
+				+"í•´ë‹¹ ì¸ì¦ë²ˆí˜¸ë¥¼ ì¸ì¦ë²ˆí˜¸ í™•ì¸ë€ì— ê¸°ì…í•´ì£¼ì„¸ìš”.";
         try {         
         	MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
@@ -107,14 +107,14 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		return num;
 	}
 
-	//id Áßº¹°Ë»ç
+	//id ì¤‘ë³µê²€ì‚¬
 	@RequestMapping(value="IdCheck.do" , method = RequestMethod.POST)
 	@ResponseBody
 	public String memberIdChk(String id)throws Exception{
-		/* logger.info("ÁøÀÔ"); */
+		/* logger.info("ì§„ì…"); */
 		
-		int result = memberService.idCheck(id); // memberService.idCheckÀÇ °á°ú¸¦ intÇü º¯¼ö result¿¡ ÀúÀå
-		if(result != 0) { //id°¡ Á¸ÀçÇÏ¸é '1' , Á¸ÀçÇÏÁö ¾ÊÀ¸¸é '0' ¹İÈ¯
+		int result = memberService.idCheck(id); // memberService.idCheckì˜ ê²°ê³¼ë¥¼ intí˜• ë³€ìˆ˜ resultì— ì €ì¥
+		if(result != 0) { //idê°€ ì¡´ì¬í•˜ë©´ '1' , ì¡´ì¬í•˜ì§€ ì•Šìœ¼ë©´ '0' ë°˜í™˜
 			return "fail";
 		}else {
 			return "success";
@@ -133,19 +133,19 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		
 		MemberVO vo = memberService.login(memberVO);
 		
-		if(vo != null) { //ÀÏÄ¡ÇÏ´Â ¾ÆÀÌµğ Á¸Àç½Ã
-			rawPw = memberVO.getPw(); //»ç¿ëÀÚ°¡ Á¦ÃâÇÑ pw
-			encodePw = vo.getPw(); //db¿¡ ÀúÀåÇÑ ÀÎÄÚµùµÈ pw
+		if(vo != null) { //ì¼ì¹˜í•˜ëŠ” ì•„ì´ë”” ì¡´ì¬ì‹œ
+			rawPw = memberVO.getPw(); //ì‚¬ìš©ìê°€ ì œì¶œí•œ pw
+			encodePw = vo.getPw(); //dbì— ì €ì¥í•œ ì¸ì½”ë”©ëœ pw
 			
-			if(true == pwEncoder.matches(rawPw, encodePw)) { //pw ÀÏÄ¡¿©ºÎ ÆÇ´Ü
-				vo.setPw(""); //ÀÎÄÚµù µÈ pw Áö¿ò
-				session.setAttribute("memberVO", vo); // session¿¡ »ç¿ëÀÚÀÇ Á¤º¸ ÀúÀå
+			if(true == pwEncoder.matches(rawPw, encodePw)) { //pw ì¼ì¹˜ì—¬ë¶€ íŒë‹¨
+				vo.setPw(""); //ì¸ì½”ë”© ëœ pw ì§€ì›€
+				session.setAttribute("memberVO", vo); // sessionì— ì‚¬ìš©ìì˜ ì •ë³´ ì €ì¥
 				return "redirect:/main/main.do";
 			}else {
 				rttr.addFlashAttribute("result",0); 
 				return "redirect:/member/login.do";
 			}
-		}else { //ÀÏÄ¡ÇÏ´Â ¾ÆÀÌµğ°¡ Á¸ÀçÇÏÁö ¾ÊÀ»½Ã
+		}else { //ì¼ì¹˜í•˜ëŠ” ì•„ì´ë””ê°€ ì¡´ì¬í•˜ì§€ ì•Šì„ì‹œ
 			rttr.addFlashAttribute("result",0); 
 			return "redirect:/member/login.do";
 		}
@@ -155,7 +155,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	@RequestMapping(value="/logout.do", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request)throws Exception{
 		
-        logger.info("logout¸Ş¼­µå ÁøÀÔ");
+        logger.info("logoutë©”ì„œë“œ ì§„ì…");
 		HttpSession session = request.getSession();
 		session.invalidate();
 		
@@ -166,15 +166,15 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	@RequestMapping(value="/MemberInfo.do" , method = RequestMethod.GET)
 	public ModelAndView memberinfo(HttpServletRequest request)throws Exception{
 		String viewName = (String)request.getAttribute("viewName");
-		
-		memberVO = memberService.MemberInfo();
+
+		memberService.MemberInfo();
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName(viewName);
 
 		return mav;
 	}
 	
-	//modify(ºñ¹ø Á¦¿Ü)Get
+	//modify(ë¹„ë²ˆ ì œì™¸)Get
 	@RequestMapping(value="/MemberModify.do" , method = RequestMethod.GET)
 	public ModelAndView MemberModify(HttpServletRequest request)throws Exception{
 		
@@ -184,7 +184,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		
 		return mav;
 	}
-	//modify(ºñ¹ø Á¦¿Ü)post
+	//modify(ë¹„ë²ˆ ì œì™¸)post
 	@RequestMapping(value="/MemberModify_info.do" , method = RequestMethod.POST)
 	public ModelAndView MemberModify_info(HttpServletRequest request,@ModelAttribute MemberVO vo)throws Exception{
 		HttpSession session = request.getSession();
@@ -197,10 +197,8 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		
 		return mav;
 	}
-	
-	
-	
-	//modify(ºñ¹ø)
+
+	//modify(ë¹„ë²ˆ get)
 	@RequestMapping(value="/MemberModify_pw.do" , method = RequestMethod.GET)
 	public ModelAndView MemberModify_pw(HttpServletRequest request)throws Exception{
 		
@@ -211,24 +209,17 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 		return mav;
 	}
 	
-	//modify(ºñ¹ø)
+	//modify(ë¹„ë²ˆ post)
 	@RequestMapping(value="/MemberModify_info_pw.do" , method = RequestMethod.POST)
-	public ModelAndView MemberModify_info_pw(@ModelAttribute MemberVO vo,HttpSession session)throws Exception{
-		
-		String rawPw = vo.getPw(); // pwµ¥ÀÌÅÍ ¾òÀ½
-		logger.info("ºñ¹ø ¼öÁ¤ Àü:" + rawPw);
-		
-		String encodePw = pwEncoder.encode(rawPw); // pw ÀÎÄÚµù
-		vo.setPw(encodePw); //ÀÎÄÚµù µÈ pw memberVO°´Ã¼¿¡ ´Ù½Ã ÀúÀå
-		logger.info("ºñ¹ø ¼öÁ¤ ÈÄ:" + encodePw);
-
+	public ModelAndView MemberModify_info_pw(@ModelAttribute MemberVO vo, HttpSession session)throws Exception{	
+		logger.info("ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ ok");
 		memberService.MemberModify_info_pw(vo);
-		
+
 		session.invalidate();
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("redirect:/member/login.do");
-
 		
 		return mav;
 	}
+
 }

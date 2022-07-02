@@ -55,7 +55,7 @@
 </update>
 
 <!-- 회원정보  비번 수정 -->
-<update id="MemberModify_info_pw">
+<update id="MemberModify_info_pw" parameterType="memberVO">
 	<![CDATA[
 		update member
 		set

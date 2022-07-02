@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <c:set var="Path" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
@@ -9,9 +10,15 @@
 <meta charset="UTF-8">
 <style>
 .final_pw_ck {
+	color : red;
 	display: none;
 }
 .final_pwck_ck {
+	color : red;
+	display: none;
+}
+.final_Cur_pw_ck {
+	color : red;
 	display: none;
 }
 .pwck_input_re_1{
@@ -28,7 +35,15 @@
 <body>
 	<h2>회원 정보 상세 페이지</h2>
 	<form name="form" method="post">
-	 	<input  type="password" value="${memberVO.pw}" placeholder="현재 비밀번호" />
+<%-- 		<div class="Cur_pw_wrap">
+			<div class="Cur_pw_name"></div>
+			<div class="Cur_pw_input_box">
+				<input  class="Cur_Pw" type="password" value="${memberVO.pw}" placeholder="현재 비밀번호" />			
+			</div> 
+			<span class="final_Cur_pw_ck">현재 비밀번호가 일치하지 않습니다.</span>
+		</div> --%>
+	 	
+	 	
 		<div class="pw_wrap">
 			<div class="pw_name"></div>
 			<div class="pw_input_box">
@@ -53,15 +68,17 @@
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-var pwCheck = false; //비번
-var pwckCheck = false;//비번확인
+
+var pwCheck = false; //새로운 비번
+var pwckCheck = false;//새로운 비번확인
 var pwckcorCheck = false; //비번확인 일치 확인
 
 	$(document).ready(function(){
 		$('#btnUpdate').click(function(){
 			var pw = $('.pw_input').val();
 			var pwck = $('.pwck_input').val();
-			//비밀번호 유효성 검사
+			
+			//새 비밀번호 유효성 검사
 			if(pw == ""){
 				$('.final_pw_ck').css('display','block');
 				pwCheck = false;
@@ -70,7 +87,7 @@ var pwckcorCheck = false; //비번확인 일치 확인
 				pwCheck = true;
 			}
 			
-			//비밀번호 확인 유효성 검사
+			//새 비밀번호 확인 유효성 검사
 			if(pwck == ""){
 				$('.final_pwck_ck').css('display','block');
 				pwckCheck = false;
@@ -78,6 +95,7 @@ var pwckcorCheck = false; //비번확인 일치 확인
 				$('.final_pwck_ck').css('display', 'none');
 				pwckCheck = true;
 			}
+			
 			
 			if(pwCheck && pwckCheck){
 				document.form.action = "${Path}/member/MemberModify_info_pw.do";
@@ -105,7 +123,7 @@ var pwckcorCheck = false; //비번확인 일치 확인
 	        pwckcorCheck = false;
 	    }        
 	    
-	});  
+	}); 
 </script>
 </body>
 </html> 

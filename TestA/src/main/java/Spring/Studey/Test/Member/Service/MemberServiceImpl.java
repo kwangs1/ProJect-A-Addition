@@ -15,10 +15,11 @@ import Spring.Studey.Test.Member.VO.MemberVO;
 @Service("memberService")
 @Transactional(propagation = Propagation.REQUIRED)
 public class MemberServiceImpl implements MemberService{
-	//private static final Logger log = LoggerFactory.getLogger(MemberController.class);
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	@Autowired
 	private MemberDAO memberDAO;
+	
 	
 	//회원가입
 	@Override
@@ -38,7 +39,7 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.login(memberVO);
 	}
 	
-	//info
+	//detail
 	@Override
 	public MemberVO MemberInfo()throws Exception{
 		return memberDAO.MemberInfo();
@@ -51,7 +52,17 @@ public class MemberServiceImpl implements MemberService{
 	}
 	//modify(비번)
 	@Override
-	public void MemberModify_info_pw(MemberVO memberVO)throws Exception{	
+	public void MemberModify_info_pw(MemberVO memberVO)throws Exception{
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String rawPw = memberVO.getPw(); // pw데이터 얻음
+		logger.info("비번 수정 전:" + rawPw);
+		
+		String encodePw = encoder.encode(rawPw); // pw 인코딩
+		memberVO.setPw(encodePw); //인코딩 된 pw memberVO객체에 다시 저장
+		logger.info("비번 수정 후:" + encodePw);
+
 		memberDAO.MemberModify_info_pw(memberVO);
 	}
+
 }
