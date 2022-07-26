@@ -25,4 +25,10 @@ public class BoardDAOImpl implements BoardDAO{
 	public BoardVO detail(int bno)throws DataAccessException {
 		return session.selectOne("mapper.board.detail", bno);
 	}
+	
+	@Override
+	public void UpdateReplyCount(int bno)throws DataAccessException{
+		 session.update("mapper.board.UpdateReplyCount", bno);
+		
+	}
 }

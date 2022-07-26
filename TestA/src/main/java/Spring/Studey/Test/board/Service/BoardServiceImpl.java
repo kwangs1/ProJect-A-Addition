@@ -24,4 +24,10 @@ public class BoardServiceImpl implements BoardService{
 		BoardVO vo = boardDAO.detail(bno);
 		return vo;
 	}
+	
+	@Override
+	public void UpdateReplyCount(int bno)throws Exception{
+		 boardDAO.UpdateReplyCount(bno);
+
+	}
 }

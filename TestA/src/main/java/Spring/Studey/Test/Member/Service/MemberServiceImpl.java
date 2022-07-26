@@ -53,7 +53,7 @@ public class MemberServiceImpl implements MemberService{
 	//modify(비번)
 	@Override
 	public void MemberModify_info_pw(MemberVO memberVO)throws Exception{
-		
+		logger.info("pw변경 service 들어옴");
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String rawPw = memberVO.getPw(); // pw데이터 얻음
 		logger.info("비번 수정 전:" + rawPw);

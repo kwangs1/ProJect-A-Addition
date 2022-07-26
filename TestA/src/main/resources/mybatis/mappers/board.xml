@@ -8,6 +8,7 @@
 		<result property="bno" column="bno" />
 		<result property="title" column="title" />
 		<result property="content" column="content" />
+		<result property="reply_count" column="reply_count" />
 	</resultMap>
 	
 <select id="list" resultMap="boardResult" parameterType="java.util.Map">
@@ -24,4 +25,11 @@
 	]]>
 </select>
 
+<update id="UpdateReplyCount" parameterType="int">
+	<![CDATA[
+		update board b
+		set b.reply_count = (select count(rno)from b_reply where bno = #{bno})
+		where b.bno = #{bno}
+	]]>
+</update>
 </mapper>

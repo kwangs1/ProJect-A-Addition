@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Spring.Studey.Test.board.Service.BoardService;
 import Spring.Studey.Test.board.VO.BoardVO;
-import Spring.Studey.Test.common.Reply.Service.ReplyService;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 import Spring.Studey.Test.common.base.BaseController;
 
@@ -31,17 +30,19 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 	private BoardService boardService;
 	@Autowired
 	private BoardVO boardVO;
-	@Autowired
-	private ReplyService replyService;
 	
 	//±Û ¸ñ·Ï
 	@RequestMapping(value="list.do" , method = RequestMethod.GET)
-	public ModelAndView list(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView list(@RequestParam("bno")int bno,
+			HttpServletRequest request, HttpServletResponse response)throws Exception{
 		
 		String viewName = getViewName(request);
 		ModelAndView mav = new ModelAndView(viewName);
 		List<Map<String,Object>>list =  boardService.list();
+
+		boardService.UpdateReplyCount(bno);
 		
+
 		mav.addObject("list",list);
 		
 		return mav;

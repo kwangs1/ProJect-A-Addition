@@ -16,7 +16,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,6 +36,7 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	private JavaMailSender mailSender;
 	@Autowired
 	private BCryptPasswordEncoder pwEncoder;
+
 	
 	//회원가입GET
 	@RequestMapping(value="/joinForm.do",method= RequestMethod.GET)
@@ -212,7 +212,6 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	//modify(비번 post)
 	@RequestMapping(value="/MemberModify_info_pw.do" , method = RequestMethod.POST)
 	public ModelAndView MemberModify_info_pw(@ModelAttribute MemberVO vo, HttpSession session)throws Exception{	
-		logger.info("비밀번호 변경 ok");
 		memberService.MemberModify_info_pw(vo);
 
 		session.invalidate();
