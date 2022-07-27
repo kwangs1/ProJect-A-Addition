@@ -212,8 +212,8 @@ public class MemberControllerImpl extends BaseController implements MemberContro
 	//modify(비번 post)
 	@RequestMapping(value="/MemberModify_info_pw.do" , method = RequestMethod.POST)
 	public ModelAndView MemberModify_info_pw(@ModelAttribute MemberVO vo, HttpSession session)throws Exception{	
+	
 		memberService.MemberModify_info_pw(vo);
-
 		session.invalidate();
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("redirect:/member/login.do");

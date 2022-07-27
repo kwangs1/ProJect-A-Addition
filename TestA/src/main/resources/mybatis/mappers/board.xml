@@ -32,4 +32,12 @@
 		where b.bno = #{bno}
 	]]>
 </update>
+
+<select id="findLike" resultType="int">
+	<![CDATA[
+		select count(*) from board_like 
+		where bno = #{bno}
+		and id = #{id}
+	]]>
+</select>
 </mapper>

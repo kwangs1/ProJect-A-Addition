@@ -15,4 +15,8 @@ public interface BoardDAO {
 	
 	void UpdateReplyCount(int bno) throws DataAccessException;
 
+	BoardVO findLike(int bno, String id) throws DataAccessException;
+
+	BoardVO getLike(int bno) throws DataAccessException;
+
 }

@@ -12,4 +12,8 @@ public interface BoardService {
 	BoardVO detail(int bno) throws Exception;
 
 	void UpdateReplyCount(int bno) throws Exception;
+
+	BoardVO getLike(int bno) throws Exception;
+
+	BoardVO findLike(int bno, String id) throws Exception;
 }

@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import Spring.Studey.Test.board.Service.BoardService;
 import Spring.Studey.Test.board.VO.BoardVO;
+import Spring.Studey.Test.board.VO.LikeVO;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 import Spring.Studey.Test.common.base.BaseController;
 
@@ -46,10 +47,15 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 	
 	//상세보기
 	@RequestMapping(value = "detail.do" , method = RequestMethod.GET)
-	public ModelAndView detail(@RequestParam("bno")int bno, @ModelAttribute("board") BoardVO board,
-			@ModelAttribute("replyVO")ReplyVO replyVO, //댓글, 대댓글으 값들을 게시판 상세보기에서 가져오게 하기위해서
+	public ModelAndView detail(@RequestParam("bno")int bno, @RequestParam("id")String id,
+			@ModelAttribute("board") BoardVO board,	@ModelAttribute("replyVO")ReplyVO replyVO, //댓글, 대댓글으 값들을 게시판 상세보기에서 가져오게 하기위해서
 			HttpServletRequest request, HttpServletResponse response)throws Exception{
-	
+		
+		//좋아요 기능을 위해 likeVO객체 선언
+		LikeVO like = new LikeVO();
+		like.setBno(bno);
+		like.setId(id);
+		
 		String viewName = (String)request.getAttribute("viewName");
 		ModelAndView mav = new ModelAndView();
 		
@@ -57,6 +63,9 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		
 		mav.setViewName(viewName);
 		mav.addObject("detail", board);
+		//좋아요 기능
+		mav.addObject("like",boardService.findLike(bno,id));
+		mav.addObject("getlike",boardService.getLike(bno));
 
 		return mav;
 	}

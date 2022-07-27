@@ -29,4 +29,17 @@ public class BoardServiceImpl implements BoardService{
 	public void UpdateReplyCount(int bno) throws Exception {
 		boardDAO.UpdateReplyCount(bno);
 	}
+	
+	@Override
+	public BoardVO findLike(int bno, String id)throws Exception{
+		BoardVO vo = boardDAO.findLike(bno,id);
+		return vo;
+	}
+	
+
+	@Override
+	public BoardVO getLike(int bno)throws Exception{
+		BoardVO vo = boardDAO.getLike(bno);
+		return vo;
+	}
 }
