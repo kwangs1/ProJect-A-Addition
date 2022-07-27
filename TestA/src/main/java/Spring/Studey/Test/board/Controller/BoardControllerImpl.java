@@ -33,15 +33,11 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 	
 	//±Û ¸ñ·Ï
 	@RequestMapping(value="list.do" , method = RequestMethod.GET)
-	public ModelAndView list(@RequestParam("bno")int bno,
-			HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView list(HttpServletRequest request, HttpServletResponse response)throws Exception{
 		
 		String viewName = getViewName(request);
 		ModelAndView mav = new ModelAndView(viewName);
 		List<Map<String,Object>>list =  boardService.list();
-
-		boardService.UpdateReplyCount(bno);
-		
 
 		mav.addObject("list",list);
 		

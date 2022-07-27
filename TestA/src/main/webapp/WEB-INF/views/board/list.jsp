@@ -35,7 +35,7 @@
 					<td>
 						<a href='<c:url value='/board/detail.do?bno=${list.bno }'/>'>${list.title}
 							<c:if test="${list.reply_count != 0 }">
-								<small><b>[&nbsp;<c:out value="${list.reply_count}"/>&nbsp;]</b></small>
+								<span><b>[&nbsp;<c:out value="${list.reply_count}"/>&nbsp;]</b></span>
 							</c:if>
 						</a>
 					</td>	

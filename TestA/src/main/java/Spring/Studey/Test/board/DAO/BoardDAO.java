@@ -12,7 +12,7 @@ public interface BoardDAO {
 	List<Map<String, Object>> list()throws DataAccessException;
 
 	BoardVO detail(int bno) throws DataAccessException;
-
+	
 	void UpdateReplyCount(int bno) throws DataAccessException;
 
 }

@@ -34,5 +34,4 @@ public class BoardVO {
 		this.reply_count = reply_count;
 	}
 	
-	
 }

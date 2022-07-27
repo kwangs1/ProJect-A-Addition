@@ -4,8 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import Spring.Studey.Test.board.VO.BoardVO;
+import Spring.Studey.Test.board.DAO.BoardDAO;
 import Spring.Studey.Test.common.Reply.DAO.ReplyDAO;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 
@@ -14,6 +15,9 @@ public class ReplyServiceImpl implements ReplyService{
 	
 	@Autowired
 	private ReplyDAO replyDAO;
+	@Autowired
+	private BoardDAO boardDAO;
+
 	
 	//´ñ±Û¸®½ºÆ®
 	@Override
@@ -52,4 +56,5 @@ public class ReplyServiceImpl implements ReplyService{
 	public int UpdateReReply(ReplyVO replyVO)throws Exception{
 		return replyDAO.updateReply(replyVO);
 	}
+
 }

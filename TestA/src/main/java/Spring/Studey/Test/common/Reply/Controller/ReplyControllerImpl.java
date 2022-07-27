@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import Spring.Studey.Test.board.VO.BoardVO;
+import Spring.Studey.Test.board.Service.BoardService;
 import Spring.Studey.Test.common.Reply.Service.ReplyService;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 import Spring.Studey.Test.common.base.BaseController;
@@ -29,11 +27,14 @@ public class ReplyControllerImpl extends BaseController implements ReplyControll
 
 	@Autowired
 	private ReplyService replyService;
+	@Autowired
+	private BoardService boardService;
 
 	// ´ñ±Û¸ñ·Ï
 	@Override
 	@RequestMapping(value = "/getReplyList.do", method = RequestMethod.POST)
 	public List<ReplyVO> getReplyList(@RequestParam("bno") int bno) throws Exception {
+		boardService.UpdateReplyCount(bno);
 		return replyService.getReplyList(bno);
 	}
 

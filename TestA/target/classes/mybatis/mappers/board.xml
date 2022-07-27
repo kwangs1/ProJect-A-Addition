@@ -28,7 +28,7 @@
 <update id="UpdateReplyCount" parameterType="int">
 	<![CDATA[
 		update board b
-		set b.reply_count = (select count(rno)from b_reply where bno = #{bno})
+		set b.reply_count = (select count(rno) from b_reply where bno = #{bno})
 		where b.bno = #{bno}
 	]]>
 </update>

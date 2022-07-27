@@ -20,4 +20,5 @@ public interface ReplyDAO {
 	int WriteReReply(ReplyVO replyVO) throws DataAccessException;
 
 	int UpdateReReply(ReplyVO replyVO) throws DataAccessException;
+
 }

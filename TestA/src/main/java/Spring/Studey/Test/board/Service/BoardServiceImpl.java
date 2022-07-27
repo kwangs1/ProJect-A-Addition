@@ -26,8 +26,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public void UpdateReplyCount(int bno)throws Exception{
-		 boardDAO.UpdateReplyCount(bno);
-
+	public void UpdateReplyCount(int bno) throws Exception {
+		boardDAO.UpdateReplyCount(bno);
 	}
 }

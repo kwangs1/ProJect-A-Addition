@@ -65,4 +65,5 @@ public class ReplyDAOImpl implements ReplyDAO {
 	public int UpdateReReply(ReplyVO replyVO) throws DataAccessException {
 		return session.update("mapper.reply.ReReply_update", replyVO);
 	}
+
 }
