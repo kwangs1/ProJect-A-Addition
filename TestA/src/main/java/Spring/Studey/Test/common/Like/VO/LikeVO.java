@@ -1,4 +1,4 @@
-package Spring.Studey.Test.board.VO;
+package Spring.Studey.Test.common.Like.VO;
 
 import org.springframework.stereotype.Component;
 
@@ -8,6 +8,8 @@ public class LikeVO {
 	private int bno;
 	private String id;
 	private int likenum;
+	private int like_type;
+	
 	public int getLike_no() {
 		return like_no;
 	}
@@ -31,6 +33,12 @@ public class LikeVO {
 	}
 	public void setLikenum(int likenum) {
 		this.likenum = likenum;
+	}
+	public int getLike_type() {
+		return like_type;
+	}
+	public void setLike_type(int like_type) {
+		this.like_type = like_type;
 	}
 	
 	

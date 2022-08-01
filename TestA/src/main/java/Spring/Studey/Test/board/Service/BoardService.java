@@ -3,7 +3,9 @@ package Spring.Studey.Test.board.Service;
 import java.util.List;
 import java.util.Map;
 
+import Spring.Studey.Test.Member.VO.MemberVO;
 import Spring.Studey.Test.board.VO.BoardVO;
+import Spring.Studey.Test.common.Like.VO.LikeVO;
 
 public interface BoardService {
 
@@ -13,7 +15,8 @@ public interface BoardService {
 
 	void UpdateReplyCount(int bno) throws Exception;
 
-	BoardVO getLike(int bno) throws Exception;
+	int findLike(int bno, String id);
 
-	BoardVO findLike(int bno, String id) throws Exception;
+	int getLike(int bno);
+
 }

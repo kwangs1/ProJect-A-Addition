@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="mapper.like">	
+	<resultMap type="LikeVO" id="LikeResult">
+		<result property="like_no" column="like_no" />
+		<result property="bno" column="bno" />
+		<result property="id" column="id" />
+		<result property="likenum" column="likenum" />
+		<result property="like_type" column="like_type" />
+	</resultMap>
+
+
+<insert id="likeUp">
+	<![CDATA[
+		insert into board_like (like_no ,bno , id, likenum)
+		values((select nvl(max(like_no)+1,0) from board_like), #{bno}, #{id}, 1)		
+	]]>
+</insert>
+
+<delete id="likeDown" >
+	<![CDATA[
+		delete from board_like where bno = #{bno} and id = #{id}
+	]]>
+</delete>
+</mapper>

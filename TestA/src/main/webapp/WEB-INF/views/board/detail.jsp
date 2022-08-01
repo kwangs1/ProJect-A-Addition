@@ -31,6 +31,8 @@
 		</tr>
 		</tbody>
 	</table>
+		<button type="button" class="btn btn-primary CancleBtn LikeBtn">좋아요</button>
+		
 
 		<div class="Reply" style="padding-top: 10px">			
 		
@@ -364,6 +366,51 @@ $(document).ready(function(){
 		getReplyList();
 	});
 });
+
+//좋아요
+var likeval = ${like};
+
+	let bno = ${board.bno};
+	let id = '${memberVO.id}';
+
+	if(likeval > 0){
+		console.log(likeval + "......좋아요 누름");
+
+		$('.LikeBtn').html("좋아요 취소");
+		$('.LikeBtn').click(function(){
+			$.ajax({
+				type : 'post'
+			   ,url : '${Path}/like/likeDown.do'
+			   ,contentType: 'application/json'
+			   ,data : JSON.stringify({
+				   "bno" : bno,
+				   "id" :id
+			   }),
+			 success : function(data){
+				 alert('취소 성공');
+			 	}
+			});//end ajax
+		})
+	}else{
+		console.log(likeval + ".....좋아요 안누름")
+		console.log(id);
+		$('.LikeBtn').click(function() {
+			$.ajax({
+				type :'post',
+				url : '${Path}/like/likeUp.do',
+				contentType: 'application/json',
+				data : JSON.stringify(
+						{
+							   "bno" : bno,
+							   "id" :id
+						}		
+					),
+				success : function(data) {
+					alert('성공염');
+				}
+			})//end ajax
+		})	
+}
 </script>
 </body>
 </html>

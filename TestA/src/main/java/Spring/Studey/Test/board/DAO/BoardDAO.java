@@ -5,7 +5,9 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
+import Spring.Studey.Test.Member.VO.MemberVO;
 import Spring.Studey.Test.board.VO.BoardVO;
+import Spring.Studey.Test.common.Like.VO.LikeVO;
 
 public interface BoardDAO {
 
@@ -15,8 +17,7 @@ public interface BoardDAO {
 	
 	void UpdateReplyCount(int bno) throws DataAccessException;
 
-	BoardVO findLike(int bno, String id) throws DataAccessException;
+	int findLike(Map<String, Object> data) throws DataAccessException;
 
-	BoardVO getLike(int bno) throws DataAccessException;
-
+	int getLike(Map<String, Object> data) throws DataAccessException;
 }

@@ -3,7 +3,6 @@ package Spring.Studey.Test.board.DAO;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -33,12 +32,12 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	
 	@Override
-	public BoardVO findLike(int bno, String id)throws DataAccessException {
-		return (BoardVO) session.selectMap("mapper.board.findLike", bno, id);
+	public int findLike(Map<String, Object>data)throws DataAccessException{
+		 return  session.selectOne("mapper.board.findLike",data);
 	}
-	
 	@Override
-	public BoardVO getLike(int bno)throws DataAccessException {
-		return session.selectOne("mapper.board.detail", bno);
+	public int getLike(Map<String, Object>data)throws DataAccessException{
+		 return  session.selectOne("mapper.board.getLike",data);
 	}
+
 }

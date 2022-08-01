@@ -1,5 +1,6 @@
 package Spring.Studey.Test.board.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import Spring.Studey.Test.board.DAO.BoardDAO;
 import Spring.Studey.Test.board.VO.BoardVO;
+import Spring.Studey.Test.common.Like.VO.LikeVO;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService{
@@ -31,15 +33,17 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	@Override
-	public BoardVO findLike(int bno, String id)throws Exception{
-		BoardVO vo = boardDAO.findLike(bno,id);
-		return vo;
+	public int findLike(int bno, String id){
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("bno", bno);
+		map.put("id", id);
+		return boardDAO.findLike(map);
 	}
 	
-
 	@Override
-	public BoardVO getLike(int bno)throws Exception{
-		BoardVO vo = boardDAO.getLike(bno);
-		return vo;
+	public int getLike(int bno){
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("bno", bno);
+		return boardDAO.getLike(map);
 	}
 }
