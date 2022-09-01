@@ -20,27 +20,21 @@ public class LikeControllerImpl extends BaseController implements LikeController
 	//좋아요 기능
 	@RequestMapping(value="/likeUp.do", method = RequestMethod.POST)
 	public void likeup(@RequestBody LikeVO like) {
-		try {
 			System.out.println("컨트롤러 연결 성공..좋아요 성공!");
 			System.out.println(like.getBno());
 			System.out.println(like.getId());
-			likeService.likeUp(like.getBno(),like.getId());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			System.out.println(like.getLike_type());
+			likeService.likeUp(like.getBno(),like.getId(),like.getLike_type());
+
 	}
 	
 	@RequestMapping(value="/likeDown.do", method = RequestMethod.POST)
 	public void likeDown(@RequestBody LikeVO like) {
-		try {
 			System.out.println("컨트롤러 연결 성공..좋아요 취소!");
 			System.out.println(like.getBno());
 			System.out.println(like.getId());
-			likeService.likeDown(like.getBno(),like.getId());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			System.out.println(like.getLike_type());
+			likeService.likeDown(like.getBno(),like.getId(),like.getLike_type());
+
 	}
 }

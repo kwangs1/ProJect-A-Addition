@@ -30,14 +30,5 @@ public class BoardDAOImpl implements BoardDAO{
 	public void UpdateReplyCount(int bno)throws DataAccessException{
 		 session.update("mapper.board.UpdateReplyCount", bno);		
 	}
-	
-	@Override
-	public int findLike(Map<String, Object>data)throws DataAccessException{
-		 return  session.selectOne("mapper.board.findLike",data);
-	}
-	@Override
-	public int getLike(Map<String, Object>data)throws DataAccessException{
-		 return  session.selectOne("mapper.board.getLike",data);
-	}
 
 }

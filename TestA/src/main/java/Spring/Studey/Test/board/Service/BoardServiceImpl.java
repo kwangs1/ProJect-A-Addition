@@ -31,19 +31,4 @@ public class BoardServiceImpl implements BoardService{
 	public void UpdateReplyCount(int bno) throws Exception {
 		boardDAO.UpdateReplyCount(bno);
 	}
-	
-	@Override
-	public int findLike(int bno, String id){
-		Map<String, Object> map = new HashMap<String,Object>();
-		map.put("bno", bno);
-		map.put("id", id);
-		return boardDAO.findLike(map);
-	}
-	
-	@Override
-	public int getLike(int bno){
-		Map<String, Object> map = new HashMap<String,Object>();
-		map.put("bno", bno);
-		return boardDAO.getLike(map);
-	}
 }

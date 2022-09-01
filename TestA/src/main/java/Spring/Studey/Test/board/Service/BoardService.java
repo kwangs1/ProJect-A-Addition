@@ -15,8 +15,4 @@ public interface BoardService {
 
 	void UpdateReplyCount(int bno) throws Exception;
 
-	int findLike(int bno, String id);
-
-	int getLike(int bno);
-
 }

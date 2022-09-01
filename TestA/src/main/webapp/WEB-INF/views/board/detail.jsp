@@ -31,7 +31,7 @@
 		</tr>
 		</tbody>
 	</table>
-		<button type="button" class="btn btn-primary CancleBtn LikeBtn">좋아요</button>
+		<div class="LikeBtn"><i class="fa-solid fa-thumbs-up"><a href="#">좋아요(${getLike})</a></i></div>
 		
 
 		<div class="Reply" style="padding-top: 10px">			
@@ -368,10 +368,11 @@ $(document).ready(function(){
 });
 
 //좋아요
-var likeval = ${like};
+var likeval = ${findLike};
 
 	let bno = ${board.bno};
 	let id = '${memberVO.id}';
+	let like_type = ${likeVO.like_type};
 
 	if(likeval > 0){
 		console.log(likeval + "......좋아요 누름");
@@ -384,10 +385,12 @@ var likeval = ${like};
 			   ,contentType: 'application/json'
 			   ,data : JSON.stringify({
 				   "bno" : bno,
-				   "id" :id
+				   "id" :id,
+				   "like_type" : like_type
 			   }),
 			 success : function(data){
 				 alert('취소 성공');
+				 location.reload();
 			 	}
 			});//end ajax
 		})
@@ -402,15 +405,18 @@ var likeval = ${like};
 				data : JSON.stringify(
 						{
 							   "bno" : bno,
-							   "id" :id
+							   "id" :id,
+							   "like_type" : like_type
 						}		
 					),
 				success : function(data) {
 					alert('성공염');
+					location.reload();
 				}
 			})//end ajax
 		})	
 }
+
 </script>
 </body>
 </html>

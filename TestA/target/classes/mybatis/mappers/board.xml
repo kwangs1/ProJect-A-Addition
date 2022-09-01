@@ -42,18 +42,5 @@
 	]]>
 </update>
 
-<!-- 좋아요 체크 -->
-<select id="findLike" resultType="int">
-	<![CDATA[
-		select count(*) from board_like
-		where bno = #{bno} and id = #{id}
-	]]>
-</select>
 
-<!-- 좋아요 불러오기 -->  
-<select id="getLike" resultType="int">
-	<![CDATA[
-		select count(*) from board_like where bno = #{bno}
-	]]>		
-</select>
 </mapper>
