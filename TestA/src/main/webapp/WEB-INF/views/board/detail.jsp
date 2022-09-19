@@ -31,8 +31,7 @@
 		</tr>
 		</tbody>
 	</table>
-		<div class="LikeBtn"><i class="fa-solid fa-thumbs-up"><a href="#">좋아요(${getLike})</a></i></div>
-		
+		<button type="button" class="btn btn-primary CancleBtn LikeBtn">좋아요(${getLike})</button>
 
 		<div class="Reply" style="padding-top: 10px">			
 		
@@ -368,7 +367,8 @@ $(document).ready(function(){
 });
 
 //좋아요
-var likeval = ${findLike};
+var likeval = ${findLike}
+
 
 	let bno = ${board.bno};
 	let id = '${memberVO.id}';

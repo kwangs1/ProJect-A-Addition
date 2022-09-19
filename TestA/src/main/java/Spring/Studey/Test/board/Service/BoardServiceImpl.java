@@ -31,4 +31,5 @@ public class BoardServiceImpl implements BoardService{
 	public void UpdateReplyCount(int bno) throws Exception {
 		boardDAO.UpdateReplyCount(bno);
 	}
+	
 }

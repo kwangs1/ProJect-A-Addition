@@ -10,15 +10,7 @@
 		<result property="content" column="content" />
 		<result property="reply_count" column="reply_count" />
 	</resultMap>
-	
-	<!-- 좋아요 -->
-	<resultMap type="LikeVO" id="LikeResult">
-		<result property="like_no" column="like_no" />
-		<result property="bno" column="bno" />
-		<result property="id" column="id" />
-		<result property="likenum" column="likenum" />
-		<result property="like_type" column="like_type" />
-	</resultMap>
+
 	
 <select id="list" resultMap="boardResult" parameterType="java.util.Map">
 	<![CDATA[
@@ -41,6 +33,5 @@
 		where b.bno = #{bno}
 	]]>
 </update>
-
 
 </mapper>

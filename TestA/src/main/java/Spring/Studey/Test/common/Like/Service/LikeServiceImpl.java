@@ -35,7 +35,6 @@ public class LikeServiceImpl implements LikeService{
 	
 	@Override
 	public int findLike(int bno, String id){
-		System.out.println("findLike Service success");
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("bno", bno);
 		map.put("id", id);

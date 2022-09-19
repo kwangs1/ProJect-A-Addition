@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,7 +50,7 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 	
 	//상세보기
 	@RequestMapping(value = "detail.do" , method = RequestMethod.GET)
-	public ModelAndView detail(@RequestParam("bno")int bno,
+	public ModelAndView detail(@RequestParam("bno")int bno,String id,
 			@ModelAttribute("board") BoardVO board,	
 			@ModelAttribute("replyVO")ReplyVO replyVO, //댓글, 대댓글으 값들을 게시판 상세보기에서 가져오게 하기위해서
 			@ModelAttribute("likeVO")LikeVO like,
@@ -60,19 +61,17 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		ModelAndView mav = new ModelAndView();
 		
 		board = boardService.detail(bno);	
-
-		MemberVO member = new MemberVO();
-		String id = member.getId();
 	
 		//게시글 번호 및 아이디에 대한 정보를 가져온다. 좋아요를 눌렀는지 안눌렀는지 확인하기 위해
 		like.setBno(bno);
 		like.setId(id);
 		like.setLike_type(1);
 		
+		
 		mav.setViewName(viewName);
 		mav.addObject("detail", board);
 		
-		mav.addObject("findLike",likeService.findLike(bno, id));
+		mav.addObject("findLike",likeService.findLike(bno,id));
 		mav.addObject("getLike",likeService.getLike(bno,1));
 		return mav;
 	}

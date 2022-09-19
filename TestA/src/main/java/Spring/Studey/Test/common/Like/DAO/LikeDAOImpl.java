@@ -27,9 +27,9 @@ public class LikeDAOImpl implements LikeDAO{
 	
 	@Override
 	public int findLike(Map<String, Object>data)throws DataAccessException{
-		System.out.println("findLike DAO Success");
 		 return  session.selectOne("mapper.like.findLike",data);
 	}
+	
 	@Override
 	public int getLike(Map<String, Object>data)throws DataAccessException{
 		 return  session.selectOne("mapper.like.getLike",data);
