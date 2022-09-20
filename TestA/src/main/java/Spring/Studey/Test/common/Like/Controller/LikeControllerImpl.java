@@ -37,4 +37,5 @@ public class LikeControllerImpl extends BaseController implements LikeController
 			likeService.likeDown(like.getBno(),like.getId(),like.getLike_type());
 
 	}
+
 }

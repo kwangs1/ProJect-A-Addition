@@ -367,12 +367,12 @@ $(document).ready(function(){
 });
 
 //좋아요
-var likeval = ${findLike}
+var likeval = ${findLike};
 
 
 	let bno = ${board.bno};
 	let id = '${memberVO.id}';
-	let like_type = ${likeVO.like_type};
+	let like_type = 1;
 
 	if(likeval > 0){
 		console.log(likeval + "......좋아요 누름");

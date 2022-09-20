@@ -5,31 +5,31 @@
    
 <mapper namespace="mapper.like">	
 	<resultMap type="LikeVO" id="LikeResult">
-		<result property="like_no" column="like_no" />
+		<result property="lno" column="lno" />
 		<result property="bno" column="bno" />
 		<result property="id" column="id" />
-		<result property="likenum" column="likenum" />
 		<result property="like_type" column="like_type" />
 	</resultMap>
 
 
 <insert id="likeUp">
 	<![CDATA[
-		insert into board_like (like_no ,bno , id, likenum, like_type)
-		values((select nvl(max(like_no)+1,0) from board_like), #{bno}, #{id}, 1 , #{like_type})		
+		insert into board_like (lno ,bno , id, like_type)
+		values((select nvl(max(lno)+1,0) from board_like), #{bno}, #{id}, #{like_type})		
 	]]>
 </insert>
 
 <delete id="likeDown" >
 	<![CDATA[
-		delete from board_like where bno = #{bno} and id = #{id} and like_type = #{like_type}
+		delete from board_like 
+		where bno = #{bno} and id = #{id} and like_type = #{like_type}
 	]]>
 </delete>
 
 <!-- 좋아요 체크 -->
 <select id="findLike" resultType="int">
 	<![CDATA[
-		select count(*) from board_like
+		select count(*) from board_like 
 		where bno = #{bno} and id = #{id}
 	]]>
 </select>
@@ -37,7 +37,9 @@
 <!-- 좋아요 불러오기 -->  
 <select id="getLike" resultType="int">
 	<![CDATA[
-		select count(*) from board_like where bno = #{bno} and like_type = #{like_type}
+		select count(*) from board_like 
+		where bno = #{bno} and like_type = #{like_type}
 	]]>		
 </select>
+
 </mapper>

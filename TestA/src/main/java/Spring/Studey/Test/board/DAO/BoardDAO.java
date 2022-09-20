@@ -16,5 +16,4 @@ public interface BoardDAO {
 	BoardVO detail(int bno) throws DataAccessException;
 	
 	void UpdateReplyCount(int bno) throws DataAccessException;
-
 }
