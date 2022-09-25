@@ -1,5 +1,7 @@
 package Spring.Studey.Test.common.Like.Service;
 
+import java.util.Map;
+
 import Spring.Studey.Test.common.Like.VO.LikeVO;
 
 public interface LikeService {

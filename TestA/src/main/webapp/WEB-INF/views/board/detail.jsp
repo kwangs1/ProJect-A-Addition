@@ -32,7 +32,6 @@
 		</tbody>
 	</table>
 		<button type="button" class="btn btn-primary CancleBtn LikeBtn">좋아요(${getLike})</button>
-
 		<div class="Reply" style="padding-top: 10px">			
 		
 				<h3 class= "ReplyList">댓글</h3>	
@@ -367,7 +366,7 @@ $(document).ready(function(){
 });
 
 //좋아요
-var likeval = ${findLike};
+var likeval = ${like};
 
 
 	let bno = ${board.bno};

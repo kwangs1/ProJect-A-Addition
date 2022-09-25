@@ -39,7 +39,6 @@ public class LikeServiceImpl implements LikeService{
 		Map<String, Object> map = new HashMap<String,Object>();
 		map.put("bno", bno);
 		map.put("id", id);
-		System.out.println(map);
 		return likeDAO.findLike(map);
 	}
 	
