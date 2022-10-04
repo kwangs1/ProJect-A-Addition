@@ -4,18 +4,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import Spring.Studey.Test.Member.VO.MemberVO;
 import Spring.Studey.Test.board.Service.BoardService;
 import Spring.Studey.Test.board.VO.BoardVO;
 import Spring.Studey.Test.common.Like.Service.LikeService;
@@ -36,7 +38,7 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 	
 	//글 목록
 	@RequestMapping(value="list.do" , method = RequestMethod.GET)
-	public ModelAndView list(HttpServletRequest request, HttpServletResponse response)throws Exception{
+	public ModelAndView list(HttpServletRequest request)throws Exception{
 		
 		String viewName = getViewName(request);
 		ModelAndView mav = new ModelAndView(viewName);
@@ -72,5 +74,20 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		mav.addObject("getLike",likeService.getLike(bno,1));
 		return mav;
 	}
-
+	
+	//게시글 작성 GET
+	@GetMapping("register.do")
+	public ModelAndView register(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView();
+		String viewName = (String)request.getAttribute("viewName");
+		mav.setViewName(viewName);
+		return mav;
+	}
+	//게시글 작셍 POST
+	@PostMapping("register.do")
+	public ModelAndView register(BoardVO board) {
+		boardService.register(board);		
+		ModelAndView mav = new ModelAndView("redirect:/board/list.do");
+		return mav;
+	}
 }

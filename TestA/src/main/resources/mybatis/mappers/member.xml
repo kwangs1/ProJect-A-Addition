@@ -10,6 +10,7 @@
 		<result property="pw" column="pw" />
 		<result property="email" column="email" />
 		<result property="tel" column="tel" />
+		<result property="m_class" column="m_class" />
 	</resultMap>
 
 <!--회원가입  -->

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import Spring.Studey.Test.board.DAO.BoardDAO;
 import Spring.Studey.Test.board.VO.BoardVO;
 import Spring.Studey.Test.common.Like.VO.LikeVO;
+import jdk.internal.org.jline.utils.Log;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService{
@@ -20,7 +21,6 @@ public class BoardServiceImpl implements BoardService{
 	public List<Map<String,Object>> list()throws Exception{
 		return boardDAO.list();
 	}
-	
 	@Override
 	public BoardVO detail(int bno)throws Exception{
 		BoardVO vo = boardDAO.detail(bno);
@@ -30,5 +30,10 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void UpdateReplyCount(int bno) throws Exception {
 		boardDAO.UpdateReplyCount(bno);
+	}
+	
+	@Override
+	public void register(BoardVO board) {
+		boardDAO.register(board);
 	}
 }

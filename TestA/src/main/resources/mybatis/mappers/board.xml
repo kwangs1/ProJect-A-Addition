@@ -8,6 +8,8 @@
 		<result property="bno" column="bno" />
 		<result property="title" column="title" />
 		<result property="content" column="content" />
+		<result property="id" column="id" />
+		<result property="b_group" column="b_group" />
 	<!-- 댓글 갯수 -->
 		<result property="reply_count" column="reply_count" />
 	</resultMap>
@@ -15,8 +17,8 @@
 	
 <select id="list" resultMap="boardResult" parameterType="java.util.Map">
 	<![CDATA[
-		select * from board
-		order by bno
+		select * from
+		(select * from board order by b_group desc, bno desc )
 	]]>
 </select>
 
@@ -34,4 +36,14 @@
 		where b.bno = #{bno}
 	]]>
 </update>
+
+<insert id="register">
+	<selectKey keyProperty="bno" order="BEFORE" resultType="int">
+		select seq_board_id.nextval from dual
+	</selectKey>
+	<![CDATA[
+		insert into board(bno,title,content,id,b_group)
+		values(seq_board_id.nextval,#{title},#{content},#{id},#{b_group})
+	]]>
+</insert>
 </mapper>

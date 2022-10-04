@@ -9,7 +9,15 @@ public class MemberVO {
 	private String pw;
 	private String email;
 	private String tel;
+	private String m_class;
 	
+	
+	public String getM_class() {
+		return m_class;
+	}
+	public void setM_class(String m_class) {
+		this.m_class = m_class;
+	}
 	public String getId() {
 		return id;
 	}

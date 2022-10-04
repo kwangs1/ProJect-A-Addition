@@ -14,4 +14,7 @@ public interface BoardService {
 	BoardVO detail(int bno) throws Exception;
 
 	void UpdateReplyCount(int bno) throws Exception;
+
+	void register(BoardVO board);
+
 }

@@ -8,7 +8,22 @@ public class BoardVO {
 	private String title;
 	private String content;
 	private int reply_count;
+	private String id;
+	private int b_group;
 	
+	
+	public int getB_group() {
+		return b_group;
+	}
+	public void setB_group(int b_group) {
+		this.b_group = b_group;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public int getBno() {
 		return bno;
 	}
