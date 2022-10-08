@@ -17,7 +17,38 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-
+<style>
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    justify-content: space-around;
+    padding: 0 0.2em;
+    text-align: center;
+    width: 5em;
+  }
+   
+  .star-rating input {
+    display: none;
+  }
+   
+  .star-rating label {
+    -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 2.3px;
+    -webkit-text-stroke-color: #2b2a29;
+    cursor: pointer;
+  }
+   
+  .star-rating :checked ~ label {
+    -webkit-text-fill-color: gold;
+  }
+   
+  .star-rating label:hover,
+  .star-rating label:hover ~ label {
+    -webkit-text-fill-color: #fff58c;
+  }
+</style>
 </head>
 <body>
 <h1>게시글 상세보기</h1>
@@ -32,6 +63,21 @@
 		</tbody>
 	</table>
 		<button type="button" class="btn btn-primary CancleBtn LikeBtn">좋아요(${getLike})</button>
+	<!-- 평점 -->
+	
+    <div class="star-rating space-x-4 mx-auto">
+        <input type="radio" id="5-stars" name="rating" value="5" />
+        <label for="5-stars" class="star pr-4">★</label>
+        <input type="radio" id="4-stars" name="rating" value="4" />
+        <label for="4-stars" class="star">★</label>
+        <input type="radio" id="3-stars" name="rating" value="3" />
+        <label for="3-stars" class="star">★</label>
+        <input type="radio" id="2-stars" name="rating" value="2" />
+        <label for="2-stars" class="star">★</label>
+        <input type="radio" id="1-star" name="rating" value="1" />
+        <label for="1-star" class="star">★</label>
+    </div>
+    	<strong>평균 평점(${ratingAvg})</strong>
 		<div class="Reply" style="padding-top: 10px">			
 		
 				<h3 class= "ReplyList">댓글</h3>	
@@ -415,6 +461,31 @@ var likeval = ${like};
 			})//end ajax
 		})	
 }
+
+//평점 체크
+$('.star-rating').on('click',function(){		
+	var rating = ${board.rating};
+	var bno = ${board.bno};
+	var id = '${memberVO.id}';
+
+	
+	$.ajax({
+		url: "${Path}/board/updateRating.do",
+		contentType: 'application/json',
+		data : JSON.stringify({
+			   "bno" : bno,
+			   "id" :id,
+			   "rating" : rating
+		   }),
+		type: 'POST',
+		success: function(data){
+			console.log("성공!");
+		},
+		error:function(error){
+			console.log("에러:" + error);
+		}
+	});//end ajax
+})
 
 </script>
 </body>

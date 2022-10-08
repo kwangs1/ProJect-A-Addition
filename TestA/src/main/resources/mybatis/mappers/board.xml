@@ -10,6 +10,7 @@
 		<result property="content" column="content" />
 		<result property="id" column="id" />
 		<result property="b_group" column="b_group" />
+		<result property="rating" column="rating" />		
 	<!-- 댓글 갯수 -->
 		<result property="reply_count" column="reply_count" />
 	</resultMap>
@@ -17,8 +18,7 @@
 	
 <select id="list" resultMap="boardResult" parameterType="java.util.Map">
 	<![CDATA[
-		select * from
-		(select * from board order by b_group desc, bno desc )
+		select * from board order by b_group desc, bno desc 
 	]]>
 </select>
 
@@ -46,4 +46,20 @@
 		values(seq_board_id.nextval,#{title},#{content},#{id},#{b_group})
 	]]>
 </insert>
+
+<select id="getRating" resultType="int">
+	<![CDATA[
+		select avg(rating)
+		from board
+		where bno = #{bno}
+	]]>
+</select>
+
+<update id="updateRating">
+	<![CDATA[
+		update board
+		set rating =  #{rating}
+		where bno = #{bno} and id = #{id}
+	]]>
+</update>
 </mapper>

@@ -9,9 +9,18 @@ public class BoardVO {
 	private String content;
 	private int reply_count;
 	private String id;
+	//메인공지 구별
 	private int b_group;
+	//평점
+	private int rating;
 	
 	
+	public int getRating() {
+		return rating;
+	}
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 	public int getB_group() {
 		return b_group;
 	}

@@ -1,5 +1,6 @@
 package Spring.Studey.Test.board.Controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,12 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import Spring.Studey.Test.Member.VO.MemberVO;
 import Spring.Studey.Test.board.Service.BoardService;
 import Spring.Studey.Test.board.VO.BoardVO;
 import Spring.Studey.Test.common.Like.Service.LikeService;
@@ -70,8 +72,13 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		mav.setViewName(viewName);
 		mav.addObject("detail", boardService.detail(bno));
 		
+		//평균 평점 구하기
+		mav.addObject("ratingAvg", boardService.getRating(bno));
+		
+		//좋아요
 		mav.addObject("like", likeService.findLike(bno,id));
 		mav.addObject("getLike",likeService.getLike(bno,1));
+		
 		return mav;
 	}
 	
@@ -90,4 +97,13 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		ModelAndView mav = new ModelAndView("redirect:/board/list.do");
 		return mav;
 	}
+	
+	//폎점 업데이트
+	@ResponseBody
+	@PostMapping("updateRating.do")
+	public void updateRating(@RequestBody BoardVO board) {
+		System.out.println("평점 컨트롤러");
+		boardService.updateRating(board);
+	}
+	
 }

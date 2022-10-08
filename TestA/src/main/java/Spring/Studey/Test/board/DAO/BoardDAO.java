@@ -18,4 +18,9 @@ public interface BoardDAO {
 	void UpdateReplyCount(int bno) throws DataAccessException;
 
 	void register(BoardVO board);
+
+	int getRating(int bno);
+
+	void updateRating(BoardVO board);
+
 }

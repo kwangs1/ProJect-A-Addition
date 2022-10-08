@@ -17,4 +17,8 @@ public interface BoardService {
 
 	void register(BoardVO board);
 
+	int getRating(int bno);
+
+	void updateRating(BoardVO board);
+
 }

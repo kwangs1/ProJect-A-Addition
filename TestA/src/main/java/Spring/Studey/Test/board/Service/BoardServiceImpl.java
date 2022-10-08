@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import Spring.Studey.Test.board.DAO.BoardDAO;
 import Spring.Studey.Test.board.VO.BoardVO;
-import Spring.Studey.Test.common.Like.VO.LikeVO;
-import jdk.internal.org.jline.utils.Log;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService{
@@ -35,5 +33,18 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void register(BoardVO board) {
 		boardDAO.register(board);
+	}
+	
+	// 평점 
+	@Override
+	public void updateRating(BoardVO board) {
+		System.out.println("평점 서비스");
+		boardDAO.updateRating(board);
+	}
+	
+	//평균 평점
+	@Override
+	public int getRating(int bno) {		
+		return boardDAO.getRating(bno);		
 	}
 }
