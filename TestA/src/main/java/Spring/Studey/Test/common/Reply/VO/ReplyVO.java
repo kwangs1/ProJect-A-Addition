@@ -13,7 +13,15 @@ public class ReplyVO {
 	private Date reg_date;
 	private int r_group;
 	private int r_depth;
+	private double rating;
 
+	
+	public double getRating() {
+		return rating;
+	}
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
 	public int getBno() {
 		return bno;
 	}

@@ -35,16 +35,5 @@ public class BoardServiceImpl implements BoardService{
 		boardDAO.register(board);
 	}
 	
-	// 평점 
-	@Override
-	public void updateRating(BoardVO board) {
-		System.out.println("평점 서비스");
-		boardDAO.updateRating(board);
-	}
-	
-	//평균 평점
-	@Override
-	public int getRating(int bno) {		
-		return boardDAO.getRating(bno);		
-	}
+
 }

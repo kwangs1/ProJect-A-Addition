@@ -1,6 +1,5 @@
 package Spring.Studey.Test.board.Controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +23,7 @@ import Spring.Studey.Test.board.Service.BoardService;
 import Spring.Studey.Test.board.VO.BoardVO;
 import Spring.Studey.Test.common.Like.Service.LikeService;
 import Spring.Studey.Test.common.Like.VO.LikeVO;
+import Spring.Studey.Test.common.Reply.Service.ReplyService;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 import Spring.Studey.Test.common.base.BaseController;
 
@@ -36,6 +36,8 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 	private BoardService boardService;
 	@Autowired
 	private LikeService likeService;
+	@Autowired
+	private ReplyService replyService;
 
 	
 	//글 목록
@@ -72,8 +74,6 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		mav.setViewName(viewName);
 		mav.addObject("detail", boardService.detail(bno));
 		
-		//평균 평점 구하기
-		mav.addObject("ratingAvg", boardService.getRating(bno));
 		
 		//좋아요
 		mav.addObject("like", likeService.findLike(bno,id));
@@ -97,13 +97,5 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		ModelAndView mav = new ModelAndView("redirect:/board/list.do");
 		return mav;
 	}
-	
-	//폎점 업데이트
-	@ResponseBody
-	@PostMapping("updateRating.do")
-	public void updateRating(@RequestBody BoardVO board) {
-		System.out.println("평점 컨트롤러");
-		boardService.updateRating(board);
-	}
-	
+
 }

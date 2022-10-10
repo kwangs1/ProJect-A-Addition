@@ -12,6 +12,7 @@
 		<result property="reg_date" column="reg_date"/>
 		<result property="r_depth" column="r_depth"/>
 		<result property="r_group" column="r_group"/>
+		<result property="rating" column="rating"/>
 	</resultMap>
 	
 <!-- 댓글 쿼리 -->
@@ -29,8 +30,8 @@
 		select seq_reply.nextval from dual
 	</selectKey>
 <![CDATA[
-	insert into b_reply(rno, bno, content, writer,r_group)
-	values(#{rno},#{bno},#{content},#{writer},#{r_group})
+	insert into b_reply(rno, bno, content, writer,r_group,rating)
+	values(#{rno},#{bno},#{content},#{writer},#{r_group},#{rating})
 ]]>
 </insert>
 
@@ -69,8 +70,8 @@
 		select seq_reply.nextval from dual
 	</selectKey>
 <![CDATA[
-	insert into b_reply(rno, bno, content, writer, r_depth,r_group)
-	values(#{rno},#{bno},#{content},#{writer},#{r_depth},#{r_group})
+	insert into b_reply(rno, bno, content, writer, r_depth,r_group,rating)
+	values(#{rno},#{bno},#{content},#{writer},#{r_depth},#{r_group},#{rating})
 ]]>
 </insert>
 
@@ -81,4 +82,12 @@
 		where rno = #{rno} and r_depth = #{r_depth}
 	]]>
 </update>
+
+<select id="ratingAvg" resultType="int">
+	<![CDATA[
+		select avg(rating)
+		from b_reply
+		where bno = #{bno}
+	]]>
+</select>
 </mapper>

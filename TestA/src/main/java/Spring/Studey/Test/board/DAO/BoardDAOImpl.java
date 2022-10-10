@@ -36,16 +36,4 @@ public class BoardDAOImpl implements BoardDAO{
 		session.insert("mapper.board.register",board);
 	}
 
-	//평점
-	@Override
-	public void updateRating(BoardVO board) {
-		System.out.println("평점 dao");
-		session.update("mapper.board.updateRating",board);
-	}
-	
-	//평균평점
-	@Override
-	public int getRating(int bno){
-		 return  session.selectOne("mapper.board.getRating",bno);
-	}
 }

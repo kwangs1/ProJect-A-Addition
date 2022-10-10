@@ -18,5 +18,4 @@ public interface ReplyService {
 	int WriteReReply(ReplyVO replyVO) throws Exception;
 
 	int UpdateReReply(ReplyVO replyVO) throws Exception;
-
 }

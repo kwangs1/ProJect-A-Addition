@@ -1,12 +1,15 @@
 package Spring.Studey.Test.common.Reply.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import Spring.Studey.Test.board.DAO.BoardDAO;
+import Spring.Studey.Test.board.VO.BoardVO;
 import Spring.Studey.Test.common.Reply.DAO.ReplyDAO;
 import Spring.Studey.Test.common.Reply.VO.ReplyVO;
 

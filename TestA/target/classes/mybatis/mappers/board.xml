@@ -9,8 +9,7 @@
 		<result property="title" column="title" />
 		<result property="content" column="content" />
 		<result property="id" column="id" />
-		<result property="b_group" column="b_group" />
-		<result property="rating" column="rating" />		
+		<result property="b_group" column="b_group" />	
 	<!-- 댓글 갯수 -->
 		<result property="reply_count" column="reply_count" />
 	</resultMap>
@@ -47,19 +46,4 @@
 	]]>
 </insert>
 
-<select id="getRating" resultType="int">
-	<![CDATA[
-		select avg(rating)
-		from board
-		where bno = #{bno}
-	]]>
-</select>
-
-<update id="updateRating">
-	<![CDATA[
-		update board
-		set rating =  #{rating}
-		where bno = #{bno} and id = #{id}
-	]]>
-</update>
 </mapper>

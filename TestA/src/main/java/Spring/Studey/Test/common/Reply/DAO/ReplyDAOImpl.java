@@ -1,6 +1,7 @@
 package Spring.Studey.Test.common.Reply.DAO;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +66,5 @@ public class ReplyDAOImpl implements ReplyDAO {
 	public int UpdateReReply(ReplyVO replyVO) throws DataAccessException {
 		return session.update("mapper.reply.ReReply_update", replyVO);
 	}
-
+	
 }

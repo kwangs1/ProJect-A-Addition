@@ -19,8 +19,4 @@ public interface BoardDAO {
 
 	void register(BoardVO board);
 
-	int getRating(int bno);
-
-	void updateRating(BoardVO board);
-
 }

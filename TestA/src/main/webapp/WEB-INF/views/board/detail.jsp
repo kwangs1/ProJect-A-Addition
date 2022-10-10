@@ -63,20 +63,6 @@
 		</tbody>
 	</table>
 		<button type="button" class="btn btn-primary CancleBtn LikeBtn">좋아요(${getLike})</button>
-	<!-- 평점 -->
-	
-    <div class="star-rating space-x-4 mx-auto">
-        <input type="radio" id="5-stars" name="rating" value="5" />
-        <label for="5-stars" class="star pr-4">★</label>
-        <input type="radio" id="4-stars" name="rating" value="4" />
-        <label for="4-stars" class="star">★</label>
-        <input type="radio" id="3-stars" name="rating" value="3" />
-        <label for="3-stars" class="star">★</label>
-        <input type="radio" id="2-stars" name="rating" value="2" />
-        <label for="2-stars" class="star">★</label>
-        <input type="radio" id="1-star" name="rating" value="1" />
-        <label for="1-star" class="star">★</label>
-    </div>
     	<strong>평균 평점(${ratingAvg})</strong>
 		<div class="Reply" style="padding-top: 10px">			
 		
@@ -87,22 +73,40 @@
 		</div> 	
 	<br>
 		<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">				
-				<form:form name="form" id="form" role="form" modelAttribute="replyVO" method="post">				
-				<form:hidden path="bno" id="bno"/>				
 			
-			<div class="col-sm-2">						
-				<form:input path="writer" class="form-control" id="writer" value="${memberVO.id }" type="hidden" />				
-			</div>				
+			<form name="form" id="form" method="post">				
+				
+				<input type="hidden" name="bno" id="bno" />
+
+			<div class="star-rating space-x-4 mx-auto">
+				<input name="writer" class="form-control" id="writer"
+					value="${memberVO.id }" type="hidden" />
+				<!-- 평점 -->
+				<input type="radio"  id="5-star" name="rating" value="5" />	
+				<label for="5-star" class="star pr-4">★</label>
+				
+				<input type="radio"  id="4-star" name="rating" value="4" />
+				<label for="4-star" class="star">★</label>
+				
+				<input type="radio"  id="3-star" name="rating" value="3" />
+				<label for="3-star" class="star">★</label>
+				
+				<input  type="radio" id="2-star" name="rating" value="2" />
+				<label for="2-star" class="star">★</label>
+				
+				<input  type="radio" id="1-star" name="rating" value="1" />
+				<label for="1-star" class="star">★</label>
+			</div>
 
 			<div class="row">					
 				<div class="col-sm-10">						
-					<form:textarea path="content" id="content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요" />		
+					<textarea name="content" id="content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요" ></textarea>	
 				<c:if test="${not empty memberVO}">	
 					<button type="button"id="btnReplyAdd">등록</button>		
 				</c:if>				
 			</div>									
 			</div>				
-				</form:form>			
+			</form>			
 			</div>	
 												
 
@@ -139,11 +143,12 @@ function getReplyList(){
 			 let reg_date = data[i].reg_date;
 			 let r_depth = data[i].r_depth;
 			 let r_group = data[i].r_group;
+
 		
 			 if(r_depth == 0){ //댓글
 				htmls +=  '<div class="media text-muted pt-3" id="rno' + rno + '">';
 				htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
-				htmls += '<span class="d-block">';	               
+				htmls += '<span class="d-block">';	              
 				htmls += '<strong class="text-gray-dark">' + writer + '</strong>';
 				htmls += '&nbsp;&nbsp;'+ reg_date;
 				htmls += '<br>'                    
@@ -239,6 +244,7 @@ function getReplyList(){
 $(document).on('click','#btnReplyAdd', function(){	
 	var Content = $('#content').val();
 	var Writer = $('#writer').val();
+	var Rating = $('input:radio[name=rating]:checked').val();
 
 	if(Content == ""){
 		alert("내용을 입력해주세요.");
@@ -249,6 +255,7 @@ $(document).on('click','#btnReplyAdd', function(){
 			{"content": Content
 			,"writer" : Writer
 			,"bno" : '${board.bno}'
+			,"rating" : Rating
 	});
 	var headers = {"Content-Type":"application/json"
 		,"X-HTTP-Method-Override":"POST"};
@@ -462,30 +469,6 @@ var likeval = ${like};
 		})	
 }
 
-//평점 체크
-$('.star-rating').on('click',function(){		
-	var rating = ${board.rating};
-	var bno = ${board.bno};
-	var id = '${memberVO.id}';
-
-	
-	$.ajax({
-		url: "${Path}/board/updateRating.do",
-		contentType: 'application/json',
-		data : JSON.stringify({
-			   "bno" : bno,
-			   "id" :id,
-			   "rating" : rating
-		   }),
-		type: 'POST',
-		success: function(data){
-			console.log("성공!");
-		},
-		error:function(error){
-			console.log("에러:" + error);
-		}
-	});//end ajax
-})
 
 </script>
 </body>
