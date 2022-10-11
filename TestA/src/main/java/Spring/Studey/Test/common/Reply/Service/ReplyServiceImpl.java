@@ -36,7 +36,7 @@ public class ReplyServiceImpl implements ReplyService{
 	
 	//´ñ±Û¼öÁ¤
 	@Override
-	public int updateReply(ReplyVO replyVO)throws Exception{
+	public int updateReply(ReplyVO replyVO)throws Exception{	
 		return replyDAO.updateReply(replyVO);
 	}
 	
@@ -77,4 +77,5 @@ public class ReplyServiceImpl implements ReplyService{
 		ratingAvg = ratingAvg/10;
 		return ratingAvg;
 	}
+	
 }

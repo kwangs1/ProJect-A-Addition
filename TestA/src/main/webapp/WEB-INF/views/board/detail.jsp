@@ -2,6 +2,7 @@
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix= "c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="Path" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
@@ -18,7 +19,21 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <style>
-.star-rating {
+.star {
+    position: relative;
+    font-size: 2rem;
+    color: #ddd;
+}
+.star span {
+    width: 0;
+    position: absolute;
+    left: 0;
+    color: gold;
+    overflow: hidden;
+    pointer-events: none;
+}
+/*  */
+.star-ratings {
     display: flex;
     flex-direction: row-reverse;
     font-size: 2.25rem;
@@ -29,25 +44,26 @@
     width: 5em;
   }
    
-  .star-rating input {
+  .star-ratings input {
     display: none;
   }
    
-  .star-rating label {
+  .star-ratings label {
     -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
     -webkit-text-stroke-width: 2.3px;
     -webkit-text-stroke-color: #2b2a29;
     cursor: pointer;
   }
    
-  .star-rating :checked ~ label {
+  .star-ratings :checked ~ label {
     -webkit-text-fill-color: gold;
   }
    
-  .star-rating label:hover,
-  .star-rating label:hover ~ label {
+  .star-ratings label:hover,
+  .star-ratings label:hover ~ label {
     -webkit-text-fill-color: #fff58c;
   }
+  
 </style>
 </head>
 <body>
@@ -64,7 +80,11 @@
 	</table>
 		<button type="button" class="btn btn-primary CancleBtn LikeBtn">좋아요(${getLike})</button>
 		<br>
-    	<strong>평균 평점(${ratingAvg})</strong>
+	<div>
+		<span class="star"> ★★★★★ <span
+			style="width:calc(18.9%*${ratingAvg })">★★★★★</span></span>
+		<fmt:formatNumber value="${ratingAvg }" pattern="0.0" />
+	</div>
 		<div class="Reply" style="padding-top: 10px">			
 		
 				<h3 class= "ReplyList">댓글</h3>	
@@ -79,12 +99,12 @@
 				
 				<input type="hidden" name="bno" id="bno" />
 
-			<div class="star-rating space-x-4 mx-auto">
 				<input name="writer" class="form-control" id="writer"
 					value="${memberVO.id }" type="hidden" />
+			<div class="star-ratings space-x-4 mx-auto">
 				<!-- 평점 -->
 				<input type="radio"  id="5-star" name="rating" value="5" />	
-				<label for="5-star" class="star pr-4">★</label>
+				<label for="5-star" class="star">★</label>
 				
 				<input type="radio"  id="4-star" name="rating" value="4" />
 				<label for="4-star" class="star">★</label>
@@ -126,6 +146,8 @@ function getReplyList(){
 	var paramData = {"bno": "${board.bno}"};
 	var writer = $('#writer').val();
 	var id = '${memberVO.id}';
+	var rating = $('input:radio[name=rating]:checked').val();
+	
 	$.ajax({
 		type:'POST',
 		url:url,
@@ -144,13 +166,16 @@ function getReplyList(){
 			 let reg_date = data[i].reg_date;
 			 let r_depth = data[i].r_depth;
 			 let r_group = data[i].r_group;
-
+			 let rating = data[i].rating
 		
 			 if(r_depth == 0){ //댓글
 				htmls +=  '<div class="media text-muted pt-3" id="rno' + rno + '">';
 				htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
-				htmls += '<span class="d-block">';	              
+				htmls += '<span class="d-block">';	         
 				htmls += '<strong class="text-gray-dark">' + writer + '</strong>';
+				htmls += '<br>'
+				htmls += '<span class="star"> ★★★★★ <span style="width:calc(18.9%*' +rating + ')">★★★★★</span></span>'
+				htmls += '<br>'
 				htmls += '&nbsp;&nbsp;'+ reg_date;
 				htmls += '<br>'                    
 				htmls += content;	 
@@ -470,8 +495,7 @@ var likeval = ${like};
 			})//end ajax
 		})	
 }
-
-
+	
 </script>
 </body>
 </html>
