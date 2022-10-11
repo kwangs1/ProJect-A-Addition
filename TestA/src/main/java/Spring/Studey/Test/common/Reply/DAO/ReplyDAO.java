@@ -22,4 +22,8 @@ public interface ReplyDAO {
 
 	int UpdateReReply(ReplyVO replyVO) throws DataAccessException;
 
+	Double ratingAvg(int bno);
+
+	void updateRating(ReplyVO reply);
+
 }

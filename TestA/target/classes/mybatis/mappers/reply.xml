@@ -83,11 +83,19 @@
 	]]>
 </update>
 
-<select id="ratingAvg" resultType="int">
+<select id="ratingAvg" resultType="double">
 	<![CDATA[
 		select avg(rating)
 		from b_reply
 		where bno = #{bno}
 	]]>
 </select>
+
+<update id="updateRating">
+	<![CDATA[
+		update b_reply
+		set rating = #{rating}
+		where bno = #{bno}
+	]]>
+</update>
 </mapper>

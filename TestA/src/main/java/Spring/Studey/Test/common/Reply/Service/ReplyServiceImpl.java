@@ -43,6 +43,12 @@ public class ReplyServiceImpl implements ReplyService{
 	//¥Ò±€ªË¡¶
 	@Override
 	public int deleteReply(int rno)throws Exception{
+		
+		ReplyVO reply = new ReplyVO();
+		reply.setBno(reply.getBno());
+		reply.setRating(reply.getRating());
+		replyDAO.updateRating(reply);
+
 		return replyDAO.deleteReply(rno);
 	}
 	
@@ -59,5 +65,16 @@ public class ReplyServiceImpl implements ReplyService{
 	public int UpdateReReply(ReplyVO replyVO)throws Exception{
 		return replyDAO.updateReply(replyVO);
 	}
-
+	
+	@Override
+	public double ratingAvg(int bno) {
+		Double ratingAvg = replyDAO.ratingAvg(bno);
+		if(ratingAvg == null) {
+			ratingAvg = 0.0;
+		}
+		
+		ratingAvg = (double)(Math.round(ratingAvg*10));
+		ratingAvg = ratingAvg/10;
+		return ratingAvg;
+	}
 }

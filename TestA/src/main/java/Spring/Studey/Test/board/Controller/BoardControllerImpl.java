@@ -73,7 +73,7 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		
 		mav.setViewName(viewName);
 		mav.addObject("detail", boardService.detail(bno));
-		
+		mav.addObject("ratingAvg", replyService.ratingAvg(bno));
 		
 		//¡¡æ∆ø‰
 		mav.addObject("like", likeService.findLike(bno,id));

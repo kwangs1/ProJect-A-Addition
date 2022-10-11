@@ -67,4 +67,13 @@ public class ReplyDAOImpl implements ReplyDAO {
 		return session.update("mapper.reply.ReReply_update", replyVO);
 	}
 	
+	@Override
+	public Double ratingAvg(int bno) {
+		return session.selectOne("mapper.reply.ratingAvg",bno);
+	}
+	
+	@Override
+	public void updateRating(ReplyVO reply) {
+		session.update("mapper.reply.updateRating",reply);
+	}
 }

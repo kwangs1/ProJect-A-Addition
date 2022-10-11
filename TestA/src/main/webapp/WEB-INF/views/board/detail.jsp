@@ -63,6 +63,7 @@
 		</tbody>
 	</table>
 		<button type="button" class="btn btn-primary CancleBtn LikeBtn">좋아요(${getLike})</button>
+		<br>
     	<strong>평균 평점(${ratingAvg})</strong>
 		<div class="Reply" style="padding-top: 10px">			
 		
@@ -327,6 +328,7 @@ function fn_deleteReply(rno){
 		,type : 'POST'
 		,dataType : 'text'
 		,success:function(result){
+			window.location.reload();
 			getReplyList();
 		}
 		,error: function(error){
