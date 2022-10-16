@@ -19,6 +19,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <style>
+/* 작성된 별점 css */
 .star {
     position: relative;
     font-size: 2rem;
@@ -32,7 +33,7 @@
     overflow: hidden;
     pointer-events: none;
 }
-/*  */
+/* 별점 작성 css*/
 .star-ratings {
     display: flex;
     flex-direction: row-reverse;
@@ -63,7 +64,16 @@
   .star-ratings label:hover ~ label {
     -webkit-text-fill-color: #fff58c;
   }
-  
+  /* 버튼 테두리 제거 */
+  .LikeBtn{
+    padding: 0;
+	border: none;
+	background: none;
+  }
+  .LikeBtn img{
+  	width : 20px ;
+  	height :20px ;
+  }
 </style>
 </head>
 <body>
@@ -78,11 +88,13 @@
 		</tr>
 		</tbody>
 	</table>
-		<button type="button" class="btn btn-primary CancleBtn LikeBtn">좋아요(${getLike})</button>
+		<button type="button" class="LikeBtn"  >
+			<img src="${Path}/resources/image/like.png"  id="Like" > ${getLike}</button>
 		<br>
 	<div>
-		<span class="star"> ★★★★★ <span
-			style="width:calc(18.9%*${ratingAvg })">★★★★★</span></span>
+		<span class="star" > ★★★★★ <span
+			style="width:calc(18.9%*${ratingAvg })">★★★★★</span>
+			</span>
 		<fmt:formatNumber value="${ratingAvg }" pattern="0.0" />
 	</div>
 		<div class="Reply" style="padding-top: 10px">			
@@ -91,7 +103,7 @@
 	
 				<div id="replyList"></div>		
 		
-		</div> 	
+		</div>
 	<br>
 		<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">				
 			
@@ -101,8 +113,8 @@
 
 				<input name="writer" class="form-control" id="writer"
 					value="${memberVO.id }" type="hidden" />
-			<div class="star-ratings space-x-4 mx-auto">
 				<!-- 평점 -->
+			<div class="star-ratings space-x-4 mx-auto">
 				<input type="radio"  id="5-star" name="rating" value="5" />	
 				<label for="5-star" class="star">★</label>
 				
@@ -456,7 +468,8 @@ var likeval = ${like};
 	if(likeval > 0){
 		console.log(likeval + "......좋아요 누름");
 
-		$('.LikeBtn').html("좋아요 취소");
+		//$('.LikeBtn').html("좋아요 취소");
+		$('img').attr('src','${Path}/resources/image/like2.png')
 		$('.LikeBtn').click(function(){
 			$.ajax({
 				type : 'post'
@@ -468,7 +481,6 @@ var likeval = ${like};
 				   "like_type" : like_type
 			   }),
 			 success : function(data){
-				 alert('취소 성공');
 				 location.reload();
 			 	}
 			});//end ajax
@@ -489,13 +501,11 @@ var likeval = ${like};
 						}		
 					),
 				success : function(data) {
-					alert('성공염');
 					location.reload();
 				}
 			})//end ajax
 		})	
 }
-	
 </script>
 </body>
 </html>
