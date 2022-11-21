@@ -50,6 +50,7 @@
 	]]>
 </delete>
 
+
 <!-- 부모글 r_group 를 rno와 같게 셋팅 -->
 <update id="Re_group" parameterType="ReplyVO">
 	<![CDATA[
@@ -59,6 +60,7 @@
 		and r_depth = 0
 	]]>
 </update>
+
 
 <!-- 댓글 쿼리 end -->
 
@@ -75,6 +77,7 @@
 ]]>
 </insert>
 
+<!-- 답글 수정 -->
 <update id="ReReply_update" parameterType="ReplyVO">
 	<![CDATA[
 		update b_reply 
@@ -83,6 +86,7 @@
 	]]>
 </update>
 
+<!-- 별점 부분 쿼리 -->
 <select id="ratingAvg" resultType="double">
 	<![CDATA[
 		select avg(rating)

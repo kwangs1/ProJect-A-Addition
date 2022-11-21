@@ -49,7 +49,8 @@ public class ReplyDAOImpl implements ReplyDAO {
 	// ¥Ò±€ ªË¡¶
 	@Override
 	public int deleteReply(int rno) throws DataAccessException {
-		return session.delete("mapper.reply.deleteReply", rno);
+		return 	session.delete("mapper.reply.deleteReply", rno);
+ 
 	}
 
 //----------------------------------------------------

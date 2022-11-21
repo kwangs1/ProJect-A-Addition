@@ -10,6 +10,7 @@
 	<typeAlias type="Spring.Studey.Test.Member.VO.MemberVO" alias="MemberVO" />
 	<typeAlias type="Spring.Studey.Test.board.VO.BoardVO" alias="BoardVO" />
 	<typeAlias type="Spring.Studey.Test.common.Reply.VO.ReplyVO" alias="ReplyVO" />
-	<typeAlias type="Spring.Studey.Test.common.Like.VO.LikeVO" alias="LikeVO" />
+	<typeAlias type="Spring.Studey.Test.common.Like.VO.LikeVO" alias="LikeVO" />	
+	<typeAlias type="Spring.Studey.Test.Cart.VO.CartVO" alias="CartVO" />
 </typeAliases>       
 </configuration>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.cart">
+	<resultMap type="cartVO" id="cartResult">
+		<result property="cno" column="cno"/>
+		<result property="id" column="id"/>
+		<result property="bno" column="bno"/>
+		<result property="creDate" column="creDate"/>
+	</resultMap>
+	
+	<!-- 찜 목록 리스트 -->
+	<select id="CartList" parameterType="cartVO" resultMap="cartResult">
+		<![CDATA[
+			select * from cart
+			where id = #{id}
+		]]>
+	</select>
+	
+	<!-- 찜 목록 추가 -->
+	<insert id="InCart" parameterType="cartVO">
+		<![CDATA[
+			insert into cart(cno, id , bno , creDate)
+			values((select nvl(max(cno)+1,0) from cart), #{id} , #{bno} , SYSDATE)
+		]]>
+	</insert>
+	
+	<!-- 찜 목록 삭제 -->
+	<delete id="DeleteCart" parameterType="int">
+		<![CDATA[
+			delete from cart
+			where cno = #{cno}
+		]]>
+	</delete>
+	
+	<!-- 찜 목록 눌렀는지 체크 -->
+	<select id="findCart" resultType="String" parameterType="cartVO">
+	    <![CDATA[
+		    select decode(count(*), 0, 'false', 'true') from cart
+			where bno = #{bno}
+			  and id = #{id} 
+
+    	]]>
+	</select>
+</mapper>      

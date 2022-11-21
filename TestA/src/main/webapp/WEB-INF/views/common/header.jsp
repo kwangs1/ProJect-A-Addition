@@ -104,6 +104,7 @@ h1, h2, h3, h4, h5, h6
 			<c:if test="${memberVO != null }">
 				<a href="${contextPath}/member/logout.do">로그아웃 |</a>
 				<a href="${contextPath}/member/MemberInfo.do">마이페이지 &#124;</a>
+				<a href="${contextPath}/cart/CartList.do">장바구니 &#124;</a>
 			</c:if>
 			<c:if test = "${memberVO == null }">
 			<a href="${contextPath }/member/login.do">로그인 &#124;</a> 

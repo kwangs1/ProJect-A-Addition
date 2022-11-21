@@ -74,6 +74,10 @@
   	width : 20px ;
   	height :20px ;
   }
+  #rating span.on{
+    color: red;
+   } 
+  /*  */
 </style>
 </head>
 <body>
@@ -87,7 +91,10 @@
 			<td>내용 : ${detail.content} </td>
 		</tr>
 		</tbody>
-	</table>
+	</table>	
+
+		<button class="InCart">장바구니</button>
+		
 		<button type="button" class="LikeBtn"  >
 			<img src="${Path}/resources/image/like.png"  id="Like" > ${getLike}</button>
 		<br>
@@ -179,26 +186,27 @@ function getReplyList(){
 			 let r_depth = data[i].r_depth;
 			 let r_group = data[i].r_group;
 			 let rating = data[i].rating
-		
-			 if(r_depth == 0){ //댓글
-				htmls +=  '<div class="media text-muted pt-3" id="rno' + rno + '">';
-				htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
-				htmls += '<span class="d-block">';	         
-				htmls += '<strong class="text-gray-dark">' + writer + '</strong>';
-				htmls += '<br>'
-				htmls += '<span class="star"> ★★★★★ <span style="width:calc(18.9%*' +rating + ')">★★★★★</span></span>'
-				htmls += '<br>'
-				htmls += '&nbsp;&nbsp;'+ reg_date;
-				htmls += '<br>'                    
-				htmls += content;	 
-				htmls += '</span>';	  
-				
+	
+				 if(r_depth == 0){ //댓글
+					htmls +=  '<div class="media text-muted pt-3" id="rno' + rno + '">';
+					htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';	                     
+					htmls += '<span class="d-block">';	         
+					htmls += '<span class="star"> ★★★★★ <span style="width:calc(18.9%*' +rating + ')">★★★★★</span></span>'
+					htmls += '<br>'
+					htmls += '<strong class="text-gray-dark">' + writer + '</strong>';
+					htmls += '&nbsp;'+ reg_date;
+					htmls += '<div id="rating">'
+					htmls += '</div>'        
+					htmls += content;	 
+					htmls += '</span>';	  
+
 				if(id != ""){ //로그인시 답글 버튼 나오게하기
 					htmls += '<span style="padding-left: 7px; font-size: 9pt">';	                     
 					htmls += " <a href='#' class='write_reply_start' data-bs-toggle='collapse' data-bs-target='#re_reply"+ rno +"' aria-expanded='false' aria-controls='collapseExample'>답글</a>";                   
 					htmls += '</span>';	
-				}
-			}else{ //답글
+				}				           	
+			 
+            }else{ //답글
 				htmls += "<div class='rereply-content" + rno + " col-7'>";
 				htmls += "<div>";	                     
 				htmls += '<span>';	               
@@ -257,7 +265,7 @@ function getReplyList(){
 			htmls += "</div>";
 	
 		 }//end for
-	
+
 			$("#replyList").html(htmls);
 		 
 			//답글 작성 후 답글 달기버튼 를 click event를 아래처럼 jquery로 처리
@@ -350,6 +358,7 @@ UpdateReply = function(rno, bno) {
 function fn_deleteReply(rno){
 	var DelConfirm = confirm('댓글을 삭제 하시겠습니까?');
 	
+	
 	var paramData = {"rno" : rno};
 
 	if(DelConfirm){	
@@ -358,6 +367,7 @@ function fn_deleteReply(rno){
 		alert("댓글 삭제가 취소 되었습니다.");
 		return;
 	}
+
 	
 	$.ajax({
 		url:"${Path}/reply/deleteReply.do"
@@ -464,11 +474,9 @@ var likeval = ${like};
 	let bno = ${board.bno};
 	let id = '${memberVO.id}';
 	let like_type = 1;
-
+	
+	
 	if(likeval > 0){
-		console.log(likeval + "......좋아요 누름");
-
-		//$('.LikeBtn').html("좋아요 취소");
 		$('img').attr('src','${Path}/resources/image/like2.png')
 		$('.LikeBtn').click(function(){
 			$.ajax({
@@ -486,9 +494,11 @@ var likeval = ${like};
 			});//end ajax
 		})
 	}else{
-		console.log(likeval + ".....좋아요 안누름")
-		console.log(id);
 		$('.LikeBtn').click(function() {
+			if(id == ""){
+				alert("로그인 후 이용 가능합니다.");
+				return;
+			}
 			$.ajax({
 				type :'post',
 				url : '${Path}/like/likeUp.do',
@@ -506,6 +516,35 @@ var likeval = ${like};
 			})//end ajax
 		})	
 }
+	
+//장바구니(찜 하기) JS
+$('.InCart').click(function (bno){
+	var bno = ${board.bno};
+	var id = '${memberVO.id}';
+	
+	if(id == ""){
+		alert("로그인 후 이용가능합니다.");
+	}
+	
+	$.ajax({
+		type : 'post',
+		url : '${Path}/cart/InCart.do',
+		data : {
+			bno : bno
+		},
+		success:function(data , textStatus){
+			if(data.trim() == "add_success"){
+				alert("찜 목록에 추가 되었습니다.");
+			}else if(data.trim() == 'already_existed'){
+				alert("이미 찜 목록에 등록 되어있습니다.");
+			}
+		},
+		error:function(data,textStatus){
+			console.log("에러발생:" + data);
+		}
+	});//end ajax	
+});
+
 </script>
 </body>
 </html>
