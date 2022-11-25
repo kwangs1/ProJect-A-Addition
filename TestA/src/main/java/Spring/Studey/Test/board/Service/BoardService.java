@@ -16,4 +16,10 @@ public interface BoardService {
 	void UpdateReplyCount(int bno) throws Exception;
 
 	void register(BoardVO board);
+
+	List<Map<String, Object>> NoticeList() throws Exception;
+
+	List<Map<String, Object>> QnAList() throws Exception;
+
+	List<Map<String, Object>> NomalList() throws Exception;
 }

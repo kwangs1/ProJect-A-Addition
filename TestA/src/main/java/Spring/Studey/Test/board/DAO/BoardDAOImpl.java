@@ -22,6 +22,21 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	
 	@Override
+	public List<Map<String,Object>> NomalList()throws DataAccessException{
+		return session.selectList("mapper.board.NomalList");
+	}
+	
+	@Override
+	public List<Map<String,Object>> QnAList()throws DataAccessException{
+		return session.selectList("mapper.board.QnAList");
+	}
+	
+	@Override
+	public List<Map<String,Object>> NoticeList()throws DataAccessException{
+		return session.selectList("mapper.board.NoticeList");
+	}
+	
+	@Override
 	public BoardVO detail(int bno)throws DataAccessException {
 		return session.selectOne("mapper.board.detail", bno);
 	}

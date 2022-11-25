@@ -17,7 +17,31 @@
 	
 <select id="list" resultMap="boardResult" parameterType="java.util.Map">
 	<![CDATA[
-		select * from board order by b_group desc, bno desc 
+		select * from board order by  bno desc 
+	]]>
+</select>
+
+<select id="NomalList" resultMap="boardResult" parameterType="java.util.Map">
+	<![CDATA[
+		select * from board 
+		where b_group = 1
+		order by bno desc 
+	]]>
+</select>
+
+<select id="QnAList" resultMap="boardResult" parameterType="java.util.Map">
+	<![CDATA[
+		select * from board 
+		where b_group = 2
+		order by bno desc 
+	]]>
+</select>
+
+<select id="NoticeList" resultMap="boardResult" parameterType="java.util.Map">
+	<![CDATA[
+		select * from board 
+		where b_group = 3
+		order by bno desc 
 	]]>
 </select>
 

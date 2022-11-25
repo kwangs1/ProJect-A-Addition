@@ -32,7 +32,7 @@
 			<select class="check" name="b_group" >
 				<option value="" selected>말머리 선택해주세요</option>
 				<option value="1">일반</option>
-				<option value="2">Q&A</option>
+				<option value="2">질문</option>
 			<c:if test="${memberVO.m_class == '우수회원' }">
 				<option value="3">공지사항</option>
 			</c:if>

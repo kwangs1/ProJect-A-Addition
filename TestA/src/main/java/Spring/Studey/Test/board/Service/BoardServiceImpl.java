@@ -20,6 +20,18 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.list();
 	}
 	@Override
+	public List<Map<String,Object>> NomalList()throws Exception{
+		return boardDAO.NomalList();
+	}
+	@Override
+	public List<Map<String,Object>> QnAList()throws Exception{
+		return boardDAO.QnAList();
+	}
+	@Override
+	public List<Map<String,Object>> NoticeList()throws Exception{
+		return boardDAO.NoticeList();
+	}
+	@Override
 	public BoardVO detail(int bno)throws Exception{
 		BoardVO vo = boardDAO.detail(bno);
 		return vo;

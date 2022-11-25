@@ -44,9 +44,19 @@ public class BoardControllerImpl extends BaseController implements BoardControll
 		
 		String viewName = getViewName(request);
 		ModelAndView mav = new ModelAndView(viewName);
+		//전체 게시판 글 조회
 		List<Map<String,Object>>list =  boardService.list();
+		//일반 게시판 글 조회
+		List<Map<String,Object>>NomalList =  boardService.NomalList();
+		//질문 게시판 글 조회
+		List<Map<String,Object>>QnAList =  boardService.QnAList();
+		//공지 사항 글 조회
+		List<Map<String,Object>>NoticeList =  boardService.NoticeList();
 
 		mav.addObject("list",list);
+		mav.addObject("NomalList",NomalList);
+		mav.addObject("QnAList",QnAList);
+		mav.addObject("NoticeList",NoticeList);
 		
 		return mav;
 	}

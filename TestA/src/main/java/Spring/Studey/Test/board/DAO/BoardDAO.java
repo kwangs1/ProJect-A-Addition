@@ -19,4 +19,10 @@ public interface BoardDAO {
 
 	void register(BoardVO board);
 
+	List<Map<String, Object>> NoticeList() throws DataAccessException;
+
+	List<Map<String, Object>> QnAList() throws DataAccessException;
+
+	List<Map<String, Object>> NomalList() throws DataAccessException;
+
 }
