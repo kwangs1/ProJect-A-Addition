@@ -56,6 +56,59 @@ a:hover {
 .clear {
 	clear: both;
 }
+.active {
+	color: rgb(255, 0, 0);
+	 font-weight: bold;
+	 font-size: 0.8em;
+}
+ul.tabs {
+	list-style: none; 
+	margin: 0px; 
+	padding: 0px; 
+	width: 100%; 
+	height: 32px; 
+	border-bottom-color: rgb(255, 0, 0); 
+	border-bottom-width: 1px; 
+	border-bottom-style: 
+	solid; float: left;
+}
+ul.tabs li {
+	border-width: 1px; 
+	border-style: solid; 
+	border-color: rgb(153, 153, 153) rgb(153, 153, 153) rgb(255, 0, 0);
+	margin: 0px 1px; padding: 0px; 
+	border-image: none; 
+	height: 31px; 
+	line-height: 31px; 
+	overflow: hidden; 
+	float: left; 
+	border-top-left-radius: 7px; 
+	border-top-right-radius: 7px; 
+	background-color: rgb(245, 245, 245);
+}
+ul.tabs li a {
+	padding: 0px 20px;
+	color: rgb(0, 0, 0); 
+	font-size: 12px; 
+	font-weight: bold; 
+	text-decoration: none; 
+	display: block;
+}
+ul.tabs li a:hover {
+	background-color: rgb(202, 228, 255);
+}
+ul.tabs li.active {
+	background: rgb(255, 255, 255); 
+	border-color: rgb(255, 0, 0) rgb(255, 0, 0) rgb(255, 255, 255); 
+	border-bottom-width: 2px; 
+	border-bottom-style: solid;
+}
+ul.tabs li.active a:hover {
+	background: rgb(255, 255, 255); 
+	border-color: rgb(255, 0, 0) rgb(255, 0, 0) rgb(255, 255, 255); 
+	border-bottom-width: 2px; 
+	border-bottom-style: solid;
+}
 </style>
 <title>게시판</title>
 </head>
@@ -246,22 +299,29 @@ a:hover {
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
+//게시판 탭 기능(게시판 종류 별로 글 보이게)
 $(document).ready(function() {
-
-	//When page loads...
-	$(".tab_content").hide(); //Hide all content
-	$("ul.tabs li:first").addClass("active").show(); //Activate first tab
-	$(".tab_content:first").show(); //Show first tab content
+	
+	//class 이름이 tab_content 숨김
+	$(".tab_content").hide(); 
+	//addclass 사용으로 선택한 요소에 클래스 값 추가 /tab 클릭시 .active css효과 나타남 
+	$("ul.tabs li:first").addClass("active").show();
+	//tab1 번 부터 보이게 함
+	$(".tab_content:first").show();
 
 	//On Click Event
 	$("ul.tabs li").click(function() {
-
-		$("ul.tabs li").removeClass("active"); //Remove any "active" class
-		$(this).addClass("active"); //Add "active" class to selected tab
-		$(".tab_content").hide(); //Hide all tab content
-
-		var activeTab = $(this).find("a").attr("href"); //Find the href attribute value to identify the active tab + content
-		$(activeTab).fadeIn(); //Fade in the active ID content
+		
+		//tab 클릭시 이전 탭 부분은 기본 css로 돌아오고 클릭한 부분은 .active css로 바뀜
+		$("ul.tabs li").removeClass("active"); 
+		$(this).addClass("active"); 
+		//이전 tab 부분 숨김
+		$(".tab_content").hide(); 
+		
+		//tab태그를 클릭 시 a태그의 href 속성값을 찾기위해 선언
+		var activeTab = $(this).find("a").attr("href");
+		//tab태그를 클릭한 값을 서서히 나타나게 하는 메서드 .fadeIn()
+		$(activeTab).fadeIn();
 		return false;
 	});
 
